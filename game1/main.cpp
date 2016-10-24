@@ -5,27 +5,27 @@ int main(int argc, char* args[])
 	// The window we shall be using
 	SDL_Window* window = NULL;
 
-	// The surface inside of the window
-	SDL_Surface* surface = NULL;
-
+	//The renderer for the window
+	SDL_Renderer* renderer = NULL;
+	
 	//Container that stores the current textures being used.
 	std::vector<SDL_Texture*> textures;
 
 	//Initialize SDL
-	if (!init(window, surface))
+	if (!init(window, renderer))
 	{
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
 	}
-	
-	//Current background color
-	Uint32 backgroundColor = SDL_MapRGB(surface->format, 0x0, 171, 0xFF);
 
 	//Here we declare a flag to track if the program is still running
 	bool running = true;
 
 	//This is a variable to store the current event
 	SDL_Event e;
+	
+	//Test texture
+	SDL_Texture* overman = loadTexture("overman.png", renderer);
 
 	//Game loop
 	while (running)
@@ -43,13 +43,14 @@ int main(int argc, char* args[])
 			}
 		}
 
-		//Draw sky
-		SDL_FillRect(surface, NULL, backgroundColor);
+		//Clear screen
+		SDL_RenderClear(renderer);
 
-		//Draw character
+		//Render texture
+		SDL_RenderCopy(renderer, overman, NULL, NULL);
 
-		//Update the surface
-		SDL_UpdateWindowSurface(window);
+		//Update screen
+		SDL_RenderPresent(renderer);
 
 	}
 
@@ -59,7 +60,7 @@ int main(int argc, char* args[])
 	return 0;
 }
 
-bool init(SDL_Window* &window, SDL_Surface* &surface)
+bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -81,37 +82,42 @@ bool init(SDL_Window* &window, SDL_Surface* &surface)
 		return false;
 	}
 
-	// Get surface
-	surface = SDL_GetWindowSurface(window);
+	// Get renderer
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL)
+	{
+		return false;
+	}
 
 	return true;
 }
 
-SDL_Surface* loadSurface(char* path, SDL_Surface* screen)
+SDL_Texture* loadTexture(char* path, SDL_Renderer* &r)
 {
-	SDL_Surface* optimizedSurface = NULL;
+	//Returned texture
+	SDL_Texture* texture = NULL;
 
-	SDL_Surface* rawSurface = IMG_Load(path);
-	if (rawSurface == NULL)
+	//Load image to surface
+	SDL_Surface* s = IMG_Load(path);
+	if (s == NULL)
 	{
-		printf("Error loading image: %s", SDL_GetError());
-		return optimizedSurface;
+		printf("Unable to load image: %s\n", IMG_GetError());
 	}
 
-	optimizedSurface = SDL_ConvertSurface(rawSurface, screen->format, NULL);
-	if (optimizedSurface == NULL)
+	//Convert surface to texture
+	texture = SDL_CreateTextureFromSurface(r, s);
+	if (texture == NULL)
 	{
-		printf("Error optimizing image %s", SDL_GetError());
-		return optimizedSurface;
+		printf("Unable to convert to texture: %s\n", SDL_GetError());
 	}
-
-	SDL_FreeSurface(rawSurface);
-	return optimizedSurface;
+	SDL_FreeSurface(s);
+	return texture;
 }
 
 void close(SDL_Window* &window)
 {
 	SDL_DestroyWindow(window);
 
+	IMG_Quit();
 	SDL_Quit();
 }

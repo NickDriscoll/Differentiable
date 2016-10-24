@@ -9,8 +9,9 @@ const int SCREEN_HEIGHT = 480;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
 
-bool init(SDL_Window* &window, SDL_Surface* &surface);
+//Initializes SDL and any other components
+bool init(SDL_Window* &window, SDL_Renderer* &renderer);
 
-SDL_Surface* loadSurface(char* path, SDL_Surface* surface);
+SDL_Texture* loadTexture(char* path, SDL_Renderer* &r);
 
 void close(SDL_Window* &window);
