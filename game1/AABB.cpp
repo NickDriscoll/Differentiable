@@ -1,5 +1,11 @@
 #include "head.h"
 #include <math.h>
+
+AABB::AABB()
+{
+
+}
+
 AABB::AABB(Vector2 Center, Vector2 HalfSize)
 {
 	center = Center;

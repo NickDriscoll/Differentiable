@@ -8,8 +8,11 @@ int main(int argc, char* args[])
 	//The renderer for the window
 	SDL_Renderer* renderer = NULL;
 	
-	//Container that stores the current textures being used.
-	std::vector<SDL_Texture*> textures;
+	//Container that stores AABBs
+	std::vector<AABB> aabbs;
+
+	//Container that stores moving objects
+	std::vector<MovingObject> movingObjects;
 
 	//Initialize SDL
 	if (!init(window, renderer))
@@ -24,8 +27,8 @@ int main(int argc, char* args[])
 	//This is a variable to store the current event
 	SDL_Event e;
 	
-	//Test texture
-	SDL_Texture* overman = loadTexture("overman.png", renderer);
+	//Test movingObject
+	MovingObject guy = MovingObject("overman.png", *(new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)), renderer);
 
 	//Game loop
 	while (running)
@@ -54,7 +57,7 @@ int main(int argc, char* args[])
 
 		//Draw player character
 		SDL_Rect playerRect = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 32, 64};
-		SDL_RenderCopy(renderer, overman, NULL, &playerRect);
+		SDL_RenderCopy(renderer, guy.getTexture(), NULL, &playerRect);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
@@ -98,7 +101,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 	return true;
 }
 
-SDL_Texture* loadTexture(char* path, SDL_Renderer* &r)
+SDL_Texture* loadTexture(char* path, SDL_Renderer* r)
 {
 	//Returned texture
 	SDL_Texture* texture = NULL;

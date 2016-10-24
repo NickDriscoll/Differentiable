@@ -24,11 +24,11 @@
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="preview.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="overman.png">
       <Filter>Resource Files</Filter>
     </Image>

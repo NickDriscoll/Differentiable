@@ -137,12 +137,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="overman.png" />
-    <Image Include="preview.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="head.h" />
