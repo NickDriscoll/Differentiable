@@ -44,14 +44,20 @@ int main(int argc, char* args[])
 		}
 
 		//Clear screen
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
 		SDL_RenderClear(renderer);
 
-		//Render texture
-		SDL_RenderCopy(renderer, overman, NULL, NULL);
+		//Render ground
+		SDL_Rect fillRect = { 0, SCREEN_HEIGHT - SCREEN_HEIGHT / 10, SCREEN_WIDTH, SCREEN_HEIGHT / 10 };
+		SDL_SetRenderDrawColor(renderer, 65, 45, 38, 0xFF);
+		SDL_RenderFillRect(renderer, &fillRect);
+
+		//Draw player character
+		SDL_Rect playerRect = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 32, 64};
+		SDL_RenderCopy(renderer, overman, NULL, &playerRect);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
-
 	}
 
 
@@ -76,7 +82,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 	}
 
 	// Now that SDL has been initialized, we are going to create the window
-	window = SDL_CreateWindow("Not Braid or anything lol", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Spirit", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 	{
 		return false;
