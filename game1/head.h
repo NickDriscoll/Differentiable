@@ -15,3 +15,25 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer);
 SDL_Texture* loadTexture(char* path, SDL_Renderer* &r);
 
 void close(SDL_Window* &window);
+
+class Vector2
+{
+public:
+	float x;
+	float y;
+
+	Vector2();
+	Vector2(float x, float y);
+};
+
+//Axis Aligned Bounding Box
+class AABB
+{
+private:
+	Vector2 center;
+	Vector2 halfSize;
+
+public:
+	AABB(Vector2 Center, Vector2 HalfSize);
+	bool overlaps(AABB other);
+};
