@@ -107,26 +107,17 @@ public:
 class Player : public MovingObject
 {
 public:
-	enum State
-	{
-		standing,
-		walking,
-		jumping
-	};
-protected:
-	State currentState;
-	State previousState;
-
-public:
 	Player();
 	Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight);
 
 	//Getters
-	State getState();
+	bool isInAir();
 
 	//Makes the player jump
 	void jump();
 
 	void accelerateLeft();
 	void accelerateRight();
+	void stop();
+	void draw(SDL_Renderer* r);
 };

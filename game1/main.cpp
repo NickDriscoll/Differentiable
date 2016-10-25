@@ -28,26 +28,15 @@ int main(int argc, char* args[])
 	SDL_Event e;
 	
 	//Test player
-	Player guy = Player("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer, true);	
+	Player player = Player("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer, true);
 
 	//Game loop
 	while (running)
 	{
 		//Process event queue until it is empty
 		while (SDL_PollEvent(&e) != 0)
-		{
-			if (e.type != SDL_KEYDOWN)
-			{
-				switch (e.type)
-				{
-				case SDL_QUIT:
-				{
-					running = false;
-					break;
-				}
-				}
-			}
-			else
+		{			
+			if (e.type == SDL_KEYDOWN)
 			{
 				switch (e.key.keysym.sym)
 				{
@@ -58,12 +47,46 @@ int main(int argc, char* args[])
 				}
 				case SDLK_SPACE:
 				{
-					if (guy.getState() != guy.jumping)
+					if (!player.isInAir())
 					{
-						guy.jump();
-						printf("Boing\n");
-						break;
+						player.jump();
 					}
+					break;
+				}
+				case SDLK_LEFT:
+				{
+					player.accelerateLeft();
+					break;
+				}
+				case SDLK_RIGHT:
+					player.accelerateRight();
+					break;
+				}
+			}
+			else if (e.type == SDL_KEYUP)
+			{
+				switch (e.key.keysym.sym)
+				{
+				case SDLK_LEFT:
+				{
+					player.stop();
+					break;
+				}
+				case SDLK_RIGHT:
+				{
+					player.stop();
+					break;
+				}
+				}
+			}
+			else
+			{
+				switch (e.type)
+				{
+				case SDL_QUIT:
+				{
+					running = false;
+					break;
 				}
 				}
 			}
@@ -74,15 +97,14 @@ int main(int argc, char* args[])
 		SDL_RenderClear(renderer);
 
 		//Draw player character
-		printf("round(x): %f\nround(y): %f", round(guy.getPosition().x), round(guy.getPosition().y));
-		SDL_Rect playerRect = {(int)round(guy.getPosition().x) , (int)round(guy.getPosition().y), guy.getTextureWidth(), guy.getTextureHeight() };
-		SDL_RenderCopy(renderer, guy.getTexture(), NULL, &playerRect);
+		player.draw(renderer);
 
 		//Update physics
-		guy.UpdatePhysics(1);
+		player.UpdatePhysics(1);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
+
 	}
 
 

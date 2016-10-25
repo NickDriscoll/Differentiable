@@ -2,27 +2,43 @@
 
 Player::Player()
 {
-	currentState = standing;
-	previousState = currentState;
 }
 
 Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 {
-	currentState = standing;
-	previousState = currentState;
 	texture = loadTexture(path, r);
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 	facingRight = FacingRight;
 }
 
-Player::State Player::getState()
+bool Player::isInAir()
 {
-	return currentState;
+	return !onGround;
 }
 
 void Player::jump()
 {
 	velocity.y = -0.2;
-	currentState = jumping;
+}
+
+void Player::accelerateLeft()
+{
+	velocity.x = -0.05;
+}
+
+void Player::accelerateRight()
+{
+	velocity.x = 0.05;
+}
+
+void Player::stop()
+{
+	velocity.x = 0;
+}
+
+void Player::draw(SDL_Renderer* r)
+{
+	SDL_Rect playerRect = { (int)round(position.x) , (int)round(position.y), this->getTextureWidth(), this->getTextureHeight() };
+	SDL_RenderCopy(r, this->getTexture(), NULL, &playerRect);
 }
