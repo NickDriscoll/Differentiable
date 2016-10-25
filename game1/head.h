@@ -9,7 +9,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
-const float TERMINAL_VELOCITY = 0.15;
+const float TERMINAL_VELOCITY = 0.12;
 
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer);
