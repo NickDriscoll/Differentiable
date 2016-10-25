@@ -56,10 +56,12 @@ int main(int argc, char* args[])
 				case SDLK_LEFT:
 				{
 					player.accelerateLeft();
+					player.setFacing(false);
 					break;
 				}
 				case SDLK_RIGHT:
 					player.accelerateRight();
+					player.setFacing(true);
 					break;
 				}
 			}

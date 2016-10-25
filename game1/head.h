@@ -90,6 +90,7 @@ protected:
 	bool atCeiling = false;
 
 	bool facingRight;
+
 public:
 	//Constructors
 	MovingObject();
@@ -100,6 +101,10 @@ public:
 	Vector2 getPosition();
 	int getTextureWidth();
 	int getTextureHeight();
+	bool getFacing();
+
+	//Setters
+	void setFacing(bool facing);
 
 	virtual void UpdatePhysics(double timeDelta);
 };

@@ -33,6 +33,16 @@ int MovingObject::getTextureHeight()
 	return textureHeight;
 }
 
+bool MovingObject::getFacing()
+{
+	return facingRight;
+}
+
+void MovingObject::setFacing(bool facing)
+{
+	facingRight = facing;
+}
+
 void MovingObject::UpdatePhysics(double timeDelta)
 {
 	//Store previous values in respective variables.
