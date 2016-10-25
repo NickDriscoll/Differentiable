@@ -1,18 +1,16 @@
 #include "head.h"
 
-MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r)
+MovingObject::MovingObject()
 {
-	texture = loadTexture(pathToTexture, r);
-	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
-	position = Position;
+	texture = NULL;
 }
 
-MovingObject::MovingObject(char* pathToTexture, Vector2 Position, AABB BoundingBox, SDL_Renderer* r)
+MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 {
 	texture = loadTexture(pathToTexture, r);
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
-	boundingBox = BoundingBox;
+	facingRight = FacingRight;
 }
 
 SDL_Texture* MovingObject::getTexture()

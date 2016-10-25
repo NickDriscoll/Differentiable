@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="MovingObject.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

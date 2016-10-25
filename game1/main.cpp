@@ -27,8 +27,8 @@ int main(int argc, char* args[])
 	//This is a variable to store the current event
 	SDL_Event e;
 	
-	//Test movingObject
-	MovingObject guy = MovingObject("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer);	
+	//Test player
+	Player guy = Player("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer, true);	
 
 	//Game loop
 	while (running)
@@ -36,13 +36,36 @@ int main(int argc, char* args[])
 		//Process event queue until it is empty
 		while (SDL_PollEvent(&e) != 0)
 		{
-			switch (e.type)
+			if (e.type != SDL_KEYDOWN)
 			{
-			case SDL_QUIT:
-			{
-				running = false;
-				break;
+				switch (e.type)
+				{
+				case SDL_QUIT:
+				{
+					running = false;
+					break;
+				}
+				}
 			}
+			else
+			{
+				switch (e.key.keysym.sym)
+				{
+				case SDLK_ESCAPE:
+				{
+					running = false;
+					break;
+				}
+				case SDLK_SPACE:
+				{
+					if (guy.getState() != guy.jumping)
+					{
+						guy.jump();
+						printf("Boing\n");
+						break;
+					}
+				}
+				}
 			}
 		}
 
@@ -50,13 +73,9 @@ int main(int argc, char* args[])
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
 		SDL_RenderClear(renderer);
 
-		//Render ground
-		//SDL_Rect fillRect = { 0, SCREEN_HEIGHT - SCREEN_HEIGHT / 10, SCREEN_WIDTH, SCREEN_HEIGHT / 10 };
-		//SDL_SetRenderDrawColor(renderer, 65, 45, 38, 0xFF);
-		//SDL_RenderFillRect(renderer, &fillRect);
-
 		//Draw player character
-		SDL_Rect playerRect = {round(guy.getPosition().x) , round(guy.getPosition().y), guy.getTextureWidth(), guy.getTextureHeight()};
+		printf("round(x): %f\nround(y): %f", round(guy.getPosition().x), round(guy.getPosition().y));
+		SDL_Rect playerRect = {(int)round(guy.getPosition().x) , (int)round(guy.getPosition().y), guy.getTextureWidth(), guy.getTextureHeight() };
 		SDL_RenderCopy(renderer, guy.getTexture(), NULL, &playerRect);
 
 		//Update physics

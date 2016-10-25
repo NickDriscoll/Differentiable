@@ -9,7 +9,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
-const float TERMINAL_VELOCITY = 0.12;
+const double TERMINAL_VELOCITY = 0.12;
 
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer);
@@ -27,21 +27,21 @@ void close(SDL_Window* &window);
 class Vector2
 {
 public:
-	float x;
-	float y;
+	double x;
+	double y;
 
 	Vector2();
-	Vector2(float x, float y);
+	Vector2(double x, double y);
 
 	Vector2 add(Vector2 v);
-	Vector2 multiply(float n);
+	Vector2 multiply(double n);
 };
 
 //Axis Aligned Bounding Box
 //Frequently used to represent static platforms.
 class AABB
 {
-private:
+protected:
 	Vector2 center;
 	Vector2 halfSize;
 
@@ -62,7 +62,7 @@ public:
 
 class MovingObject
 {
-private:
+protected:
 	SDL_Texture* texture;
 
 	int textureWidth;
@@ -88,10 +88,12 @@ private:
 
 	bool wasAtCeiling = false;
 	bool atCeiling = false;
+
+	bool facingRight;
 public:
 	//Constructors
-	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r);
-	MovingObject(char* pathToTexture, Vector2 Position, AABB BoundingBox, SDL_Renderer* r);
+	MovingObject();
+	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, bool FacingRight);
 
 	//Getters
 	SDL_Texture* getTexture();
@@ -99,10 +101,32 @@ public:
 	int getTextureWidth();
 	int getTextureHeight();
 
-	void UpdatePhysics(double timeDelta);
+	virtual void UpdatePhysics(double timeDelta);
 };
 
-class Player : MovingObject
+class Player : public MovingObject
 {
+public:
+	enum State
+	{
+		standing,
+		walking,
+		jumping
+	};
+protected:
+	State currentState;
+	State previousState;
 
+public:
+	Player();
+	Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight);
+
+	//Getters
+	State getState();
+
+	//Makes the player jump
+	void jump();
+
+	void accelerateLeft();
+	void accelerateRight();
 };
