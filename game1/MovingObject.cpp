@@ -54,7 +54,7 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	wasAtCeiling = atCeiling;
 
 	//Update position
-	position = position.add(velocity.multiply(timeDelta));
+	position = position + velocity * timeDelta;
 
 	//Ground collision placeholder
 	if (position.y > SCREEN_HEIGHT - textureHeight)
@@ -75,4 +75,13 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	{
 		velocity.y += 0.0001;
 	}
+}
+
+void MovingObject::draw(SDL_Renderer* r)
+{
+	SDL_Rect objectRect = { (int)round(position.x) , (int)round(position.y), this->getTextureWidth(), this->getTextureHeight() };
+	if (facingRight)
+		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
+	else
+		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_HORIZONTAL);
 }

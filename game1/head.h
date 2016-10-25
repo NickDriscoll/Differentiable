@@ -33,6 +33,9 @@ public:
 	Vector2();
 	Vector2(double x, double y);
 
+	Vector2 operator+(const Vector2& other);
+	Vector2 operator*(const double& other);
+
 	Vector2 add(Vector2 v);
 	Vector2 multiply(double n);
 };
@@ -44,6 +47,8 @@ class AABB
 protected:
 	Vector2 center;
 	Vector2 halfSize;
+	SDL_Texture* texture = NULL;
+	Uint32 color;
 
 public:
 	AABB();
@@ -58,6 +63,7 @@ public:
 	void setHalfSize(Vector2 newHalfSize);
 
 	bool overlaps(AABB other);
+	void draw(SDL_Renderer* r);
 };
 
 class MovingObject
@@ -107,6 +113,7 @@ public:
 	void setFacing(bool facing);
 
 	virtual void UpdatePhysics(double timeDelta);
+	void draw(SDL_Renderer* r);
 };
 
 class Player : public MovingObject
@@ -124,5 +131,4 @@ public:
 	void accelerateLeft();
 	void accelerateRight();
 	void stop();
-	void draw(SDL_Renderer* r);
 };

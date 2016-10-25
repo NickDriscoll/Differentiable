@@ -28,14 +28,17 @@ int main(int argc, char* args[])
 	SDL_Event e;
 	
 	//Test player
-	Player player = Player("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer, true);
+	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
+
+	//Test platform
+	AABB floor = AABB( Vector2(SCREEN_WIDTH / 2, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20));
 
 	//Game loop
 	while (running)
 	{
 		//Process event queue until it is empty
 		while (SDL_PollEvent(&e) != 0)
-		{			
+		{
 			if (e.type == SDL_KEYDOWN)
 			{
 				switch (e.key.keysym.sym)
@@ -98,15 +101,15 @@ int main(int argc, char* args[])
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
 		SDL_RenderClear(renderer);
 
-		//Draw player character
+		//Draw things
 		player.draw(renderer);
+		floor.draw(renderer);
 
 		//Update physics
 		player.UpdatePhysics(1);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
-
 	}
 
 

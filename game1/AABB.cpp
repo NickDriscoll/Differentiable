@@ -38,3 +38,10 @@ bool AABB::overlaps(AABB other)
 	if (abs(center.y - other.center.y) > halfSize.y + other.halfSize.y) return false;
 	return true;
 }
+
+void AABB::draw(SDL_Renderer* r)
+{
+	SDL_Rect rect = { center.x - halfSize.x, center.y - halfSize.y, halfSize.x * 2, halfSize.y * 2 };
+	SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderDrawRect(r, &rect);
+}

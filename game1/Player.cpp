@@ -36,12 +36,3 @@ void Player::stop()
 {
 	velocity.x = 0;
 }
-
-void Player::draw(SDL_Renderer* r)
-{
-	SDL_Rect playerRect = { (int)round(position.x) , (int)round(position.y), this->getTextureWidth(), this->getTextureHeight() };
-	if (facingRight)
-		SDL_RenderCopyEx(r, texture, NULL, &playerRect, 0, NULL, SDL_FLIP_NONE);
-	else
-		SDL_RenderCopyEx(r, texture, NULL, &playerRect, 0, NULL, SDL_FLIP_HORIZONTAL);
-}
