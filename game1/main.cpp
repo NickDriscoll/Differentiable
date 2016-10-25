@@ -56,10 +56,10 @@ int main(int argc, char* args[])
 		//SDL_RenderFillRect(renderer, &fillRect);
 
 		//Draw player character
-		SDL_Rect playerRect = {round(guy.getPosition().x) , round(guy.getPosition().y), 32, 64};
+		SDL_Rect playerRect = {round(guy.getPosition().x) , round(guy.getPosition().y), guy.getTextureWidth(), guy.getTextureHeight()};
 		SDL_RenderCopy(renderer, guy.getTexture(), NULL, &playerRect);
 
-		//Update physics		
+		//Update physics
 		guy.UpdatePhysics(1);
 
 		//Update screen

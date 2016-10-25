@@ -9,7 +9,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
-const float TERMINAL_VELOCITY = 0.4;
+const float TERMINAL_VELOCITY = 0.15;
 
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer);
@@ -65,8 +65,8 @@ class MovingObject
 private:
 	SDL_Texture* texture;
 
-	//TODO: query texture
-	Vector2 textureSize;
+	int textureWidth;
+	int textureHeight;
 
 	Vector2 position;
 	Vector2 lastPosition;
@@ -96,6 +96,8 @@ public:
 	//Getters
 	SDL_Texture* getTexture();
 	Vector2 getPosition();
+	int getTextureWidth();
+	int getTextureHeight();
 
 	void UpdatePhysics(double timeDelta);
 };

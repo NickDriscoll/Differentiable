@@ -3,12 +3,14 @@
 MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r)
 {
 	texture = loadTexture(pathToTexture, r);
+	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 }
 
 MovingObject::MovingObject(char* pathToTexture, Vector2 Position, AABB BoundingBox, SDL_Renderer* r)
 {
 	texture = loadTexture(pathToTexture, r);
+	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 	boundingBox = BoundingBox;
 }
@@ -21,6 +23,16 @@ SDL_Texture* MovingObject::getTexture()
 Vector2 MovingObject::getPosition()
 {
 	return position;
+}
+
+int MovingObject::getTextureWidth()
+{
+	return textureWidth;
+}
+
+int MovingObject::getTextureHeight()
+{
+	return textureHeight;
 }
 
 void MovingObject::UpdatePhysics(double timeDelta)
@@ -37,9 +49,9 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	position = position.add(velocity.multiply(timeDelta));
 
 	//Ground collision placeholder
-	if (position.y > SCREEN_HEIGHT - 64)
+	if (position.y > SCREEN_HEIGHT - textureHeight)
 	{
-		position.y = SCREEN_HEIGHT - 64;
+		position.y = SCREEN_HEIGHT - textureHeight;
 		onGround = true;
 	}
 	else
