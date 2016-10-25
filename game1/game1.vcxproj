@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2_image-2.0.1\include;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2_image-2.0.1\lib\x86;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Nick\Documents\Visual Studio 2015\dev_libs\SDL2_image-2.0.1\include;C:\Users\Nick\Documents\Visual Studio 2015\dev_libs\SDL2-2.0.4\include;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2_image-2.0.1\include;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Nick\Documents\Visual Studio 2015\dev_libs\SDL2_image-2.0.1\lib\x86;C:\Users\Nick\Documents\Visual Studio 2015\dev_libs\SDL2-2.0.4\lib\x86;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2_image-2.0.1\lib\x86;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2_image-2.0.1\include;C:\Users\Nick\Documents\Visual Studio 2015\dev-libs\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
@@ -138,7 +138,7 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="MovingObject.cpp" />
-    <ClCompile Include="vector.cpp" />
+    <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

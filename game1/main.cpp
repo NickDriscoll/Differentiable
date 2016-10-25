@@ -28,7 +28,7 @@ int main(int argc, char* args[])
 	SDL_Event e;
 	
 	//Test movingObject
-	MovingObject guy = MovingObject("overman.png", *(new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)), renderer);
+	MovingObject guy = MovingObject("overman.png", *(new Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32)), renderer);	
 
 	//Game loop
 	while (running)
@@ -51,13 +51,16 @@ int main(int argc, char* args[])
 		SDL_RenderClear(renderer);
 
 		//Render ground
-		SDL_Rect fillRect = { 0, SCREEN_HEIGHT - SCREEN_HEIGHT / 10, SCREEN_WIDTH, SCREEN_HEIGHT / 10 };
-		SDL_SetRenderDrawColor(renderer, 65, 45, 38, 0xFF);
-		SDL_RenderFillRect(renderer, &fillRect);
+		//SDL_Rect fillRect = { 0, SCREEN_HEIGHT - SCREEN_HEIGHT / 10, SCREEN_WIDTH, SCREEN_HEIGHT / 10 };
+		//SDL_SetRenderDrawColor(renderer, 65, 45, 38, 0xFF);
+		//SDL_RenderFillRect(renderer, &fillRect);
 
 		//Draw player character
-		SDL_Rect playerRect = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 32, 64};
+		SDL_Rect playerRect = {round(guy.getPosition().x) , round(guy.getPosition().y), 32, 64};
 		SDL_RenderCopy(renderer, guy.getTexture(), NULL, &playerRect);
+
+		//Update physics		
+		guy.UpdatePhysics(1);
 
 		//Update screen
 		SDL_RenderPresent(renderer);

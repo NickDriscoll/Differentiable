@@ -18,7 +18,12 @@ SDL_Texture* MovingObject::getTexture()
 	return texture;
 }
 
-void MovingObject::UpdatePhysics()
+Vector2 MovingObject::getPosition()
+{
+	return position;
+}
+
+void MovingObject::UpdatePhysics(double timeDelta)
 {
 	//Store previous values in respective variables.
 	lastPosition = position;
@@ -28,5 +33,26 @@ void MovingObject::UpdatePhysics()
 	wasOnGround = onGround;
 	wasAtCeiling = atCeiling;
 
-	
+	//Update position
+	position = position.add(velocity.multiply(timeDelta));
+
+	//Ground collision placeholder
+	if (position.y > SCREEN_HEIGHT - 64)
+	{
+		position.y = SCREEN_HEIGHT - 64;
+		onGround = true;
+	}
+	else
+	{
+		onGround = false;
+	}
+
+	//Update bounding boxes position
+	boundingBox.setCenter(position.add(aabbOffset));
+
+	//Apply gravity if not on ground
+	if (!onGround && velocity.y < TERMINAL_VELOCITY)
+	{
+		velocity.y += 0.0001;
+	}
 }
