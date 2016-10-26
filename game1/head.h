@@ -3,7 +3,6 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <vector>
-#include <ctime>
 #include <math.h>
 
 const int SCREEN_WIDTH = 1280;

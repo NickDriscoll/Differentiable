@@ -68,12 +68,12 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	}
 
 	//Update bounding boxes position
-	boundingBox.setCenter(position.add(aabbOffset));
+	boundingBox.setCenter(position + aabbOffset);
 
 	//Apply gravity if not on ground
 	if (!onGround && velocity.y < TERMINAL_VELOCITY)
 	{
-		velocity.y += ACCELERATION_DUE_TO_GRAVITY;
+		velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
 	}
 }
 
