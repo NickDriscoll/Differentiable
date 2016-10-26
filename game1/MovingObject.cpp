@@ -54,7 +54,7 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	wasAtCeiling = atCeiling;
 
 	//Update position
-	position = position + velocity * timeDelta;
+	position = position + (velocity * timeDelta);
 
 	//Ground collision placeholder
 	if (position.y > SCREEN_HEIGHT - textureHeight)
@@ -73,7 +73,7 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	//Apply gravity if not on ground
 	if (!onGround && velocity.y < TERMINAL_VELOCITY)
 	{
-		velocity.y += 0.1;
+		velocity.y += ACCELERATION_DUE_TO_GRAVITY;
 	}
 }
 

@@ -32,9 +32,10 @@ int main(int argc, char* args[])
 
 	//Test platform
 	AABB floor = AABB( Vector2(SCREEN_WIDTH / 2, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20));
-	
-	//Var used for frame timing.
-	Uint32 start = 0;
+
+	//Frametime vars
+	Uint32 currentFrameTime = 0;
+	Uint32 lastFrameTime = 0;
 
 	//Game loop
 	while (running)
@@ -109,14 +110,20 @@ int main(int argc, char* args[])
 		player.draw(renderer);
 
 		//Update physics w/ timedelta
-		Uint32 timeDelta = SDL_GetTicks() - start;
-		printf("Milliseconds since previous frame: %i\n", timeDelta);
-		player.UpdatePhysics(timeDelta);
+		currentFrameTime = SDL_GetTicks();
+		double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
+		printf("timeDelta == %f\n", timeDelta);
 
-		start = SDL_GetTicks();
+		//Sometimes timeDelta is zero
+		//No, I don't know why.
+		if (timeDelta != 0)
+			player.UpdatePhysics(timeDelta);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
+
+		//Set lastFrameTime equal to now
+		lastFrameTime = currentFrameTime;
 	}
 
 	close(window);
