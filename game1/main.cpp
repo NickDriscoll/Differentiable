@@ -32,6 +32,9 @@ int main(int argc, char* args[])
 
 	//Test platform
 	AABB floor = AABB( Vector2(SCREEN_WIDTH / 2, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20));
+	
+	//Var used for frame timing.
+	Uint32 start = 0;
 
 	//Game loop
 	while (running)
@@ -105,8 +108,12 @@ int main(int argc, char* args[])
 		floor.draw(renderer);
 		player.draw(renderer);
 
-		//Update physics
-		player.UpdatePhysics(1);
+		//Update physics w/ timedelta
+		Uint32 timeDelta = SDL_GetTicks() - start;
+		printf("Milliseconds since previous frame: %i\n", timeDelta);
+		player.UpdatePhysics(timeDelta);
+
+		start = SDL_GetTicks();
 
 		//Update screen
 		SDL_RenderPresent(renderer);

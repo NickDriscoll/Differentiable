@@ -73,7 +73,7 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	//Apply gravity if not on ground
 	if (!onGround && velocity.y < TERMINAL_VELOCITY)
 	{
-		velocity.y += 0.0001;
+		velocity.y += 0.1;
 	}
 }
 
