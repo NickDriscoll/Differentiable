@@ -24,7 +24,7 @@ int main(int argc, char* args[])
 	//Here we declare a flag to track if the program is still running
 	bool running = true;
 
-	//This is a variable to store the current event
+	//This is a variable to store the current event.
 	SDL_Event e;
 	
 	//Test player
@@ -102,8 +102,8 @@ int main(int argc, char* args[])
 		SDL_RenderClear(renderer);
 
 		//Draw things
-		player.draw(renderer);
 		floor.draw(renderer);
+		player.draw(renderer);
 
 		//Update physics
 		player.UpdatePhysics(1);
@@ -111,7 +111,6 @@ int main(int argc, char* args[])
 		//Update screen
 		SDL_RenderPresent(renderer);
 	}
-
 
 	close(window);
 

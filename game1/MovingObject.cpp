@@ -5,7 +5,7 @@ MovingObject::MovingObject()
 	texture = NULL;
 }
 
-MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, bool FacingRight)
+MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, AABB box, bool FacingRight)
 {
 	texture = loadTexture(pathToTexture, r);
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);

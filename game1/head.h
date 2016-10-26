@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <vector>
 #include <ctime>
+#include <math.h>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -100,7 +101,7 @@ protected:
 public:
 	//Constructors
 	MovingObject();
-	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, bool FacingRight);
+	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, AABB box, bool FacingRight);
 
 	//Getters
 	SDL_Texture* getTexture();
