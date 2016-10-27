@@ -9,7 +9,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
-const double ACCELERATION_DUE_TO_GRAVITY = 1;
+const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
 
 //Initializes SDL and any other components

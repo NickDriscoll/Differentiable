@@ -19,7 +19,7 @@ bool Player::isInAir()
 
 void Player::jump()
 {
-	velocity.y = -500;
+	velocity.y = -300;
 }
 
 void Player::accelerateLeft()
