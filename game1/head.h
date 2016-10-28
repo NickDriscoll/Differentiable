@@ -82,7 +82,8 @@ protected:
 	Vector2 lastVelocity = velocity;
 	
 	AABB boundingBox;
-	Vector2 aabbOffset;
+	AABB oldBoundingBox;
+	Vector2 boundingBoxOffset;
 
 	bool pushedRightWall = false;
 	bool pushesRightWall = false;
@@ -113,8 +114,9 @@ public:
 	//Setters
 	void setFacing(bool facing);
 
-	virtual void UpdatePhysics(double timeDelta);
+	void UpdatePhysics(double timeDelta);
 	void draw(SDL_Renderer* r);
+	bool overlaps(AABB other);
 };
 
 class Player : public MovingObject

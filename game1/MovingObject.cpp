@@ -68,13 +68,20 @@ void MovingObject::UpdatePhysics(double timeDelta)
 	}
 
 	//Update bounding boxes position
-	boundingBox.setCenter(position + aabbOffset);
+	boundingBox.setCenter(position + boundingBoxOffset);
+
+	// TODO Check for collision
+
 
 	//Apply gravity if not on ground
 	if (!onGround && velocity.y < TERMINAL_VELOCITY)
 	{
 		velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
 	}
+
+	//Store boundingBox as oldBoundingBox
+	oldBoundingBox = boundingBox;
+
 }
 
 void MovingObject::draw(SDL_Renderer* r)
@@ -84,4 +91,9 @@ void MovingObject::draw(SDL_Renderer* r)
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
 	else
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_HORIZONTAL);
+}
+
+bool MovingObject::overlaps(AABB other)
+{
+	return boundingBox.overlaps(other);
 }
