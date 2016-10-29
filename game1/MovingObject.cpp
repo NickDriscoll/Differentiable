@@ -11,6 +11,8 @@ MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* 
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 	facingRight = FacingRight;
+	boundingBox = AABB(Vector2(), Vector2(textureWidth / 2, textureHeight / 2));
+	boundingBoxOffset = Vector2(position.x + textureWidth / 2, position.y + textureHeight / 2);
 }
 
 SDL_Texture* MovingObject::getTexture()
@@ -52,6 +54,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	pushedLeftWall = pushesLeftWall;
 	wasOnGround = onGround;
 	wasAtCeiling = atCeiling;
+	oldBoundingBox = boundingBox;
 
 	//Update position
 	position = position + (velocity * timeDelta);
@@ -59,7 +62,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	//Ground collision placeholder
 	if (position.y > SCREEN_HEIGHT - textureHeight)
 	{
-		position.y = SCREEN_HEIGHT - textureHeight;
 		onGround = true;
 	}
 	else
@@ -67,7 +69,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 		onGround = false;
 	}
 
-	//Update bounding boxes position
+	//Update bounding box's center
 	boundingBox.setCenter(position);
 
 	// TODO Check for collision
@@ -77,18 +79,17 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 		{
 			velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
 		}
+		else
+		{
+			printf("Colliding!\n");
+			onGround = true;
+		}
 	}
 
-	/*
-	//Apply gravity if not on ground
-	if (!onGround && velocity.y < TERMINAL_VELOCITY)
+	if (onGround)
 	{
-		velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
+		velocity.y = 0;
 	}
-	*/
-
-	//Store boundingBox as oldBoundingBox
-	oldBoundingBox = boundingBox;
 
 }
 

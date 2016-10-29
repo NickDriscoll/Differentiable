@@ -7,12 +7,6 @@ int main(int argc, char* args[])
 
 	//The renderer for the window
 	SDL_Renderer* renderer = NULL;
-	
-	//Container that stores AABBs
-	std::vector<AABB> aabbs;
-
-	//Container that stores moving objects
-	std::vector<MovingObject> movingObjects;
 
 	//Initialize SDL
 	if (!init(window, renderer))
@@ -20,6 +14,14 @@ int main(int argc, char* args[])
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
 	}
+	
+	//TODO implement level files
+
+	//Container that stores AABBs
+	std::vector<AABB> aabbs;
+
+	//Container that stores moving objects
+	std::vector<MovingObject> movingObjects;
 
 	//Debug state flag
 	bool debug = false;
@@ -34,7 +36,7 @@ int main(int argc, char* args[])
 	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
 
 	//Test platform
-	AABB floor = AABB( Vector2(SCREEN_WIDTH / 2, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20));
+	AABB floor = AABB( Vector2(SCREEN_WIDTH * 3 / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 20));
 	aabbs.push_back(floor);
 
 	//Frametime vars
@@ -119,7 +121,6 @@ int main(int argc, char* args[])
 		//Update physics w/ timedelta
 		currentFrameTime = SDL_GetTicks();
 		double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
-		printf("FPS is %f\n", 1 / timeDelta);
 
 		//Sometimes timeDelta is zero
 		//No, I don't know why.

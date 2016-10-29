@@ -16,7 +16,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 	}
 
 	// Now that SDL has been initialized, we are going to create the window
-	window = SDL_CreateWindow("Spirit", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Differentiable", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 	{
 		return false;

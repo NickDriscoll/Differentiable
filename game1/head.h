@@ -13,17 +13,22 @@ const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
 
+
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer);
+
 
 //Returns a pointer to an SDL_Texture.
 //path: The filepath to the image (.png)
 //r: the renderer
 SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
 
+
 //Closes SDL components and frees memory
 //window: Current window
 void close(SDL_Window* &window);
+
+
 
 //A representation of a two-dimensional vector using floats
 class Vector2
@@ -41,6 +46,8 @@ public:
 	Vector2 add(Vector2 v);
 	Vector2 multiply(double n);
 };
+
+
 
 //Axis Aligned Bounding Box
 //Frequently used to represent static platforms.
@@ -66,6 +73,8 @@ public:
 	bool overlaps(AABB other);
 	void draw(SDL_Renderer* r, bool debug);
 };
+
+
 
 class MovingObject
 {
@@ -120,6 +129,8 @@ public:
 	void draw(SDL_Renderer* r, bool debug);
 	bool overlaps(AABB other);
 };
+
+
 
 class Player : public MovingObject
 {

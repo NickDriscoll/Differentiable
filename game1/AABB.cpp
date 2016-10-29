@@ -33,8 +33,8 @@ void AABB::setHalfSize(Vector2 newHalfSize)
 
 bool AABB::overlaps(AABB other)
 {
-	if (abs(center.x - other.center.x) > halfSize.x + other.halfSize.x) return false;
-	if (abs(center.y - other.center.y) > halfSize.y + other.halfSize.y) return false;
+	if (abs(center.x - other.center.x) > halfSize.x * 2 + other.halfSize.x) return false;
+	if (abs(center.y - other.center.y) > halfSize.y * 2 + other.halfSize.y) return false;
 	return true;
 }
 
