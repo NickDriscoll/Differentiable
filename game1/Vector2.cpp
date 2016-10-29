@@ -24,10 +24,10 @@ Vector2 Vector2::operator*(const double& other)
 
 Vector2 Vector2::add(Vector2 v)
 {
-	return *new Vector2(x + v.x, y + v.y);
+	return Vector2(x + v.x, y + v.y);
 }
 
 Vector2 Vector2::multiply(double n)
 {
-	return *new Vector2(x * n, y * n);
+	return Vector2(x * n, y * n);
 }

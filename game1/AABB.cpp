@@ -38,10 +38,16 @@ bool AABB::overlaps(AABB other)
 	return true;
 }
 
-void AABB::draw(SDL_Renderer* r)
+void AABB::draw(SDL_Renderer* r, bool debug)
 {
 	SDL_Rect rect = { (int)(center.x - halfSize.x), (int)(center.y - halfSize.y), (int)(halfSize.x * 2), (int)(halfSize.y * 2)};
-	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);
-	
+	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);	
 	SDL_RenderFillRect(r, &rect);
+
+	if (debug)
+	{
+		SDL_Rect rect = { center.x - halfSize.x, center.y - halfSize.y, halfSize.x * 2, halfSize.y * 2 };
+		SDL_SetRenderDrawColor(r, 0, 0xFF, 0, 0xFF);
+		SDL_RenderDrawRect(r, &rect);
+	}
 }

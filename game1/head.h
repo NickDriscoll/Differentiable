@@ -9,6 +9,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
+const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
 
@@ -49,7 +50,6 @@ protected:
 	Vector2 center;
 	Vector2 halfSize;
 	SDL_Texture* texture = NULL;
-	Uint32 color;
 
 public:
 	AABB();
@@ -64,7 +64,7 @@ public:
 	void setHalfSize(Vector2 newHalfSize);
 
 	bool overlaps(AABB other);
-	void draw(SDL_Renderer* r);
+	void draw(SDL_Renderer* r, bool debug);
 };
 
 class MovingObject
@@ -78,11 +78,13 @@ protected:
 	Vector2 position;
 	Vector2 lastPosition;
 	
-	Vector2 velocity = *new Vector2(0, 0);
+	Vector2 velocity = Vector2(0, 0);
 	Vector2 lastVelocity = velocity;
 	
 	AABB boundingBox;
 	AABB oldBoundingBox;
+
+	//An offset for the center of the bounding box.
 	Vector2 boundingBoxOffset;
 
 	bool pushedRightWall = false;
@@ -102,7 +104,7 @@ protected:
 public:
 	//Constructors
 	MovingObject();
-	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, AABB box, bool FacingRight);
+	MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* r, bool FacingRight);
 
 	//Getters
 	SDL_Texture* getTexture();
@@ -114,8 +116,8 @@ public:
 	//Setters
 	void setFacing(bool facing);
 
-	void UpdatePhysics(double timeDelta);
-	void draw(SDL_Renderer* r);
+	void UpdatePhysics(std::vector<AABB> boxes, double timeDelta);
+	void draw(SDL_Renderer* r, bool debug);
 	bool overlaps(AABB other);
 };
 

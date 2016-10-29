@@ -21,6 +21,9 @@ int main(int argc, char* args[])
 		return -1;
 	}
 
+	//Debug state flag
+	bool debug = false;
+
 	//Here we declare a flag to track if the program is still running
 	bool running = true;
 
@@ -32,6 +35,7 @@ int main(int argc, char* args[])
 
 	//Test platform
 	AABB floor = AABB( Vector2(SCREEN_WIDTH / 2, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20));
+	aabbs.push_back(floor);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -67,9 +71,16 @@ int main(int argc, char* args[])
 					break;
 				}
 				case SDLK_RIGHT:
+				{
 					player.accelerateRight();
 					player.setFacing(true);
 					break;
+				}
+				case SDLK_BACKQUOTE:
+				{
+					debug = !debug;
+					break;
+				}
 				}
 			}
 			else if (e.type == SDL_KEYUP)
@@ -105,19 +116,19 @@ int main(int argc, char* args[])
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
 		SDL_RenderClear(renderer);
 
-		//Draw things
-		floor.draw(renderer);
-		player.draw(renderer);
-
 		//Update physics w/ timedelta
 		currentFrameTime = SDL_GetTicks();
 		double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
-		printf("timeDelta == %f\n", timeDelta);
+		printf("FPS is %f\n", 1 / timeDelta);
 
 		//Sometimes timeDelta is zero
 		//No, I don't know why.
-		if (timeDelta != 0)
-			player.UpdatePhysics(timeDelta);
+		if (timeDelta > EPSILON)
+			player.UpdatePhysics(aabbs, timeDelta);
+		
+		//Draw things
+		floor.draw(renderer, debug);
+		player.draw(renderer, debug);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
@@ -129,66 +140,4 @@ int main(int argc, char* args[])
 	close(window);
 
 	return 0;
-}
-
-bool init(SDL_Window* &window, SDL_Renderer* &renderer)
-{
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		return false;
-	}
-
-	//TODO: Learn how this code actually works.
-	int imgFlags = IMG_INIT_PNG;
-	if (!(IMG_Init(imgFlags) & imgFlags))
-	{
-		printf("SDL_Image could not initialize: %s\n", IMG_GetError());
-		return false;
-	}
-
-	// Now that SDL has been initialized, we are going to create the window
-	window = SDL_CreateWindow("Spirit", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (window == NULL)
-	{
-		return false;
-	}
-
-	// Get renderer
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (renderer == NULL)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-SDL_Texture* loadTexture(char* path, SDL_Renderer* r)
-{
-	//Returned texture
-	SDL_Texture* texture = NULL;
-
-	//Load image to surface
-	SDL_Surface* s = IMG_Load(path);
-	if (s == NULL)
-	{
-		printf("Unable to load image: %s\n", IMG_GetError());
-	}
-
-	//Convert surface to texture
-	texture = SDL_CreateTextureFromSurface(r, s);
-	if (texture == NULL)
-	{
-		printf("Unable to convert to texture: %s\n", SDL_GetError());
-	}
-	SDL_FreeSurface(s);
-	return texture;
-}
-
-void close(SDL_Window* &window)
-{
-	SDL_DestroyWindow(window);
-
-	IMG_Quit();
-	SDL_Quit();
 }
