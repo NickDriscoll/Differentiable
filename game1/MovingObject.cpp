@@ -56,6 +56,12 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	wasAtCeiling = atCeiling;
 	oldBoundingBox = boundingBox;
 
+	//Reset state vars
+	onGround = false;
+	atCeiling = false;
+	pushesLeftWall = false;
+	pushesRightWall = false;
+
 	//Update position
 	position = position + (velocity * timeDelta);
 
@@ -64,10 +70,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	{
 		onGround = true;
 	}
-	else
-	{
-		onGround = false;
-	}
 
 	//Update bounding box's center
 	boundingBox.setCenter(position);
@@ -75,20 +77,45 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	// TODO Check for collision
 	for (int i = 0; i < boxes.size(); i++)
 	{
-		if (!overlaps(boxes[i]))
+		if (overlaps(boxes[i]))
 		{
-			velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
-		}
-		else
-		{
-			printf("Colliding!\n");
-			onGround = true;
+			//Check for the various types of collision
+			if (velocity.y > 0)
+			{
+				onGround = true;
+			}
+			else if (velocity.y < 0)
+			{
+				atCeiling = true;
+			}
+			else if (velocity.x > 0)
+			{
+				pushesRightWall = true;
+			}
+			else
+			{
+				pushesLeftWall = true;
+			}
 		}
 	}
 
+	//Apply physics based on object state
 	if (onGround)
 	{
 		velocity.y = 0;
+	}
+	else if (atCeiling)
+	{		
+		velocity.y = 0;		
+	}
+	else
+	{
+		velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
+	}
+
+	if (pushesRightWall || pushesLeftWall)
+	{
+		velocity.x = 0;
 	}
 
 }

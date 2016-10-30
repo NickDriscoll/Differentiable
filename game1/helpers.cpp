@@ -7,7 +7,6 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 		return false;
 	}
 
-	//TODO: Learn how this code actually works.
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
@@ -54,6 +53,7 @@ SDL_Texture* loadTexture(char* path, SDL_Renderer* r)
 	return texture;
 }
 
+//TODO finish close method (make it clean up ALL objects ALL subsystems etc.)
 void close(SDL_Window* &window)
 {
 	SDL_DestroyWindow(window);
