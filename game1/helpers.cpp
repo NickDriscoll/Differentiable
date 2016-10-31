@@ -7,10 +7,18 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 		return false;
 	}
 
+	//Initialize image lib
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_Image could not initialize: %s\n", IMG_GetError());
+		return false;
+	}
+
+	//Initialize ttf lib
+	if (TTF_Init() == -1)
+	{
+		printf("TTF initialization error: %s\n", TTF_GetError());
 		return false;
 	}
 
@@ -60,4 +68,16 @@ void close(SDL_Window* &window)
 
 	IMG_Quit();
 	SDL_Quit();
+}
+
+SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char * message)
+{
+	if (font == NULL)
+	{
+		printf("Error loading font: %s\n", SDL_GetError());
+	}
+	SDL_Surface* s = TTF_RenderText_Solid(font, message, { 0xFF, 0xFF, 0xFF });
+	SDL_Texture* t = SDL_CreateTextureFromSurface(r, s);
+	SDL_FreeSurface(s);
+	return t;
 }

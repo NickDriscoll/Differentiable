@@ -1,7 +1,9 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <stdio.h>
+#include <string>
 #include <vector>
 #include <math.h>
 
@@ -9,6 +11,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
 const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
+const int FONT_SIZE = 12;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
@@ -27,6 +30,9 @@ SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
 //Closes SDL components and frees memory
 //window: Current window
 void close(SDL_Window* &window);
+
+//Loads text as texture
+SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 
 
 

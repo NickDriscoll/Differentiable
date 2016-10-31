@@ -79,23 +79,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	{
 		if (overlaps(boxes[i]))
 		{
-			//Check for the various types of collision
-			if (velocity.y > 0)
-			{
-				onGround = true;
-			}
-			else if (velocity.y < 0)
-			{
-				atCeiling = true;
-			}
-			else if (velocity.x > 0)
-			{
-				pushesRightWall = true;
-			}
-			else
-			{
-				pushesLeftWall = true;
-			}
+
 		}
 	}
 
@@ -103,10 +87,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	if (onGround)
 	{
 		velocity.y = 0;
-	}
-	else if (atCeiling)
-	{		
-		velocity.y = 0;		
 	}
 	else
 	{

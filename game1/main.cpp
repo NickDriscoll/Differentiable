@@ -23,6 +23,9 @@ int main(int argc, char* args[])
 	//Container that stores moving objects
 	std::vector<MovingObject> movingObjects;
 
+	//Font used
+	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\Arial.ttf", FONT_SIZE);
+
 	//Debug state flag
 	bool debug = false;
 
@@ -47,6 +50,7 @@ int main(int argc, char* args[])
 	while (running)
 	{
 		//Process event queue until it is empty
+		//TODO Add controller support
 		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_KEYDOWN)
@@ -121,13 +125,23 @@ int main(int argc, char* args[])
 		//Update physics w/ timedelta
 		currentFrameTime = SDL_GetTicks();
 		double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
-
+		
 		//Sometimes timeDelta is zero
 		//No, I don't know why.
 		if (timeDelta > EPSILON)
 			player.UpdatePhysics(aabbs, timeDelta);
-		
-		//Draw things
+
+		if (debug)
+		{			
+			std::string counter = "FPS: " + std::to_string(1.0 / timeDelta);
+			
+			SDL_Rect mRect = { 0, 0, counter.size() * 10, 25 };
+			SDL_Texture* fontTexture = textureText(renderer, font, counter.c_str());
+			SDL_RenderCopy(renderer, fontTexture, NULL, &mRect);
+			SDL_DestroyTexture(fontTexture);
+		}
+
+		//Draw all AABBs, MovingObjects, and the player
 		floor.draw(renderer, debug);
 		player.draw(renderer, debug);
 
