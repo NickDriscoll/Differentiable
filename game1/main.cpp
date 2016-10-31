@@ -39,7 +39,7 @@ int main(int argc, char* args[])
 	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
 
 	//Test platform
-	AABB floor = AABB( Vector2(SCREEN_WIDTH * 3 / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 20));
+	AABB floor = AABB(Vector2(3 * SCREEN_WIDTH / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH, SCREEN_HEIGHT / 8));
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;

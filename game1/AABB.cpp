@@ -8,45 +8,52 @@ AABB::AABB()
 AABB::AABB(Vector2 Origin, Vector2 Size)
 {
 	origin = Origin;
-	origin = Size;
+	size = Size;
 }
 
 Vector2 AABB::getOrigin()
 {
-	return center;
+	return origin;
 }
 
-Vector2 AABB::getHalfSize()
+Vector2 AABB::getSize()
 {
-	return halfSize;
+	return size;
 }
 
-void AABB::setCenter(Vector2 newCenter)
+void AABB::setOrigin(Vector2 newOrigin)
 {
-	center = newCenter;
+	origin = newOrigin;
 }
 
-void AABB::setHalfSize(Vector2 newHalfSize)
+void AABB::setSize(Vector2 newSize)
 {
-	halfSize = newHalfSize;
+	size = newSize;
 }
 
 bool AABB::overlaps(AABB other)
 {
-	if (abs(center.x - other.center.x) > halfSize.x * 2 + other.halfSize.x) return false;
-	if (abs(center.y - other.center.y) > halfSize.y * 2 + other.halfSize.y) return false;
-	return true;
+	bool flag = true;
+	Vector2* thisCenter = new Vector2(origin.x + (size.x / 2), origin.y + (size.y / 2));
+	Vector2* otherCenter = new Vector2(other.getOrigin().x + (other.getSize().x / 2), other.getOrigin().y + (other.getSize().y / 2));
+	if ((abs(thisCenter->x - otherCenter->x) > (size.x / 2) + (other.getSize().x / 2)) || (abs(thisCenter->y - otherCenter->y) > (size.y / 2) + (other.getSize().y / 2)))
+	{
+		flag = false;
+	}
+	delete thisCenter;
+	delete otherCenter;
+	return flag;
 }
 
 void AABB::draw(SDL_Renderer* r, bool debug)
 {
-	SDL_Rect rect = { (int)(center.x - halfSize.x), (int)(center.y - halfSize.y), (int)(halfSize.x * 2), (int)(halfSize.y * 2)};
+	SDL_Rect rect = { (int)(origin.x), (int)(origin.y), (int)(size.x), (int)(size.y)};
 	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);	
 	SDL_RenderFillRect(r, &rect);
 
 	if (debug)
 	{
-		SDL_Rect rect = { center.x - halfSize.x, center.y - halfSize.y, halfSize.x * 2, halfSize.y * 2 };
+		SDL_Rect rect = { origin.x, origin.y, size.x, size.y };
 		SDL_SetRenderDrawColor(r, 0, 0xFF, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

@@ -11,8 +11,7 @@ MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* 
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 	facingRight = FacingRight;
-	boundingBox = AABB(Vector2(), Vector2(textureWidth / 2, textureHeight / 2));
-	boundingBoxOffset = Vector2(position.x + textureWidth / 2, position.y + textureHeight / 2);
+	boundingBox = AABB(position, Vector2(textureWidth, textureHeight));
 }
 
 SDL_Texture* MovingObject::getTexture()
@@ -45,12 +44,6 @@ void MovingObject::setFacing(bool facing)
 	facingRight = facing;
 }
 
-bool MovingObject::collidesFromLeft(AABB other)
-{
-	return oldBoundingBox.getCenter().x + oldBoundingBox.getHalfSize().x < other.getCenter().x - other.getHalfSize().x &&
-		   boundingBox.getCenter().x + boundingBox.getHalfSize().x >= other.getCenter().x - other.getHalfSize().x;
-}
-
 void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 {
 	//Store previous values in respective variables.
@@ -74,22 +67,19 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	//Ground collision placeholder
 	if (position.y > SCREEN_HEIGHT - textureHeight)
 	{
+		position.y = SCREEN_HEIGHT - textureHeight;
 		onGround = true;
 	}
 
-	//Update bounding box's center
-	boundingBox.setCenter(position);
+	//Update bounding box's origin
+	boundingBox.setOrigin(position);
 
 	// TODO Check for collision
-	for (int i = 0; i < boxes.size(); i++)
+	for (unsigned int i = 0; i < boxes.size(); i++)
 	{
 		if (overlaps(boxes[i]))
 		{
-			//Collides from the left
-			if (collidesFromLeft(boxes[i]))
-			{
-				pushesRightWall = true;
-			}
+
 		}
 	}
 
@@ -125,7 +115,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug)
 
 	if (debug)
 	{
-		SDL_Rect rect = {boundingBox.getCenter().x, boundingBox.getCenter().y, boundingBox.getHalfSize().x * 2, boundingBox.getHalfSize().y * 2};
+		SDL_Rect rect = {boundingBox.getOrigin().x, boundingBox.getOrigin().y, boundingBox.getSize().x * 2, boundingBox.getSize().y * 2};
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

@@ -66,7 +66,7 @@ protected:
 
 public:
 	AABB();
-	AABB(Vector2 Center, Vector2 HalfSize);
+	AABB(Vector2 Origin, Vector2 Size);
 
 	//Getters
 	Vector2 getOrigin();
