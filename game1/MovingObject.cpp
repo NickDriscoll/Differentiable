@@ -45,6 +45,12 @@ void MovingObject::setFacing(bool facing)
 	facingRight = facing;
 }
 
+bool MovingObject::collidesFromLeft(AABB other)
+{
+	return oldBoundingBox.getCenter().x + oldBoundingBox.getHalfSize().x < other.getCenter().x - other.getHalfSize().x &&
+		   boundingBox.getCenter().x + boundingBox.getHalfSize().x >= other.getCenter().x - other.getHalfSize().x;
+}
+
 void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 {
 	//Store previous values in respective variables.
@@ -79,8 +85,17 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	{
 		if (overlaps(boxes[i]))
 		{
-
+			//Collides from the left
+			if (collidesFromLeft(boxes[i]))
+			{
+				pushesRightWall = true;
+			}
 		}
+	}
+
+	if (pushesRightWall)
+	{
+		velocity.x = 0;
 	}
 
 	//Apply physics based on object state

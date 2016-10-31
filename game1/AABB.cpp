@@ -5,13 +5,13 @@ AABB::AABB()
 
 }
 
-AABB::AABB(Vector2 Center, Vector2 HalfSize)
+AABB::AABB(Vector2 Origin, Vector2 Size)
 {
-	center = Center;
-	halfSize = HalfSize;
+	origin = Origin;
+	origin = Size;
 }
 
-Vector2 AABB::getCenter()
+Vector2 AABB::getOrigin()
 {
 	return center;
 }

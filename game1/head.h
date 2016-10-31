@@ -60,8 +60,8 @@ public:
 class AABB
 {
 protected:
-	Vector2 center;
-	Vector2 halfSize;
+	Vector2 origin;
+	Vector2 size;
 	SDL_Texture* texture = NULL;
 
 public:
@@ -69,14 +69,15 @@ public:
 	AABB(Vector2 Center, Vector2 HalfSize);
 
 	//Getters
-	Vector2 getCenter();
-	Vector2 getHalfSize();
+	Vector2 getOrigin();
+	Vector2 getSize();
 
 	//Setters
-	void setCenter(Vector2 newCenter);
-	void setHalfSize(Vector2 newHalfSize);
+	void setOrigin(Vector2 newOrigin);
+	void setSize(Vector2 newSize);
 
 	bool overlaps(AABB other);
+
 	void draw(SDL_Renderer* r, bool debug);
 };
 
@@ -130,6 +131,11 @@ public:
 
 	//Setters
 	void setFacing(bool facing);
+
+	bool collidesFromLeft(AABB other);
+	bool collidesFromRight(AABB other);
+	bool collidesFromTop(AABB other);
+	bool collidesFromBottom(AABB other);
 
 	void UpdatePhysics(std::vector<AABB> boxes, double timeDelta);
 	void draw(SDL_Renderer* r, bool debug);

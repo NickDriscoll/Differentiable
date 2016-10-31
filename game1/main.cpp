@@ -24,7 +24,7 @@ int main(int argc, char* args[])
 	std::vector<MovingObject> movingObjects;
 
 	//Font used
-	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\Arial.ttf", FONT_SIZE);
+	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\comicbd.ttf", FONT_SIZE);
 
 	//Debug state flag
 	bool debug = false;
@@ -40,7 +40,6 @@ int main(int argc, char* args[])
 
 	//Test platform
 	AABB floor = AABB( Vector2(SCREEN_WIDTH * 3 / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 20));
-	aabbs.push_back(floor);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -131,6 +130,7 @@ int main(int argc, char* args[])
 		if (timeDelta > EPSILON)
 			player.UpdatePhysics(aabbs, timeDelta);
 
+		//TODO Fix frame counter
 		if (debug)
 		{			
 			std::string counter = "FPS: " + std::to_string(1.0 / timeDelta);
