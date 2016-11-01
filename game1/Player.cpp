@@ -10,8 +10,7 @@ Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	position = Position;
 	facingRight = FacingRight;
-	boundingBox = AABB(Vector2(), Vector2(textureWidth / 2, textureHeight / 2));
-	boundingBoxOffset = Vector2(position.x + textureWidth / 2, position.y + textureHeight / 2);
+	boundingBox = AABB(Vector2(), Vector2(textureWidth, textureHeight));
 }
 
 bool Player::isInAir()

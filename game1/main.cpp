@@ -27,7 +27,7 @@ int main(int argc, char* args[])
 	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\comicbd.ttf", FONT_SIZE);
 
 	//Debug state flag
-	bool debug = false;
+	bool debug = true;
 
 	//Here we declare a flag to track if the program is still running
 	bool running = true;
@@ -40,6 +40,7 @@ int main(int argc, char* args[])
 
 	//Test platform
 	AABB floor = AABB(Vector2(3 * SCREEN_WIDTH / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH, SCREEN_HEIGHT / 8));
+	aabbs.push_back(floor);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -50,6 +51,7 @@ int main(int argc, char* args[])
 	{
 		//Process event queue until it is empty
 		//TODO Add controller support
+		//TODO Have switch statement set key flags instead of directly controlling movement.
 		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_KEYDOWN)

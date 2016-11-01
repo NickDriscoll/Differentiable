@@ -67,7 +67,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	//Ground collision placeholder
 	if (position.y > SCREEN_HEIGHT - textureHeight)
 	{
-		position.y = SCREEN_HEIGHT - textureHeight;
 		onGround = true;
 	}
 
@@ -75,11 +74,11 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	boundingBox.setOrigin(position);
 
 	// TODO Check for collision
-	for (unsigned int i = 0; i < boxes.size(); i++)
+	for (unsigned int boner = 0; boner < boxes.size(); boner++)
 	{
-		if (overlaps(boxes[i]))
+		if (overlaps(boxes[boner]))
 		{
-
+			printf("SIGLEMIIIIIIIIIIIC\n");
 		}
 	}
 
@@ -115,7 +114,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug)
 
 	if (debug)
 	{
-		SDL_Rect rect = {boundingBox.getOrigin().x, boundingBox.getOrigin().y, boundingBox.getSize().x * 2, boundingBox.getSize().y * 2};
+		SDL_Rect rect = {boundingBox.getOrigin().x, boundingBox.getOrigin().y, boundingBox.getSize().x, boundingBox.getSize().y};
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

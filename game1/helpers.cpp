@@ -81,3 +81,5 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char * message)
 	SDL_FreeSurface(s);
 	return t;
 }
+
+//TODO Create SDL_Rect constructor that takes Vector2
