@@ -82,4 +82,8 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char * message)
 	return t;
 }
 
-//TODO Create SDL_Rect constructor that takes Vector2
+SDL_Rect newRect(Vector2 origin, Vector2 size)
+{
+	SDL_Rect rect = { (int)round(origin.x) , (int)round(origin.y), size.x, size.y };
+	return rect;
+}

@@ -74,6 +74,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	boundingBox.setOrigin(position);
 
 	// TODO Check for collision
+	// This loop sets flags and then later on the code decides what to actually do with them.
 	for (unsigned int boner = 0; boner < boxes.size(); boner++)
 	{
 		if (overlaps(boxes[boner]))
@@ -106,7 +107,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 
 void MovingObject::draw(SDL_Renderer* r, bool debug)
 {
-	SDL_Rect objectRect = { (int)round(position.x) , (int)round(position.y), this->getTextureWidth(), this->getTextureHeight() };
+	SDL_Rect objectRect = newRect(position, Vector2(getTextureWidth(), getTextureHeight()));
 	if (facingRight)
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
 	else
@@ -114,7 +115,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug)
 
 	if (debug)
 	{
-		SDL_Rect rect = {boundingBox.getOrigin().x, boundingBox.getOrigin().y, boundingBox.getSize().x, boundingBox.getSize().y};
+		SDL_Rect rect = newRect(boundingBox.getOrigin(), boundingBox.getSize());
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

@@ -27,7 +27,7 @@ int main(int argc, char* args[])
 	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\comicbd.ttf", FONT_SIZE);
 
 	//Debug state flag
-	bool debug = true;
+	bool debug = false;
 
 	//Here we declare a flag to track if the program is still running
 	bool running = true;

@@ -17,25 +17,6 @@ const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
 
 
-//Initializes SDL and any other components
-bool init(SDL_Window* &window, SDL_Renderer* &renderer);
-
-
-//Returns a pointer to an SDL_Texture.
-//path: The filepath to the image (.png)
-//r: the renderer
-SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
-
-
-//Closes SDL components and frees memory
-//window: Current window
-void close(SDL_Window* &window);
-
-//Loads text as texture
-SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
-
-
-
 //A representation of a two-dimensional vector using floats
 class Vector2
 {
@@ -160,3 +141,23 @@ public:
 	void accelerateRight();
 	void stop();
 };
+
+//Initializes SDL and any other components
+bool init(SDL_Window* &window, SDL_Renderer* &renderer);
+
+
+//Returns a pointer to an SDL_Texture.
+//path: The filepath to the image (.png)
+//r: the renderer
+SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
+
+
+//Closes SDL components and frees memory
+//window: Current window
+void close(SDL_Window* &window);
+
+//Loads text as texture
+SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
+
+//Helpful wrapper for SDL_Rect struct initialization
+SDL_Rect newRect(Vector2 origin, Vector2 size);

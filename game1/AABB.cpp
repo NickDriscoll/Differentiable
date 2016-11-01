@@ -47,13 +47,13 @@ bool AABB::overlaps(AABB other)
 
 void AABB::draw(SDL_Renderer* r, bool debug)
 {
-	SDL_Rect rect = { (int)(origin.x), (int)(origin.y), (int)(size.x), (int)(size.y)};
+	SDL_Rect rect = newRect(origin, size);
 	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);	
 	SDL_RenderFillRect(r, &rect);
 
 	if (debug)
 	{
-		SDL_Rect rect = { origin.x, origin.y, size.x, size.y };
+		SDL_Rect rect = newRect(origin, size);
 		SDL_SetRenderDrawColor(r, 0, 0xFF, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}
