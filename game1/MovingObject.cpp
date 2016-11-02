@@ -56,7 +56,7 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	oldBoundingBox = boundingBox;
 
 	//Reset state vars
-	onGround = false;
+	//onGround = false;
 	atCeiling = false;
 	pushesLeftWall = false;
 	pushesRightWall = false;
@@ -69,21 +69,42 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	{
 		onGround = true;
 	}
+	else
+	{
+		onGround = false;
+	}
 
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);
 
 	// TODO Check for collision
 	// This loop sets flags and then later on the code decides what to actually do with them.
+
+	/*
+	CHECK OLD COLLIDESFROMLEFT ETC
+	*/
+
 	for (unsigned int boner = 0; boner < boxes.size(); boner++)
 	{
 		if (overlaps(boxes[boner]))
 		{
-			printf("SIGLEMIIIIIIIIIIIC\n");
+			if (collidesFromTop(boundingBox, boxes[boner]) /*&& !collidesFromTop(oldBoundingBox, boxes[boner])*/)
+			{
+				onGround = true;
+			}
+			else
+			{
+				onGround = false;
+			}
+
+			if (collidesFromLeft(boundingBox, boxes[boner]))
+			{
+				pushesRightWall = true;
+			}
 		}
 	}
 
-	if (pushesRightWall)
+	if (pushesLeftWall || pushesRightWall)
 	{
 		velocity.x = 0;
 	}
@@ -124,4 +145,25 @@ void MovingObject::draw(SDL_Renderer* r, bool debug)
 bool MovingObject::overlaps(AABB other)
 {
 	return boundingBox.overlaps(other);
+}
+
+//The following functions are ONLY called when a collision has already occurred.
+bool MovingObject::collidesFromLeft(AABB box, AABB other)
+{
+	return (box.getOrigin().x + box.getSize().x) > other.getOrigin().x;
+}
+
+bool MovingObject::collidesFromRight(AABB box, AABB other)
+{
+	return box.getOrigin().x < (other.getOrigin().x + other.getSize().x);
+}
+
+bool MovingObject::collidesFromTop(AABB box, AABB other)
+{
+	return (box.getOrigin().y + box.getSize().y) > other.getOrigin().y;
+}
+
+bool MovingObject::collidesFromBottom(AABB box, AABB other)
+{
+	return box.getOrigin().y < (other.getOrigin().y + other.getSize().y);
 }

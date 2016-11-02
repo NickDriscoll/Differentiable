@@ -18,6 +18,11 @@ bool Player::isInAir()
 	return !onGround;
 }
 
+bool Player::isPushingRightWall()
+{
+	return pushesRightWall;
+}
+
 void Player::jump()
 {
 	velocity.y = -300;

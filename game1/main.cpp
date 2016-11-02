@@ -79,8 +79,11 @@ int main(int argc, char* args[])
 				}
 				case SDLK_RIGHT:
 				{
-					player.accelerateRight();
-					player.setFacing(true);
+					if (!player.isPushingRightWall())
+					{
+						player.accelerateRight();
+						player.setFacing(true);
+					}
 					break;
 				}
 				case SDLK_BACKQUOTE:
@@ -132,7 +135,6 @@ int main(int argc, char* args[])
 		if (timeDelta > EPSILON)
 			player.UpdatePhysics(aabbs, timeDelta);
 
-		//TODO Fix frame counter
 		if (debug)
 		{			
 			std::string counter = "FPS: " + std::to_string(1.0 / timeDelta);
@@ -140,6 +142,8 @@ int main(int argc, char* args[])
 			SDL_Rect mRect = { 0, 0, counter.size() * 10, 25 };
 			SDL_Texture* fontTexture = textureText(renderer, font, counter.c_str());
 			SDL_RenderCopy(renderer, fontTexture, NULL, &mRect);
+
+			//#fixedtheleak
 			SDL_DestroyTexture(fontTexture);
 		}
 

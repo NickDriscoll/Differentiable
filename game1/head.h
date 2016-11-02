@@ -9,13 +9,14 @@
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
-const int SCREEN_CENTER_X = 1920 / 2 - SCREEN_WIDTH / 2;
-const int SCREEN_CENTER_Y = 1080 / 2 - SCREEN_HEIGHT / 2;
 const int FONT_SIZE = 12;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
 
+//TODO use screen querying
+const int SCREEN_CENTER_X = 0;
+const int SCREEN_CENTER_Y = 0;
 
 //A representation of a two-dimensional vector using floats
 class Vector2
@@ -113,10 +114,10 @@ public:
 	//Setters
 	void setFacing(bool facing);
 
-	bool collidesFromLeft(AABB other);
-	bool collidesFromRight(AABB other);
-	bool collidesFromTop(AABB other);
-	bool collidesFromBottom(AABB other);
+	bool collidesFromLeft(AABB box, AABB other);
+	bool collidesFromRight(AABB box, AABB other);
+	bool collidesFromTop(AABB box, AABB other);
+	bool collidesFromBottom(AABB box, AABB other);
 
 	void UpdatePhysics(std::vector<AABB> boxes, double timeDelta);
 	void draw(SDL_Renderer* r, bool debug);
@@ -133,6 +134,7 @@ public:
 
 	//Getters
 	bool isInAir();
+	bool isPushingRightWall();
 
 	//Makes the player jump
 	void jump();
