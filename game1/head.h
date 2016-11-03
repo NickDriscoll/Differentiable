@@ -13,10 +13,8 @@ const int FONT_SIZE = 12;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 400;
+const double TOLERANCE = 0.001;
 
-//TODO use screen querying
-const int SCREEN_CENTER_X = 0;
-const int SCREEN_CENTER_Y = 0;
 
 //A representation of a two-dimensional vector using floats
 class Vector2

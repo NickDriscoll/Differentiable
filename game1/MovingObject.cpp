@@ -65,52 +65,57 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	position = position + (velocity * timeDelta);
 
 	//Ground collision placeholder
-	if (position.y > SCREEN_HEIGHT - textureHeight)
+	if (position.y >= SCREEN_HEIGHT - textureHeight)
 	{
+		position.y = SCREEN_HEIGHT - textureHeight;
 		onGround = true;
 	}
 	else
 	{
 		onGround = false;
 	}
+	
 
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);
 
 	// TODO Check for collision
-	// This loop sets flags and then later on the code decides what to actually do with them.
-
-	/*
-	CHECK OLD COLLIDESFROMLEFT ETC
-	*/
-
 	for (unsigned int boner = 0; boner < boxes.size(); boner++)
 	{
 		if (overlaps(boxes[boner]))
 		{
-			if (collidesFromTop(boundingBox, boxes[boner]) /*&& !collidesFromTop(oldBoundingBox, boxes[boner])*/)
+			if (collidesFromTop(boundingBox, boxes[boner]) && !collidesFromTop(oldBoundingBox, boxes[boner]))
 			{
+				position.y = boxes[boner].getOrigin().y - textureHeight;
 				onGround = true;
-			}
-			else
-			{
-				onGround = false;
+				printf("colliding from top\n");
 			}
 
-			if (collidesFromLeft(boundingBox, boxes[boner]))
+			if (collidesFromLeft(boundingBox, boxes[boner]) && !collidesFromLeft(oldBoundingBox, boxes[boner]))
 			{
+				position.x = boxes[boner].getOrigin().x - textureWidth;
 				pushesRightWall = true;
+				printf("colliding from left\n");
+			}
+
+			if (collidesFromRight(boundingBox, boxes[boner]) && !collidesFromRight(oldBoundingBox, boxes[boner]))
+			{
+				position.x = boxes[boner].getOrigin().x + boxes[boner].getSize().x;
+				pushesLeftWall = true;
+				printf("colliding from right\n");
+			}
+
+			if (collidesFromBottom(boundingBox, boxes[boner]) && !collidesFromBottom(oldBoundingBox, boxes[boner]))
+			{
+				position.y = boxes[boner].getOrigin().y + boxes[boner].getSize().y;
+				atCeiling = true;
+				printf("colliding from bottom\n");
 			}
 		}
 	}
 
-	if (pushesLeftWall || pushesRightWall)
-	{
-		velocity.x = 0;
-	}
-
 	//Apply physics based on object state
-	if (onGround)
+	if (onGround || atCeiling)
 	{
 		velocity.y = 0;
 	}

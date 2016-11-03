@@ -14,6 +14,7 @@ int main(int argc, char* args[])
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
 	}
+
 	
 	//TODO implement level files
 
@@ -39,7 +40,7 @@ int main(int argc, char* args[])
 	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
 
 	//Test platform
-	AABB floor = AABB(Vector2(3 * SCREEN_WIDTH / 4, 19 * SCREEN_HEIGHT / 20), Vector2(SCREEN_WIDTH, SCREEN_HEIGHT / 8));
+	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
 	aabbs.push_back(floor);
 
 	//Frametime vars
@@ -134,18 +135,6 @@ int main(int argc, char* args[])
 		//No, I don't know why.
 		if (timeDelta > EPSILON)
 			player.UpdatePhysics(aabbs, timeDelta);
-
-		if (debug)
-		{			
-			std::string counter = "FPS: " + std::to_string(1.0 / timeDelta);
-			
-			SDL_Rect mRect = { 0, 0, counter.size() * 10, 25 };
-			SDL_Texture* fontTexture = textureText(renderer, font, counter.c_str());
-			SDL_RenderCopy(renderer, fontTexture, NULL, &mRect);
-
-			//#fixedtheleak
-			SDL_DestroyTexture(fontTexture);
-		}
 
 		//Draw all AABBs, MovingObjects, and the player
 		floor.draw(renderer, debug);

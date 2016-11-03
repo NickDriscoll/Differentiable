@@ -25,7 +25,7 @@ bool Player::isPushingRightWall()
 
 void Player::jump()
 {
-	velocity.y = -300;
+	velocity.y = -500;
 }
 
 void Player::accelerateLeft()

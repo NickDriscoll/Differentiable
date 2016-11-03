@@ -21,9 +21,15 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 		printf("TTF initialization error: %s\n", TTF_GetError());
 		return false;
 	}
+	
+	//Get screen dimensions.
+	SDL_DisplayMode mode;
+	SDL_GetCurrentDisplayMode(0, &mode);
+	int width = mode.w;
+	int height = mode.h;
 
 	// Now that SDL has been initialized, we are going to create the window
-	window = SDL_CreateWindow("Differentiable", SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Differentiable", width / 2 - SCREEN_WIDTH / 2, height / 2 - SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 	{
 		return false;
@@ -66,6 +72,7 @@ void close(SDL_Window* &window)
 {
 	SDL_DestroyWindow(window);
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
