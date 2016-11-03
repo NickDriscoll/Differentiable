@@ -40,7 +40,7 @@ int main(int argc, char* args[])
 	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
 
 	//Test platform
-	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
+	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 3), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
 	aabbs.push_back(floor);
 
 	//Frametime vars
@@ -52,7 +52,6 @@ int main(int argc, char* args[])
 	{
 		//Process event queue until it is empty
 		//TODO Add controller support
-		//TODO Have switch statement set key flags instead of directly controlling movement.
 		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_KEYDOWN)
@@ -87,11 +86,13 @@ int main(int argc, char* args[])
 					}
 					break;
 				}
+#ifdef _DEBUG
 				case SDLK_BACKQUOTE:
 				{
 					debug = !debug;
 					break;
 				}
+#endif
 				}
 			}
 			else if (e.type == SDL_KEYUP)
