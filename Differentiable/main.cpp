@@ -74,7 +74,7 @@ int main(int argc, char* args[])
 				}
 				case SDLK_SPACE:
 				{
-					if (!player.isInAir())
+					if (player.canJump())
 					{
 						player.jump();
 					}
@@ -86,15 +86,14 @@ int main(int argc, char* args[])
 					player.setFacing(false);
 					break;
 				}
+				
 				case SDLK_RIGHT:
-				{
-					if (!player.isPushingRightWall())
-					{
-						player.accelerateRight();
-						player.setFacing(true);
-					}
+				{					
+					player.accelerateRight();
+					player.setFacing(true);					
 					break;
 				}
+				
 #ifdef _DEBUG
 				case SDLK_BACKQUOTE:
 				{

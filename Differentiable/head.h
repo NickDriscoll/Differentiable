@@ -153,8 +153,7 @@ public:
 	Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight);
 
 	//Getters
-	bool isInAir();
-	bool isPushingRightWall();
+	bool canJump();
 
 	//Makes the player jump
 	void jump();

@@ -13,14 +13,9 @@ Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 	boundingBox = AABB(Vector2(), Vector2(textureWidth, textureHeight));
 }
 
-bool Player::isInAir()
+bool Player::canJump()
 {
-	return !onGround;
-}
-
-bool Player::isPushingRightWall()
-{
-	return pushesRightWall;
+	return onGround;
 }
 
 void Player::jump()

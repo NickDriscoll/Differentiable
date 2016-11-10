@@ -61,20 +61,13 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	oldBoundingBox = boundingBox;
 
 	//Reset state vars
-	//onGround = false;
+	onGround = false;
 	atCeiling = false;
 	pushesLeftWall = false;
 	pushesRightWall = false;
 
 	//Update position
 	position = position + (velocity * timeDelta);
-
-	//Ground collision placeholder
-	
-	if (!(position.y >= SCREEN_HEIGHT - textureHeight))
-	{
-		onGround = false;
-	}
 
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);
@@ -143,7 +136,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 
 	if (debug)
 	{
-		SDL_Rect rect = newRect(boundingBox.getOrigin() - camera.getPosition(), boundingBox.getSize());
+		SDL_Rect rect = newRect(boundingBox.getOrigin()  - camera.getPosition(), boundingBox.getSize());
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}
