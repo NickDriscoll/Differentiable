@@ -131,7 +131,7 @@ int main(int argc, char* args[])
 
 #pragma endregion
 
-			//TODO Controller stuff here.
+#pragma region ControllerEvents
 			//Joystick stuff
 			else if (e.type == SDL_JOYAXISMOTION)
 			{
@@ -165,15 +165,30 @@ int main(int argc, char* args[])
 			else if (e.type == SDL_JOYBUTTONDOWN)
 			{
 				printf("Button pressed is: %i\n", e.jbutton.button);
-				//A button
+
 				if (e.jbutton.button == XBOX_360_A)
 				{
 					if (player.canJump())
 					{
 						player.jump();
 					}
-				}			
+				}
+
+				if (e.jbutton.button == XBOX_360_START)
+				{
+					running = false;
+				}
+
+#ifdef _DEBUG
+				if (e.jbutton.button == XBOX_360_SELECT)
+				{
+					debug = !debug;
+				}
+#endif
+
 			}
+
+#pragma endregion
 
 #pragma region MiscEvents
 

@@ -39,7 +39,7 @@ class MovingObject;
 class Player;
 class Camera;
 
-//A representation of a two-dimensional vector using floats
+//A representation of a two-dimensional vector using doubles
 class Vector2
 {
 public:
