@@ -24,6 +24,11 @@ Vector2 MovingObject::getPosition()
 	return position;
 }
 
+Vector2 MovingObject::getVelocity()
+{
+	return velocity;
+}
+
 int MovingObject::getTextureWidth()
 {
 	return textureWidth;
@@ -65,12 +70,8 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	position = position + (velocity * timeDelta);
 
 	//Ground collision placeholder
-	if (position.y >= SCREEN_HEIGHT - textureHeight)
-	{
-		position.y = SCREEN_HEIGHT - textureHeight;
-		onGround = true;
-	}
-	else
+	
+	if (!(position.y >= SCREEN_HEIGHT - textureHeight))
 	{
 		onGround = false;
 	}
@@ -79,7 +80,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);
 
-	// TODO Check for collision
 	for (unsigned int boner = 0; boner < boxes.size(); boner++)
 	{
 		if (overlaps(boxes[boner]))
@@ -88,28 +88,28 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 			{
 				position.y = boxes[boner].getOrigin().y - textureHeight;
 				onGround = true;
-				printf("colliding from top\n");
+				//printf("colliding from top\n");
 			}
 
 			if (collidesFromLeft(boundingBox, boxes[boner]) && !collidesFromLeft(oldBoundingBox, boxes[boner]))
 			{
 				position.x = boxes[boner].getOrigin().x - textureWidth;
 				pushesRightWall = true;
-				printf("colliding from left\n");
+				//printf("colliding from left\n");
 			}
 
 			if (collidesFromRight(boundingBox, boxes[boner]) && !collidesFromRight(oldBoundingBox, boxes[boner]))
 			{
 				position.x = boxes[boner].getOrigin().x + boxes[boner].getSize().x;
 				pushesLeftWall = true;
-				printf("colliding from right\n");
+				//printf("colliding from right\n");
 			}
 
 			if (collidesFromBottom(boundingBox, boxes[boner]) && !collidesFromBottom(oldBoundingBox, boxes[boner]))
 			{
 				position.y = boxes[boner].getOrigin().y + boxes[boner].getSize().y;
 				atCeiling = true;
-				printf("colliding from bottom\n");
+				//printf("colliding from bottom\n");
 			}
 		}
 	}
@@ -121,7 +121,10 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	}
 	else
 	{
-		velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
+		if (velocity.y < TERMINAL_VELOCITY)
+		{
+			velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
+		} 
 	}
 
 	if (pushesRightWall || pushesLeftWall)
@@ -131,9 +134,9 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 
 }
 
-void MovingObject::draw(SDL_Renderer* r, bool debug)
+void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
-	SDL_Rect objectRect = newRect(position, Vector2(getTextureWidth(), getTextureHeight()));
+	SDL_Rect objectRect = newRect(position - camera.getPosition(), Vector2(getTextureWidth(), getTextureHeight()));
 	if (facingRight)
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
 	else
@@ -141,7 +144,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug)
 
 	if (debug)
 	{
-		SDL_Rect rect = newRect(boundingBox.getOrigin(), boundingBox.getSize());
+		SDL_Rect rect = newRect(boundingBox.getOrigin() - camera.getPosition(), boundingBox.getSize());
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

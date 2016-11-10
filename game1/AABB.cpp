@@ -45,15 +45,15 @@ bool AABB::overlaps(AABB other)
 	return flag;
 }
 
-void AABB::draw(SDL_Renderer* r, bool debug)
+void AABB::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
-	SDL_Rect rect = newRect(origin, size);
+	SDL_Rect rect = newRect(origin - camera.getPosition(), size);
 	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);	
 	SDL_RenderFillRect(r, &rect);
 
 	if (debug)
 	{
-		SDL_Rect rect = newRect(origin, size);
+		SDL_Rect rect = newRect(origin - camera.getPosition(), size);
 		SDL_SetRenderDrawColor(r, 0, 0xFF, 0, 0xFF);
 		SDL_RenderDrawRect(r, &rect);
 	}

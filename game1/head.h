@@ -12,11 +12,17 @@ const int SCREEN_HEIGHT = 720;
 const int FONT_SIZE = 12;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
-const double TERMINAL_VELOCITY = 400;
+const double TERMINAL_VELOCITY = 800;
 
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 8000;
 
+//Class prototypes?!?
+class AABB;
+class Vector2;
+class MovingObject;
+class Player;
+class Camera;
 
 //A representation of a two-dimensional vector using floats
 class Vector2
@@ -29,12 +35,25 @@ public:
 	Vector2(double x, double y);
 
 	Vector2 operator+(const Vector2 &other);
+	Vector2 operator-(const Vector2 &other);
 	Vector2 operator*(const double &other);
 
 	Vector2 add(Vector2 v);
 	Vector2 multiply(double n);
 };
 
+
+//TODO: Implement camera
+//A representation for the game camera
+class Camera
+{
+private:
+	Vector2 position;
+
+public:
+	Vector2 getPosition();
+	void update(Player player);
+};
 
 
 //Axis Aligned Bounding Box
@@ -60,7 +79,7 @@ public:
 
 	bool overlaps(AABB other);
 
-	void draw(SDL_Renderer* r, bool debug);
+	void draw(SDL_Renderer* r, bool debug, Camera camera);
 };
 
 
@@ -107,6 +126,7 @@ public:
 	//Getters
 	SDL_Texture* getTexture();
 	Vector2 getPosition();
+	Vector2 getVelocity();
 	int getTextureWidth();
 	int getTextureHeight();
 	bool getFacing();
@@ -120,7 +140,7 @@ public:
 	bool collidesFromBottom(AABB box, AABB other);
 
 	void UpdatePhysics(std::vector<AABB> boxes, double timeDelta);
-	void draw(SDL_Renderer* r, bool debug);
+	void draw(SDL_Renderer* r, bool debug, Camera camera);
 	bool overlaps(AABB other);
 };
 
@@ -143,6 +163,7 @@ public:
 	void accelerateRight();
 	void stop();
 };
+
 
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer);

@@ -36,11 +36,14 @@ int main(int argc, char* args[])
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
+	//World camera
+	Camera camera = Camera();
+
 	//Test player
 	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
 
 	//Test platform
-	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 3), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
+	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
 	aabbs.push_back(floor);
 
 	//Frametime vars
@@ -124,6 +127,9 @@ int main(int argc, char* args[])
 			}
 		}
 
+		//Debug printing
+		printf("Player is on ground: %s\n", !player.isInAir());
+
 		//Clear screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
 		SDL_RenderClear(renderer);
@@ -137,9 +143,16 @@ int main(int argc, char* args[])
 		if (timeDelta > EPSILON)
 			player.UpdatePhysics(aabbs, timeDelta);
 
+		//Update camera position
+		camera.update(player);
+
 		//Draw all AABBs, MovingObjects, and the player
-		floor.draw(renderer, debug);
-		player.draw(renderer, debug);
+		for (unsigned int i = 0; i < aabbs.size(); i++)
+		{
+			aabbs[i].draw(renderer, debug, camera);
+		}
+		//floor.draw(renderer, debug, camera);
+		player.draw(renderer, debug, camera);
 
 		//Update screen
 		SDL_RenderPresent(renderer);
