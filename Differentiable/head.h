@@ -43,7 +43,6 @@ public:
 };
 
 
-//TODO: Implement camera
 //A representation for the game camera
 class Camera
 {

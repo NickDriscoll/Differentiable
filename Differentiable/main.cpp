@@ -14,7 +14,6 @@ int main(int argc, char* args[])
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
 	}
-
 	
 	//TODO implement level files
 
@@ -25,7 +24,7 @@ int main(int argc, char* args[])
 	std::vector<MovingObject> movingObjects;
 
 	//Font used
-	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\comicbd.ttf", FONT_SIZE);
+	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\constan.ttf", FONT_SIZE);
 
 	//Debug state flag
 	bool debug = false;
@@ -60,9 +59,11 @@ int main(int argc, char* args[])
 	while (running)
 	{
 		//Process event queue until it is empty
-		//TODO Add controller support
 		while (SDL_PollEvent(&e) != 0)
 		{
+
+#pragma region KeyDownEvents
+
 			if (e.type == SDL_KEYDOWN)
 			{
 				switch (e.key.keysym.sym)
@@ -103,6 +104,11 @@ int main(int argc, char* args[])
 #endif
 				}
 			}
+
+#pragma endregion
+
+#pragma region KeyUpEvents
+
 			else if (e.type == SDL_KEYUP)
 			{
 				switch (e.key.keysym.sym)
@@ -119,6 +125,13 @@ int main(int argc, char* args[])
 				}
 				}
 			}
+
+#pragma endregion
+
+			//TODO Controller stuff here.
+
+#pragma region MiscEvents
+
 			else
 			{
 				switch (e.type)
@@ -131,9 +144,10 @@ int main(int argc, char* args[])
 				}
 			}
 		}
+#pragma endregion
 
 		//Debug printing
-		printf("Player position: %f, %f\n", player.getPosition().x, player.getPosition().y);
+		//printf("Player position: %f, %f\n", player.getPosition().x, player.getPosition().y);
 
 		//Clear screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);

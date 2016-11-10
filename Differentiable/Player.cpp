@@ -15,7 +15,7 @@ Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 
 bool Player::canJump()
 {
-	return onGround;
+	return onGround || wasOnGround;
 }
 
 void Player::jump()
