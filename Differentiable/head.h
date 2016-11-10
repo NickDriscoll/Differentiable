@@ -17,6 +17,21 @@ const double TERMINAL_VELOCITY = 800;
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 8000;
 
+//Enumeration for Xbox 360 button indices
+enum Xbox360Button
+{
+	XBOX_360_A = 0,
+	XBOX_360_B = 1,
+	XBOX_360_X = 2,
+	XBOX_360_Y = 3,
+	XBOX_360_LB = 4,
+	XBOX_360_RB = 5,
+	XBOX_360_SELECT = 6,
+	XBOX_360_START = 7,
+	XBOX_360_LSTICK = 8,
+	XBOX_360_RSTICK
+};
+
 //Talking class prototypes?!?
 class AABB;
 class Vector2;
@@ -66,7 +81,7 @@ protected:
 
 public:
 	AABB();
-	AABB(Vector2 Origin, Vector2 Size);
+	AABB(const Vector2 &Origin, const Vector2 &Size);
 
 	//Getters
 	Vector2 getOrigin();
@@ -164,7 +179,7 @@ public:
 
 
 //Initializes SDL and any other components
-bool init(SDL_Window* &window, SDL_Renderer* &renderer);
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller);
 
 
 //Returns a pointer to an SDL_Texture.
@@ -175,7 +190,7 @@ SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
 
 //Closes SDL components and frees memory
 //window: Current window
-void close(SDL_Window* &window);
+void close(SDL_Window* &window, SDL_Joystick* &controller);
 
 //Loads text as texture
 SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);

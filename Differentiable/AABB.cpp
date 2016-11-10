@@ -5,7 +5,7 @@ AABB::AABB()
 
 }
 
-AABB::AABB(Vector2 Origin, Vector2 Size)
+AABB::AABB(const Vector2 &Origin, const Vector2 &Size)
 {
 	origin = Origin;
 	size = Size;

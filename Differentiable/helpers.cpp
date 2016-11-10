@@ -1,10 +1,24 @@
 #include "head.h"
 
-bool init(SDL_Window* &window, SDL_Renderer* &renderer)
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
 		return false;
+	}
+
+	//Joystick init code
+	if (SDL_NumJoysticks() < 1)
+	{
+		printf("Warning: No joysticks connected!");
+	}
+	else
+	{
+		controller = SDL_JoystickOpen(0);
+		if (controller == NULL)
+		{
+			printf("Error loading joystick: %s\n", SDL_GetError());
+		}
 	}
 
 	//Initialize image lib
@@ -68,10 +82,14 @@ SDL_Texture* loadTexture(char* path, SDL_Renderer* r)
 }
 
 //TODO finish close method (make it clean up ALL objects ALL subsystems etc.)
-void close(SDL_Window* &window)
+void close(SDL_Window* &window, SDL_Joystick* &controller)
 {
-	SDL_DestroyWindow(window);
+	//Close game controller
+	SDL_JoystickClose(controller);
+	controller = NULL;
 
+	SDL_DestroyWindow(window);
+	
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();

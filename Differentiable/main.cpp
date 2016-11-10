@@ -8,8 +8,11 @@ int main(int argc, char* args[])
 	//The renderer for the window
 	SDL_Renderer* renderer = NULL;
 
+	//Controller var
+	SDL_Joystick* controller = NULL;
+
 	//Initialize SDL
-	if (!init(window, renderer))
+	if (!init(window, renderer, controller))
 	{
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
@@ -129,6 +132,48 @@ int main(int argc, char* args[])
 #pragma endregion
 
 			//TODO Controller stuff here.
+			//Joystick stuff
+			else if (e.type == SDL_JOYAXISMOTION)
+			{
+				//Motion on controller 0
+				if (e.jaxis.which == 0)
+				{
+					//X axis motion
+					if (e.jaxis.axis == 0)
+					{
+						//Left
+						if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
+						{
+							player.setFacing(false);
+							player.accelerateLeft();
+						}
+						//Right
+						else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
+						{
+							player.setFacing(true);
+							player.accelerateRight();
+						}
+						else
+						{
+							player.stop();
+						}
+					}					
+				}
+			}
+
+			//Button handing
+			else if (e.type == SDL_JOYBUTTONDOWN)
+			{
+				printf("Button pressed is: %i\n", e.jbutton.button);
+				//A button
+				if (e.jbutton.button == XBOX_360_A)
+				{
+					if (player.canJump())
+					{
+						player.jump();
+					}
+				}			
+			}
 
 #pragma region MiscEvents
 
@@ -180,7 +225,7 @@ int main(int argc, char* args[])
 		lastFrameTime = currentFrameTime;
 	}
 
-	close(window);
+	close(window, controller);
 
 	return 0;
 }
