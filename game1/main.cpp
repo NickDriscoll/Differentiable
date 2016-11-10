@@ -40,10 +40,16 @@ int main(int argc, char* args[])
 	Camera camera = Camera();
 
 	//Test player
-	Player player = Player("resources\\overman.png", Vector2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 32), renderer, true);
+	Player player = Player("resources\\overman.png", Vector2(0, 0), renderer, true);
 
-	//Test platform
-	AABB floor = AABB(Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2 + SCREEN_HEIGHT / 4), Vector2(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 10));
+	//Level bounds
+	AABB top = AABB(Vector2(0, -20), Vector2(1000, 10));
+	aabbs.push_back(top);
+	AABB bottom = AABB(Vector2(0, 500), Vector2(1000, 10));
+	aabbs.push_back(bottom);
+
+	//Platform
+	AABB floor = AABB(Vector2(500, 350), Vector2(250, 20));
 	aabbs.push_back(floor);
 
 	//Frametime vars
@@ -128,7 +134,7 @@ int main(int argc, char* args[])
 		}
 
 		//Debug printing
-		printf("Player is on ground: %s\n", !player.isInAir());
+		printf("Player position: %f, %f\n", player.getPosition().x, player.getPosition().y);
 
 		//Clear screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);

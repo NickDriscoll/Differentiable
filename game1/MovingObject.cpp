@@ -75,7 +75,6 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	{
 		onGround = false;
 	}
-	
 
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);

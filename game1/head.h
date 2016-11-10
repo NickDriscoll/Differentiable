@@ -17,7 +17,7 @@ const double TERMINAL_VELOCITY = 800;
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 8000;
 
-//Class prototypes?!?
+//Talking class prototypes?!?
 class AABB;
 class Vector2;
 class MovingObject;
