@@ -42,17 +42,19 @@ int main(int argc, char* args[])
 	Camera camera = Camera();
 
 	//Test player
-	Player player = Player("resources\\overman.png", Vector2(0, 0), renderer, true);
+	Player player = Player("textures\\overman.png", Vector2(0, 0), renderer, true);
 
 	//Level bounds
 	AABB top = AABB(Vector2(0, -20), Vector2(1000, 10));
 	aabbs.push_back(top);
-	AABB bottom = AABB(Vector2(0, 500), Vector2(1000, 10));
+	AABB bottom = AABB(Vector2(0, 500), Vector2(2000, 10));
 	aabbs.push_back(bottom);
 
 	//Platform
 	AABB floor = AABB(Vector2(500, 350), Vector2(250, 20));
+	AABB floor2 = AABB(Vector2(770, 200), Vector2(250, 20));
 	aabbs.push_back(floor);
+	aabbs.push_back(floor2);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -104,6 +106,18 @@ int main(int argc, char* args[])
 					debug = !debug;
 					break;
 				}
+				/*
+				case SDLK_l:
+				{
+					loadLevel("levels\\test.lvl", aabbs, movingObjects, player);
+					break;
+				}
+				case SDLK_s:
+				{
+					saveLevel("levels\\test.lvl", aabbs, movingObjects);
+					break;
+				}
+				*/
 #endif
 				}
 			}
@@ -145,17 +159,26 @@ int main(int argc, char* args[])
 						if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
 						{
 							player.setFacing(false);
-							player.accelerateLeft();
+							if (!player.isZiplining() && player.canJump())
+							{
+								player.accelerateLeft();
+							}
 						}
 						//Right
 						else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
 						{
 							player.setFacing(true);
-							player.accelerateRight();
+							if (!player.isZiplining() && player.canJump())
+							{
+								player.accelerateRight();
+							}
 						}
 						else
 						{
-							player.stop();
+							if (!player.isZiplining() && player.canJump())
+							{
+								player.stop();
+							}
 						}
 					}					
 				}
@@ -164,8 +187,6 @@ int main(int argc, char* args[])
 			//Button handing
 			else if (e.type == SDL_JOYBUTTONDOWN)
 			{
-				printf("Button pressed is: %i\n", e.jbutton.button);
-
 				if (e.jbutton.button == XBOX_360_A)
 				{
 					if (player.canJump())
@@ -177,6 +198,11 @@ int main(int argc, char* args[])
 				if (e.jbutton.button == XBOX_360_START)
 				{
 					running = false;
+				}
+
+				if (e.jbutton.button == XBOX_360_RB)
+				{
+					player.zipline();
 				}
 
 #ifdef _DEBUG
@@ -203,8 +229,13 @@ int main(int argc, char* args[])
 				}
 				}
 			}
-		}
+
 #pragma endregion
+
+		}
+
+		//Stop player if he's on the ground and not moving
+
 
 		//Debug printing
 		//printf("Player position: %f, %f\n", player.getPosition().x, player.getPosition().y);

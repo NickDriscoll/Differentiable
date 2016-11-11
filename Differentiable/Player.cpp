@@ -18,6 +18,11 @@ bool Player::canJump()
 	return onGround || wasOnGround;
 }
 
+bool Player::isZiplining()
+{
+	return ziplining;
+}
+
 void Player::jump()
 {
 	velocity.y = -400;
@@ -36,4 +41,10 @@ void Player::accelerateRight()
 void Player::stop()
 {
 	velocity.x = 0;
+}
+
+//TODO Add "zipline" ability
+void Player::zipline()
+{
+	ziplining = !ziplining;
 }

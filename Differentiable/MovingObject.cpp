@@ -49,6 +49,11 @@ void MovingObject::setFacing(bool facing)
 	facingRight = facing;
 }
 
+void MovingObject::setPosition(Vector2 newPos)
+{
+	position = newPos;
+}
+
 void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 {
 	//Store previous values in respective variables.
@@ -124,6 +129,12 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 		velocity.x = 0;
 	}
 
+	//Special case when ziplining is on
+	if (ziplining)
+	{
+		velocity.y = 0;
+	}
+
 }
 
 void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
@@ -133,6 +144,11 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
 	else
 		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_HORIZONTAL);
+
+	if (ziplining)
+	{
+		SDL_RenderDrawLine(r, 0  , position.y - camera.getPosition().y, SCREEN_WIDTH, position.y - camera.getPosition().y);
+	}
 
 	if (debug)
 	{

@@ -10,7 +10,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	//Joystick init code
 	if (SDL_NumJoysticks() < 1)
 	{
-		printf("Warning: No joysticks connected!");
+		printf("Warning: No joysticks connected!\n");
 	}
 	else
 	{
@@ -112,3 +112,4 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 	SDL_Rect rect = { (int)round(origin.x) , (int)round(origin.y), size.x, size.y };
 	return rect;
 }
+

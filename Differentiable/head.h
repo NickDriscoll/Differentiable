@@ -3,9 +3,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
-#include <string>
 #include <vector>
-#include <math.h>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -115,6 +113,8 @@ protected:
 	AABB boundingBox;
 	AABB oldBoundingBox;
 
+	bool ziplining = false;
+
 	//An offset for the center of the bounding box.
 	Vector2 boundingBoxOffset;
 
@@ -147,6 +147,7 @@ public:
 
 	//Setters
 	void setFacing(bool facing);
+	void setPosition(Vector2 newPos);
 
 	bool collidesFromLeft(AABB box, AABB other);
 	bool collidesFromRight(AABB box, AABB other);
@@ -168,9 +169,11 @@ public:
 
 	//Getters
 	bool canJump();
+	bool isZiplining();
 
 	//Makes the player jump
 	void jump();
+	void zipline();
 
 	void accelerateLeft();
 	void accelerateRight();
@@ -197,3 +200,10 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 
 //Helpful wrapper for SDL_Rect struct initialization
 SDL_Rect newRect(Vector2 origin, Vector2 size);
+
+
+//Saves level as binary file
+void saveLevel(char* path, std::vector<AABB> aabbs, std::vector<MovingObject> movingObjects);
+
+//Load level from binary file
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player);
