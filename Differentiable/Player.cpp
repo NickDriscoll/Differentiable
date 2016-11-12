@@ -43,8 +43,9 @@ void Player::stop()
 	velocity.x = 0;
 }
 
-//TODO Add "zipline" ability
 void Player::zipline()
 {
 	ziplining = !ziplining;
 }
+
+//TODO fix controls
