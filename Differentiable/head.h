@@ -7,10 +7,11 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <Windows.h>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
-const int FONT_SIZE = 12;
+const int FONT_SIZE = 72;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 800;
@@ -214,8 +215,6 @@ void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &
 //Recursive descent parsing begins here
 
 void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
-
-void parseComment(std::queue<std::string> &tokens);
 
 void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs);
 

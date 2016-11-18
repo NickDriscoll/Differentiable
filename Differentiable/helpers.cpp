@@ -115,6 +115,10 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 
 void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
 {
+	//Clear the incoming vectors, this implicitly un-loads the current level.
+	aabbs.clear();
+	movingObjects.clear();
+
 	std::fstream fs;
 	fs.open("levels/test.lvl", std::ios::in);
 	char separators[] = { ' ', '\n', '\0' };
@@ -210,30 +214,12 @@ void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::
 		{
 			parsePlayer(tokens, player, r);
 		}
-		else if (tokens.front().compare("!") == 0)
-		{
-			parseComment(tokens);
-		}
 		else
 		{
 			printf("Error parsing .lvl file\n\nInvalid token: %s\n\n", tokens.front().c_str());
 			exit(0);
 		}
 	}
-}
-
-void parseComment(std::queue<std::string> &tokens)
-{
-	//Toss "!"
-	tokens.pop();
-
-	while (tokens.front().compare("!") != 0)
-	{
-		tokens.pop();
-	}
-
-	//Toss "!"
-	tokens.pop();
 }
 
 void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)

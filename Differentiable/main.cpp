@@ -27,6 +27,12 @@ int main(int argc, char* args[])
 	//Here we declare a flag to track if the program is still running
 	bool running = true;
 
+	//Flag to track if console is open
+	bool isConsoleUp = false;
+
+	//String holding what is currently in the console window
+	std::string consoleString = "> ";
+
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -59,157 +65,200 @@ int main(int argc, char* args[])
 		while (SDL_PollEvent(&e) != 0)
 		{
 
-#pragma region KeyDownEvents
-
-			if (e.type == SDL_KEYDOWN)
+			if (isConsoleUp) 
 			{
-				switch (e.key.keysym.sym)
+				if (e.type == SDL_KEYDOWN)
 				{
-				case SDLK_ESCAPE:
-				{
-					running = false;
-					break;
-				}
-				case SDLK_SPACE:
-				{
-					if (player.canJump())
+					switch (e.key.keysym.sym)
 					{
-						player.jump();
+						case SDLK_BACKQUOTE:
+						{
+							isConsoleUp = !isConsoleUp;
+							break;
+						}
+						case SDLK_BACKSPACE:
+						{
+							printf("ping\n");
+							consoleString = consoleString.substr(0, consoleString.length());
+							break;
+						}
+						case 13:
+						{
+							printf("Enter\n");
+							//Parse
+							consoleString = "> ";
+							break;
+						}
+						default:
+						{
+							printf("%d\n", e.key.keysym.sym);
+							consoleString += e.key.keysym.sym;
+							break;
+							
+						}
+
 					}
-					break;
-				}
-				case SDLK_LEFT:
-				{
-					player.accelerateLeft();
-					player.setFacing(false);
-					break;
-				}
-				
-				case SDLK_RIGHT:
-				{					
-					player.accelerateRight();
-					player.setFacing(true);					
-					break;
-				}
-				
-#ifdef _DEBUG
-				case SDLK_BACKQUOTE:
-				{
-					debug = !debug;
-					break;
-				}
-#endif
 				}
 			}
+			else
+			{
+
+#pragma region KeyDownEvents
+
+				if (e.type == SDL_KEYDOWN)
+				{
+					switch (e.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					{
+						running = false;
+						break;
+					}
+					case SDLK_SPACE:
+					{
+						if (player.canJump())
+						{
+							player.jump();
+						}
+						break;
+					}
+					case SDLK_LEFT:
+					{
+						player.accelerateLeft();
+						player.setFacing(false);
+						break;
+					}
+
+					case SDLK_RIGHT:
+					{
+						player.accelerateRight();
+						player.setFacing(true);
+						break;
+					}
+
+#ifdef _DEBUG
+
+
+					case SDLK_BACKQUOTE:
+					{
+						isConsoleUp = !isConsoleUp;
+						consoleString = "> ";
+						break;
+					}
+
+					case SDLK_d:
+					{
+						debug = !debug;
+						break;
+					}
+#endif
+					}
+				}
 
 #pragma endregion
 
 #pragma region KeyUpEvents
 
-			else if (e.type == SDL_KEYUP)
-			{
-				switch (e.key.keysym.sym)
+				else if (e.type == SDL_KEYUP)
 				{
-				case SDLK_LEFT:
-				{
-					player.stop();
-					break;
+					switch (e.key.keysym.sym)
+					{
+					case SDLK_LEFT:
+					{
+						player.stop();
+						break;
+					}
+					case SDLK_RIGHT:
+					{
+						player.stop();
+						break;
+					}
+					}
 				}
-				case SDLK_RIGHT:
-				{
-					player.stop();
-					break;
-				}
-				}
-			}
 
 #pragma endregion
 
 #pragma region ControllerEvents
-			//Joystick stuff
-			else if (e.type == SDL_JOYAXISMOTION)
-			{
-				//Motion on controller 0
-				if (e.jaxis.which == 0)
+				//Joystick stuff
+				else if (e.type == SDL_JOYAXISMOTION)
 				{
-					//X axis motion
-					if (e.jaxis.axis == 0)
+					//Motion on controller 0
+					if (e.jaxis.which == 0)
 					{
-						//Left
-						if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
+						//X axis motion
+						if (e.jaxis.axis == 0)
 						{
-							player.accelerateLeft();
-							player.setFacing(false);
+							//Left
+							if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
+							{
+								player.accelerateLeft();
+								player.setFacing(false);
+							}
+							//Right
+							else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								player.accelerateRight();
+								player.setFacing(true);
+							}
+							else
+							{
+								player.stop();
+							}
 						}
-						//Right
-						else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
-						{
-							player.accelerateRight();
-							player.setFacing(true);
-						}
-						else
-						{
-							player.stop();
-						}
-					}					
-				}
-			}
-
-			//Button handing
-			else if (e.type == SDL_JOYBUTTONDOWN)
-			{
-				if (e.jbutton.button == XBOX_360_A)
-				{
-					if (player.canJump())
-					{
-						player.jump();
 					}
 				}
 
-				if (e.jbutton.button == XBOX_360_START)
+				//Button handing
+				else if (e.type == SDL_JOYBUTTONDOWN)
 				{
-					running = false;
-				}
+					if (e.jbutton.button == XBOX_360_A)
+					{
+						if (player.canJump())
+						{
+							player.jump();
+						}
+					}
 
-				if (e.jbutton.button == XBOX_360_RB)
-				{
-					player.zipline();
-				}
+					if (e.jbutton.button == XBOX_360_START)
+					{
+						running = false;
+					}
+
+					if (e.jbutton.button == XBOX_360_RB)
+					{
+						player.zipline();
+					}
 
 #ifdef _DEBUG
-				if (e.jbutton.button == XBOX_360_SELECT)
-				{
-					debug = !debug;
-				}
+					if (e.jbutton.button == XBOX_360_SELECT)
+					{
+						debug = !debug;
+					}
 #endif
 
-			}
+				}
 
 #pragma endregion
 
 #pragma region MiscEvents
 
-			else
-			{
-				switch (e.type)
+				else
 				{
-				case SDL_QUIT:
-				{
-					running = false;
-					break;
+					switch (e.type)
+					{
+					case SDL_QUIT:
+					{
+						running = false;
+						break;
+					}
+					}
 				}
-				}
-			}
 
 #pragma endregion
 
+			}
+
 		}
-
-		//Stop player if he's on the ground and not moving
-
-
-		//Debug printing
-		//printf("Player position: %f, %f\n", player.getPosition().x, player.getPosition().y);
 
 		//Clear screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
@@ -221,9 +270,10 @@ int main(int argc, char* args[])
 		
 		//Sometimes timeDelta is zero
 		//No, I don't know why.
-		if (timeDelta > EPSILON)
+		if (timeDelta > EPSILON && !isConsoleUp)
+		{
 			player.UpdatePhysics(aabbs, timeDelta);
-
+		}
 		//Update camera position
 		camera.update(player);
 
@@ -232,8 +282,16 @@ int main(int argc, char* args[])
 		{
 			aabbs[i].draw(renderer, debug, camera);
 		}
-		//floor.draw(renderer, debug, camera);
 		player.draw(renderer, debug, camera);
+		
+		//Console related draw code here
+		if (isConsoleUp)
+		{
+			SDL_Texture* text = textureText(renderer, font, consoleString.c_str());
+			SDL_Rect rect = { 0, 0, consoleString.length() * 20, 30 };
+			SDL_RenderCopy(renderer, text, NULL, &rect);
+			SDL_DestroyTexture(text);
+		}
 
 		//Update screen
 		SDL_RenderPresent(renderer);

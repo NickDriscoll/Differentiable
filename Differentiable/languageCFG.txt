@@ -1,15 +1,19 @@
 This is a context-free grammar for the custom language
 used to store level data.
 
+This cfg is a little sloppy, but anything between angle brackets is a literal including those brackets.
 
 
-level        ----> { AABB | MovingObject | Player}
+
+level        ----> { AABB | MovingObject | Player | Comment }
 
 AABB         ----> <AABB> pair pair </AABB>
 
 MovingObject ----> <MovingObject> pair texturepath bool </MovingObject>
 
 Player       ----> <Player> pair texturepath bool </Player>
+
+Comment      ----> ! [any string, this is ignored by the tokenizer] !
 
 texturepath  ----> [file path to texture]
 
