@@ -129,7 +129,7 @@ void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &
 	parselevel(tokens, aabbs, movingObjects, player, r);
 }
 
-#pragma region LevelParsing
+#pragma region Parsing
 
 bool contains(char a, char arr[])
 {
@@ -180,6 +180,11 @@ std::queue<std::string> tokenize(std::fstream &in, char separators[])
 			while (currentToken.compare("!") != 0)
 			{
 				in >> currentToken;
+				if (in.eof())
+				{
+					printf("Expected matching \"!\"\n\n");
+					exit(0);
+				}
 			}
 			in >> currentToken;
 		}
@@ -187,6 +192,26 @@ std::queue<std::string> tokenize(std::fstream &in, char separators[])
 	}
 
 	return tokens;
+}
+
+std::queue<std::string> tokenize(std::string &in, char separators[])
+{
+	std::queue<std::string> tokens;
+	int currentPosition = 0;
+
+	while (currentPosition < in.length())
+	{
+		tokens.push(getNextWord(in, currentPosition, separators));
+	}
+
+	return tokens;
+
+}
+
+
+void parseCommand(std::queue<std::string> tokens)
+{
+
 }
 
 

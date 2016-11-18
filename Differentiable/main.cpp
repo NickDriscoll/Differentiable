@@ -31,7 +31,7 @@ int main(int argc, char* args[])
 	bool isConsoleUp = false;
 
 	//String holding what is currently in the console window
-	std::string consoleString = "> ";
+	std::string consoleString = "";
 
 	//This is a variable to store the current event.
 	SDL_Event e;
@@ -78,15 +78,13 @@ int main(int argc, char* args[])
 						}
 						case SDLK_BACKSPACE:
 						{
-							printf("ping\n");
-							consoleString = consoleString.substr(0, consoleString.length());
+							consoleString = consoleString.substr(0, consoleString.length() - 1);
 							break;
 						}
 						case 13:
 						{
-							printf("Enter\n");
 							//Parse
-							consoleString = "> ";
+							consoleString = "";
 							break;
 						}
 						default:
@@ -142,7 +140,7 @@ int main(int argc, char* args[])
 					case SDLK_BACKQUOTE:
 					{
 						isConsoleUp = !isConsoleUp;
-						consoleString = "> ";
+						consoleString = "";
 						break;
 					}
 
@@ -287,8 +285,8 @@ int main(int argc, char* args[])
 		//Console related draw code here
 		if (isConsoleUp)
 		{
-			SDL_Texture* text = textureText(renderer, font, consoleString.c_str());
-			SDL_Rect rect = { 0, 0, consoleString.length() * 20, 30 };
+			SDL_Texture* text = textureText(renderer, font, ("> " + consoleString).c_str());
+			SDL_Rect rect = { 0, 0, consoleString.length() * 20 + 40, 30 };
 			SDL_RenderCopy(renderer, text, NULL, &rect);
 			SDL_DestroyTexture(text);
 		}

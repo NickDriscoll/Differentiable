@@ -210,6 +210,10 @@ std::string getNextWord(std::string string, int &position, char separators[]);
 
 std::queue<std::string> tokenize(std::fstream &in, char separators[]);
 
+std::queue<std::string> tokenize(std::string &in, char separators[]);
+
+void parseCommand(std::queue<std::string> tokens);
+
 void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 //Recursive descent parsing begins here
