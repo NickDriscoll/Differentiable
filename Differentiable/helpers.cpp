@@ -113,7 +113,7 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 	return rect;
 }
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, char separators[])
 {
 	//Clear the incoming vectors, this implicitly un-loads the current level.
 	aabbs.clear();
@@ -121,7 +121,6 @@ void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &
 
 	std::fstream fs;
 	fs.open("levels/test.lvl", std::ios::in);
-	char separators[] = { ' ', '\n', '\0' };
 
 	std::queue<std::string> tokens = tokenize(fs, separators);
 	fs.close();
@@ -209,20 +208,25 @@ std::queue<std::string> tokenize(std::string &in, char separators[])
 }
 
 
-void parseCommand(std::queue<std::string> tokens)
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, char separators[])
 {
+	if (tokens.front().compare("load") == 0)
+	{
+		tokens.pop();
 
+		//Stupid bullshit
+		std::string fullPath = ("levels\\" + tokens.front()).c_str();
+		char * path = new char[fullPath.length()];
+		strcpy(path, fullPath.c_str());
+
+		loadLevel(path, aabbs, movingObjects, player, r, separators);
+	}
 }
 
 
 void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
 {
 	//Throw away <level>
-	if (tokens.front().compare("<level>") != 0)
-	{
-		printf("Error parsing .lvl file\n\nExpected <level> but was %s\n\n", tokens.front().c_str());
-		exit(0);
-	}
 	tokens.pop();
 
 	while (tokens.front().compare("</level>") != 0)

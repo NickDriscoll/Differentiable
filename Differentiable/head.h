@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <Windows.h>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -212,9 +211,9 @@ std::queue<std::string> tokenize(std::fstream &in, char separators[]);
 
 std::queue<std::string> tokenize(std::string &in, char separators[]);
 
-void parseCommand(std::queue<std::string> tokens);
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, char separators[]);
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, char separators[]);
 
 //Recursive descent parsing begins here
 

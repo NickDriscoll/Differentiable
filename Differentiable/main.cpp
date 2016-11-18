@@ -33,6 +33,9 @@ int main(int argc, char* args[])
 	//String holding what is currently in the console window
 	std::string consoleString = "";
 
+	//Separators
+	char separators[] = { ' ', '\n', '\0' };
+
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -49,7 +52,7 @@ int main(int argc, char* args[])
 	Player player;
 
 	//Load the level
-	loadLevel("levels/test.lvl", aabbs, movingObjects, player, renderer);
+	loadLevel("levels/test.lvl", aabbs, movingObjects, player, renderer, separators);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -81,10 +84,13 @@ int main(int argc, char* args[])
 							consoleString = consoleString.substr(0, consoleString.length() - 1);
 							break;
 						}
-						case 13:
+						case SDLK_RETURN:
 						{
 							//Parse
+							std::queue<std::string> tokens = tokenize(consoleString, separators);
+							parseCommand(tokens, aabbs, movingObjects, player, renderer, separators);
 							consoleString = "";
+							isConsoleUp = false;
 							break;
 						}
 						default:
