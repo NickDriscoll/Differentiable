@@ -15,13 +15,19 @@
 		770 200 250 20
 	</AABB>
 
+	!
+	<AABB>
+		-50 700 2000 10
+	</AABB>
+	!
+
 	<Player>
 		0 0
 
 		! I might end up hardcoding this path, idk
 		  I kind of want to leave my options open
 		  I'm totally just testing multi-line comments rn ! 
-		  
+
 		textures\\overman.png
 		1
 	</Player>
