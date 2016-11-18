@@ -10,7 +10,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	//Joystick init code
 	if (SDL_NumJoysticks() < 1)
 	{
-		printf("Warning: No joysticks connected!\n");
+		printf("Warning: No joysticks connected!\n\n");
 	}
 	else
 	{
@@ -113,3 +113,239 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 	return rect;
 }
 
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+{
+	std::fstream fs;
+	fs.open("levels/test.lvl", std::ios::in);
+	char separators[] = { ' ', '\n', '\0' };
+
+	std::queue<std::string> tokens = tokenize(fs, separators);
+	fs.close();
+
+	parselevel(tokens, aabbs, movingObjects, player, r);
+}
+
+#pragma region LevelParsing
+
+bool contains(char a, char arr[])
+{
+	for (int i = 0; arr[i] != '\0'; i++)
+	{
+		if (a == arr[i])
+			return true;
+	}
+	return false;
+}
+
+std::string getNextWord(std::string string, int &position, char separators[])
+{
+	int beginning = position;
+
+	//Ensure the index is pointing to a non-separator
+	while (contains(string[beginning], separators))
+	{
+		beginning++;
+	}
+
+	int end = beginning;
+
+	//Increment end until we hit another separator or the end of the line
+	while (string[end] != '\0' && !contains(string[end], separators))
+	{
+		end++;
+	}
+
+	position = end;
+	return string.substr(beginning, end);
+
+}
+
+std::queue<std::string> tokenize(std::fstream &in, char separators[])
+{
+	std::queue<std::string> tokens;
+	
+	while (!in.eof())
+	{
+		int currentPosition = 0;
+		std::string currentToken;
+		in >> currentToken;
+
+		if (currentToken.compare("!") == 0)
+		{
+			in >> currentToken;
+			while (currentToken.compare("!") != 0)
+			{
+				in >> currentToken;
+			}
+			in >> currentToken;
+		}
+		tokens.push(currentToken);
+	}
+
+	return tokens;
+}
+
+
+void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
+{
+	//Throw away <level>
+	if (tokens.front().compare("<level>") != 0)
+	{
+		printf("Error parsing .lvl file\n\nExpected <level> but was %s\n\n", tokens.front().c_str());
+		exit(0);
+	}
+	tokens.pop();
+
+	while (tokens.front().compare("</level>") != 0)
+	{
+		if (tokens.front().compare("<AABB>") == 0)
+		{
+			parseAABB(tokens, aabbs);
+		}
+		else if (tokens.front().compare("<MovingObject>") == 0)
+		{
+			parseMovingObject(tokens, movingObjects, r);
+		}
+		else if (tokens.front().compare("<Player>") == 0)
+		{
+			parsePlayer(tokens, player, r);
+		}
+		else if (tokens.front().compare("!") == 0)
+		{
+			parseComment(tokens);
+		}
+		else
+		{
+			printf("Error parsing .lvl file\n\nInvalid token: %s\n\n", tokens.front().c_str());
+			exit(0);
+		}
+	}
+}
+
+void parseComment(std::queue<std::string> &tokens)
+{
+	//Toss "!"
+	tokens.pop();
+
+	while (tokens.front().compare("!") != 0)
+	{
+		tokens.pop();
+	}
+
+	//Toss "!"
+	tokens.pop();
+}
+
+void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
+{
+	//AABB to be added
+	AABB aabb;
+	Vector2 origin;
+	Vector2 size;
+
+	//Throw away <AABB>
+	tokens.pop();
+
+	//Get xpos
+	origin.x = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get ypos
+	origin.y = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get length
+	size.x = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get height
+	size.y = std::stod(tokens.front());
+	tokens.pop();
+
+	//Throw away </AABB>
+	tokens.pop();
+
+	//Done
+	aabb.setOrigin(origin);
+	aabb.setSize(size);
+
+	aabbs.push_back(aabb);
+}
+
+void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer* r)
+{
+	//Properties
+	std::string pathtoTexture;
+	Vector2 position;
+	bool facingRight;
+
+
+	//Throw away <MovingObject>
+	tokens.pop();
+
+	//Get position
+	position.x = std::stod(tokens.front());
+	tokens.pop();
+
+	position.y = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get texture path
+	pathtoTexture = tokens.front();
+	tokens.pop();
+
+	//Get facingRight
+	facingRight = (bool)std::stoi(tokens.front());
+	tokens.pop();
+
+	//Throw away </MovingObject>
+	tokens.pop();
+
+	//Stupid bullshit
+	char* pathToTextureChar = new char[pathtoTexture.length()];
+	strcpy(pathToTextureChar, pathtoTexture.c_str());
+
+
+	//Done
+	movingObjects.push_back(MovingObject(pathToTextureChar, position, r, facingRight));
+
+}
+
+void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *r)
+{
+	//Properties
+	std::string pathtoTexture;
+	Vector2 position;
+	bool facingRight;
+
+
+	//Throw away <Player>
+	tokens.pop();
+
+	//Get position
+	position.x = std::stod(tokens.front());
+	tokens.pop();
+
+	position.y = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get texture path
+	pathtoTexture = tokens.front();
+	tokens.pop();
+
+	//Get facingRight
+	facingRight = (bool)std::stoi(tokens.front());
+	tokens.pop();
+
+	//Throw away </Player>
+	tokens.pop();
+
+	//Stupid bullshit
+	char* pathToTextureChar = new char[pathtoTexture.length()];
+	strcpy(pathToTextureChar, pathtoTexture.c_str());
+
+	//Done
+	player = Player(pathToTextureChar, position, r, facingRight);
+}
+
+#pragma endregion

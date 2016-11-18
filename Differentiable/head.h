@@ -3,7 +3,10 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 #include <vector>
+#include <queue>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -13,7 +16,7 @@ const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 800;
 
 //Analog joystick dead zone
-const int JOYSTICK_DEAD_ZONE = 8000;
+const int JOYSTICK_DEAD_ZONE = 24000;
 
 //Enumeration for Xbox 360 button indices
 enum Xbox360Button
@@ -27,7 +30,7 @@ enum Xbox360Button
 	XBOX_360_SELECT = 6,
 	XBOX_360_START = 7,
 	XBOX_360_LSTICK = 8,
-	XBOX_360_RSTICK
+	XBOX_360_RSTICK = 9
 };
 
 //Talking class prototypes?!?
@@ -115,9 +118,6 @@ protected:
 
 	bool ziplining = false;
 
-	//An offset for the center of the bounding box.
-	Vector2 boundingBoxOffset;
-
 	bool pushedRightWall = false;
 	bool pushesRightWall = false;
 
@@ -146,6 +146,7 @@ public:
 	bool getFacing();
 
 	//Setters
+	void setTexture(char* texturePath, SDL_Renderer* r);
 	void setFacing(bool facing);
 	void setPosition(Vector2 newPos);
 
@@ -190,7 +191,6 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 //r: the renderer
 SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
 
-
 //Closes SDL components and frees memory
 //window: Current window
 void close(SDL_Window* &window, SDL_Joystick* &controller);
@@ -202,8 +202,23 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 SDL_Rect newRect(Vector2 origin, Vector2 size);
 
 
-//Saves level as binary file
-void saveLevel(char* path, std::vector<AABB> aabbs, std::vector<MovingObject> movingObjects);
+//Level parsing code below here
+//All arrays shall be terminated with '\0'
 
-//Load level from binary file
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player);
+std::string getNextWord(std::string string, int &position, char separators[]);
+
+std::queue<std::string> tokenize(std::fstream &in, char separators[]);
+
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+
+//Recursive descent parsing begins here
+
+void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
+
+void parseComment(std::queue<std::string> &tokens);
+
+void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs);
+
+void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer *r);
+
+void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *r);

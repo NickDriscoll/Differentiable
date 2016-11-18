@@ -44,6 +44,12 @@ bool MovingObject::getFacing()
 	return facingRight;
 }
 
+void MovingObject::setTexture(char* texturePath, SDL_Renderer* r)
+{
+	texture = loadTexture(texturePath, r);
+	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
+}
+
 void MovingObject::setFacing(bool facing)
 {
 	facingRight = facing;

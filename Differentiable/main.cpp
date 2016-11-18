@@ -18,14 +18,6 @@ int main(int argc, char* args[])
 		return -1;
 	}
 	
-	//TODO implement level files
-
-	//Container that stores AABBs
-	std::vector<AABB> aabbs;
-
-	//Container that stores moving objects
-	std::vector<MovingObject> movingObjects;
-
 	//Font used
 	TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\constan.ttf", FONT_SIZE);
 
@@ -40,21 +32,18 @@ int main(int argc, char* args[])
 	
 	//World camera
 	Camera camera = Camera();
+	
+	//Container that stores AABBs
+	std::vector<AABB> aabbs;
 
-	//Test player
-	Player player = Player("textures\\overman.png", Vector2(0, 0), renderer, true);
+	//Container that stores moving objects
+	std::vector<MovingObject> movingObjects;
 
-	//Level bounds
-	AABB top = AABB(Vector2(0, -20), Vector2(1000, 10));
-	aabbs.push_back(top);
-	AABB bottom = AABB(Vector2(0, 500), Vector2(2000, 10));
-	aabbs.push_back(bottom);
+	//Player var
+	Player player;
 
-	//Platform
-	AABB floor = AABB(Vector2(500, 350), Vector2(250, 20));
-	AABB floor2 = AABB(Vector2(770, 200), Vector2(250, 20));
-	aabbs.push_back(floor);
-	aabbs.push_back(floor2);
+	//Load the level
+	loadLevel("levels/test.lvl", aabbs, movingObjects, player, renderer);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
@@ -109,18 +98,6 @@ int main(int argc, char* args[])
 					debug = !debug;
 					break;
 				}
-				/*
-				case SDLK_l:
-				{
-					loadLevel("levels\\test.lvl", aabbs, movingObjects, player);
-					break;
-				}
-				case SDLK_s:
-				{
-					saveLevel("levels\\test.lvl", aabbs, movingObjects);
-					break;
-				}
-				*/
 #endif
 				}
 			}
