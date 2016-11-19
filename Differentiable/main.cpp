@@ -95,7 +95,6 @@ int main(int argc, char* args[])
 						}
 						default:
 						{
-							printf("%d\n", e.key.keysym.sym);
 							consoleString += e.key.keysym.sym;
 							break;
 							

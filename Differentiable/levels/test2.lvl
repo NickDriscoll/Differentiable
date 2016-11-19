@@ -1,0 +1,20 @@
+<level>
+
+	! xPos yPos length width !
+
+	<AABB> -100 150 400 10 </AABB>
+
+	<AABB> 300 151 10 200 </AABB>
+
+	<AABB> 300 351 200 10 </AABB>
+
+	<AABB> 500 151 10 210 </AABB>
+
+	<AABB> 510 150 400 10 </AABB>
+
+	<Player>
+		0 0
+		textures\\overman.png
+		1 
+	</Player>
+</level>
