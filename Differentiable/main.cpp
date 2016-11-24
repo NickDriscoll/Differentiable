@@ -33,9 +33,6 @@ int main(int argc, char* args[])
 	//String holding what is currently in the console window
 	std::string consoleString = "";
 
-	//Separators
-	char separators[] = { ' ', '\n', '\0' };
-
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -53,6 +50,9 @@ int main(int argc, char* args[])
 
 	//Load the level
 	loadLevel("levels/test.lvl", aabbs, movingObjects, player, renderer, separators);
+
+	//Background image
+	//SDL_Texture* background = loadTexture("", renderer);
 
 	//Frametime vars
 	Uint32 currentFrameTime = 0;

@@ -15,6 +15,9 @@ const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 500;
 const double TERMINAL_VELOCITY = 800;
 
+//Separators
+const char separators[] = { ' ', '\n', '\0' };
+
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 24000;
 
@@ -205,15 +208,19 @@ SDL_Rect newRect(Vector2 origin, Vector2 size);
 //Level parsing code below here
 //All arrays shall be terminated with '\0'
 
-std::string getNextWord(std::string string, int &position, char separators[]);
+bool contains(char a, const char arr[]);
 
-std::queue<std::string> tokenize(std::fstream &in, char separators[]);
+std::string getNextWord(std::string string, int &position, const char separators[]);
 
-std::queue<std::string> tokenize(std::string &in, char separators[]);
+std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, char separators[]);
+std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, char separators[]);
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, const char separators[]);
+
+bool fileExists(char* path);
+
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
 
 //Recursive descent parsing begins here
 

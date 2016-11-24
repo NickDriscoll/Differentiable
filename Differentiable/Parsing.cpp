@@ -1,11 +1,12 @@
 #include "head.h"
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, char separators[])
+void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[])
 {
 	//Clear the incoming vectors, this implicitly un-loads the current level.
 	aabbs.clear();
 	movingObjects.clear();
 
+	//Open file
 	std::fstream fs;
 	fs.open(path, std::ios::in);
 
@@ -15,7 +16,7 @@ void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &
 	parselevel(tokens, aabbs, movingObjects, player, r);
 }
 
-bool contains(char a, char arr[])
+bool contains(char a, const char arr[])
 {
 	for (int i = 0; arr[i] != '\0'; i++)
 	{
@@ -25,7 +26,7 @@ bool contains(char a, char arr[])
 	return false;
 }
 
-std::string getNextWord(std::string string, int &position, char separators[])
+std::string getNextWord(std::string string, int &position, const char separators[])
 {
 	int beginning = position;
 
@@ -48,7 +49,7 @@ std::string getNextWord(std::string string, int &position, char separators[])
 
 }
 
-std::queue<std::string> tokenize(std::fstream &in, char separators[])
+std::queue<std::string> tokenize(std::fstream &in, const char separators[])
 {
 	std::queue<std::string> tokens;
 
@@ -78,7 +79,7 @@ std::queue<std::string> tokenize(std::fstream &in, char separators[])
 	return tokens;
 }
 
-std::queue<std::string> tokenize(std::string &in, char separators[])
+std::queue<std::string> tokenize(std::string &in, const char separators[])
 {
 	std::queue<std::string> tokens;
 	int currentPosition = 0;
@@ -93,27 +94,44 @@ std::queue<std::string> tokenize(std::string &in, char separators[])
 }
 
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, char separators[])
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, const char separators[])
 {
-	if (tokens.front().compare("load") == 0)
+	//Handle empty string
+	if (tokens.size() != 0)
 	{
+
+		if (tokens.front().compare("load") == 0 && tokens.size() == 2)
+		{
+			tokens.pop();
+
+			//Stupid bullshit
+			std::string fullPath = ("levels\\" + tokens.front()).c_str();
+			char* path = new char[fullPath.length()];
+			strcpy(path, fullPath.c_str());
+
+			if (fileExists(path))
+			{
+				loadLevel(path, aabbs, movingObjects, player, r, separators);
+			}
+		}
+		else
+		{
+			if (tokens.front().compare("load") != 0)
+			{
+				printf("Unrecognized command: \"%s\"\n\n", tokens.front().c_str());
+			}
+		}
+
 		tokens.pop();
-
-		//Stupid bullshit
-		std::string fullPath = ("levels\\" + tokens.front()).c_str();
-		char* path = new char[fullPath.length()];
-		strcpy(path, fullPath.c_str());
-
-		loadLevel(path, aabbs, movingObjects, player, r, separators);
 	}
-	else
-	{
-		printf("Unrecognized command: \"%s\"\n\n", tokens.front().c_str());
-	}
-
-	tokens.pop();
 }
 
+bool fileExists(char* path)
+{
+	std::fstream fs;
+	fs.open(path, std::ios::in);
+	return (bool)fs;
+}
 
 void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
 {
