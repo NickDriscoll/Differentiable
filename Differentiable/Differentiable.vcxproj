@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="events.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Parsing.cpp" />

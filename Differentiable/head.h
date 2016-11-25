@@ -204,9 +204,7 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 //Helpful wrapper for SDL_Rect struct initialization
 SDL_Rect newRect(Vector2 origin, Vector2 size);
 
-
-//Level parsing code below here
-//All arrays shall be terminated with '\0'
+#pragma region Parsing
 
 bool contains(char a, const char arr[]);
 
@@ -222,7 +220,9 @@ bool fileExists(char* path);
 
 void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
 
-//Recursive descent parsing begins here
+#pragma endregion
+
+#pragma region RecursiveDescent
 
 void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
 
@@ -231,3 +231,21 @@ void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs);
 void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer *r);
 
 void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *r);
+
+#pragma endregion
+
+#pragma region EventHandlers
+
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player);
+
+void eventKeyUp(SDL_Event e, Player &player);
+
+void eventJoystick(SDL_Event e, Player &player);
+
+void eventButton(SDL_Event e, bool &running, bool &debug, Player &player);
+
+void eventMisc(SDL_Event e, bool &running);
+
+#pragma endregion
