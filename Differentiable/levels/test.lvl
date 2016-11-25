@@ -1,23 +1,28 @@
 <level>
 	<AABB>
 		0 -20 1000 10
+		0xFF 0x00 0x00
 	</AABB>
 
 	<AABB>
 		0 500 2000 10
+		0xFF 0x00 0x00
 	</AABB>
 
 	<AABB>
 		500 350 250 20
+		0xFF 0x00 0x00
 	</AABB>
 
 	<AABB>
 		770 200 250 20
+		0xFF 0x00 0x00
 	</AABB>
 
 	!
 	<AABB>
 		-50 700 2000 10
+		0xFF 0x00 0x00
 	</AABB>
 	!
 

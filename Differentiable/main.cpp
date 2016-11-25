@@ -30,6 +30,9 @@ int main(int argc, char* args[])
 	//Flag to track if console is open
 	bool isConsoleUp = false;
 
+	//Flag to track if editing
+	bool inEditMode = false;
+
 	//String holding what is currently in the console window
 	std::string consoleString = "";
 
@@ -72,7 +75,11 @@ int main(int argc, char* args[])
 		{
 			if (isConsoleUp) 
 			{
-				eventIsConsoleUp(e, isConsoleUp, consoleString, aabbs, movingObjects, player, renderer);
+				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, aabbs, movingObjects, player, renderer);
+			}
+			else if (inEditMode)
+			{
+
 			}
 			else
 			{

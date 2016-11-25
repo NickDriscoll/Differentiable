@@ -94,7 +94,7 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 }
 
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, const char separators[])
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[])
 {
 	//Handle empty string
 	if (tokens.size() != 0)
@@ -113,6 +113,10 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std
 			{
 				loadLevel(path, aabbs, movingObjects, player, r, separators);
 			}
+		}
+		else if (tokens.front().compare("edit") == 0)
+		{
+			inEditMode = !inEditMode;
 		}
 		else
 		{
@@ -162,10 +166,10 @@ void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::
 
 void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
 {
-	//AABB to be added
-	AABB aabb;
 	Vector2 origin;
 	Vector2 size;
+	SDL_Color color;
+	color.a = 0xFF;
 
 	//Throw away <AABB>
 	tokens.pop();
@@ -186,6 +190,19 @@ void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
 	size.y = std::stod(tokens.front());
 	tokens.pop();
 
+	//Get r
+	color.r = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get g
+	color.g = std::stod(tokens.front());
+	tokens.pop();
+
+	//Get b
+	color.b = std::stod(tokens.front());
+	tokens.pop();
+
+
 	//Throw away </AABB>
 	if (tokens.front().compare("</AABB>") != 0)
 	{
@@ -195,10 +212,7 @@ void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
 	tokens.pop();
 
 	//Done
-	aabb.setOrigin(origin);
-	aabb.setSize(size);
-
-	aabbs.push_back(aabb);
+	aabbs.push_back(AABB(origin, size, color));
 }
 
 void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer* r)

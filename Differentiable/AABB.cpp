@@ -9,6 +9,14 @@ AABB::AABB(const Vector2 &Origin, const Vector2 &Size)
 {
 	origin = Origin;
 	size = Size;
+	color = { 0x80, 0x80, 0x80, 0xFF };
+}
+
+AABB::AABB(const Vector2 &Origin, const Vector2 &Size, SDL_Color Color)
+{
+	origin = Origin;
+	size = Size;
+	color = Color;
 }
 
 Vector2 AABB::getOrigin()
@@ -48,7 +56,7 @@ bool AABB::overlaps(AABB other)
 void AABB::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
 	SDL_Rect rect = newRect(origin - camera.getPosition(), size);
-	SDL_SetRenderDrawColor(r, 0x80, 0x80, 0x80, 0xFF);	
+	SDL_SetRenderDrawColor(r, color.r, color.g, color.b, 0xFF);	
 	SDL_RenderFillRect(r, &rect);
 
 	if (debug)

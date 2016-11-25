@@ -5,17 +5,21 @@ This cfg is a little sloppy, but anything between angle brackets is a literal in
 
 
 
-level        ----> { AABB | MovingObject | Player | Comment }
+level        ----> { AABB | MovingObject | Player | Door | Comment }
 
-AABB         ----> <AABB> pair pair </AABB>
+AABB         ----> <AABB> pair pair color </AABB>
 
-MovingObject ----> <MovingObject> pair texturepath bool </MovingObject>
+MovingObject ----> <MovingObject> pair path bool </MovingObject>
 
 Player       ----> <Player> pair texturepath bool </Player>
 
+Door         ----> <Door> pair pair path </Door>
+
 Comment      ----> ! [any string, this is ignored by the tokenizer] !
 
-texturepath  ----> [file path to texture]
+color        ----> [rgb tuple]
+
+path         ----> [file path]
 
 pair         ----> digitList digitList
 

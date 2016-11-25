@@ -1,6 +1,6 @@
 #include "head.h"
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
 {
 	if (e.type == SDL_KEYDOWN)
 	{
@@ -20,7 +20,7 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, std::string &consoleString
 		{
 			//Parse
 			std::queue<std::string> tokens = tokenize(consoleString, separators);
-			parseCommand(tokens, aabbs, movingObjects, player, r, separators);
+			parseCommand(tokens, aabbs, movingObjects, player, r, inEditMode, separators);
 			consoleString = "";
 			isConsoleUp = false;
 			break;
@@ -29,7 +29,6 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, std::string &consoleString
 		{
 			consoleString += e.key.keysym.sym;
 			break;
-
 		}
 
 		}

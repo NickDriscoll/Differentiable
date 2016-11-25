@@ -38,6 +38,7 @@ enum Xbox360Button
 
 //Talking class prototypes?!?
 class AABB;
+class Door;
 class Vector2;
 class MovingObject;
 class Player;
@@ -81,11 +82,13 @@ class AABB
 protected:
 	Vector2 origin;
 	Vector2 size;
+	SDL_Color color;
 	SDL_Texture* texture = NULL;
 
 public:
 	AABB();
 	AABB(const Vector2 &Origin, const Vector2 &Size);
+	AABB(const Vector2 &Origin, const Vector2 &Size, SDL_Color Color);
 
 	//Getters
 	Vector2 getOrigin();
@@ -100,6 +103,15 @@ public:
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
 };
 
+
+class Door : public AABB
+{
+protected:
+	char* path;
+
+public:
+	Door(const Vector2 &Origin, char* Path);
+};
 
 
 class MovingObject
@@ -214,7 +226,7 @@ std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
 std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, const char separators[]);
+void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[]);
 
 bool fileExists(char* path);
 
@@ -236,7 +248,7 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 
 #pragma region EventHandlers
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player);
 
