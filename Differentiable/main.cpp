@@ -33,6 +33,9 @@ int main(int argc, char* args[])
 	//String holding what is currently in the console window
 	std::string consoleString = "";
 
+	//String holding editor text
+	std::string editorString = "";
+
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -67,7 +70,6 @@ int main(int argc, char* args[])
 		//Process event queue until it is empty
 		while (SDL_PollEvent(&e) != 0)
 		{
-
 			if (isConsoleUp) 
 			{
 				if (e.type == SDL_KEYDOWN)
@@ -291,7 +293,7 @@ int main(int argc, char* args[])
 		if (isConsoleUp)
 		{
 			SDL_Texture* text = textureText(renderer, font, ("> " + consoleString).c_str());
-			SDL_Rect rect = { 0, 0, consoleString.length() * 20 + 40, 30 };
+			SDL_Rect rect = { 0, 0, (int)consoleString.length() * 20 + 40, 30 };
 			SDL_RenderCopy(renderer, text, NULL, &rect);
 			SDL_DestroyTexture(text);
 		}

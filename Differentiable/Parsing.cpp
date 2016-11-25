@@ -84,7 +84,7 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 	std::queue<std::string> tokens;
 	int currentPosition = 0;
 
-	while (currentPosition < in.length())
+	while (currentPosition < (int)in.length())
 	{
 		tokens.push(getNextWord(in, currentPosition, separators));
 	}
@@ -224,7 +224,14 @@ void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject
 	tokens.pop();
 
 	//Get facingRight
-	facingRight = (bool)std::stoi(tokens.front());
+	if (std::stoi(tokens.front()) == 1)
+	{
+		facingRight = true;
+	}
+	else
+	{
+		facingRight = false;
+	}
 	tokens.pop();
 
 	//Throw away </MovingObject>
@@ -268,7 +275,14 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 	tokens.pop();
 
 	//Get facingRight
-	facingRight = (bool)std::stoi(tokens.front());
+	if (std::stoi(tokens.front()) == 1)
+	{
+		facingRight = true;
+	}
+	else
+	{
+		facingRight = false;
+	}
 	tokens.pop();
 
 	//Throw away </Player>
