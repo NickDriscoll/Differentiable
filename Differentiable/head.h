@@ -43,6 +43,7 @@ class Vector2;
 class MovingObject;
 class Player;
 class Camera;
+class Tile;
 
 //A representation of a two-dimensional vector using doubles
 class Vector2
@@ -71,9 +72,26 @@ private:
 
 public:
 	Vector2 getPosition();
+	void update(Vector2 vector);
 	void update(Player player);
 };
 
+
+class Tile
+{
+protected:
+	SDL_Texture* texture;
+	Vector2 position;
+
+public:
+	Tile(SDL_Texture* Texture, Vector2 Position);
+
+	//Getters
+	Vector2 getPosition();
+
+	//Settings
+	void setPosition(Vector2 Position);
+};
 
 //Axis Aligned Bounding Box
 //Frequently used to represent static platforms.
@@ -83,7 +101,7 @@ protected:
 	Vector2 origin;
 	Vector2 size;
 	SDL_Color color;
-	SDL_Texture* texture = NULL;
+	SDL_Texture* texture;
 
 public:
 	AABB();
@@ -98,6 +116,7 @@ public:
 	void setOrigin(Vector2 newOrigin);
 	void setSize(Vector2 newSize);
 
+	bool overlaps(Vector2 position);
 	bool overlaps(AABB other);
 
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
@@ -259,5 +278,7 @@ void eventJoystick(SDL_Event e, Player &player);
 void eventButton(SDL_Event e, bool &running, bool &debug, Player &player);
 
 void eventMisc(SDL_Event e, bool &running);
+
+void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Camera &camera);
 
 #pragma endregion

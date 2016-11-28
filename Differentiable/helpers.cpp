@@ -112,4 +112,3 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 	SDL_Rect rect = { (int)round(origin.x) , (int)round(origin.y), size.x, size.y };
 	return rect;
 }
-

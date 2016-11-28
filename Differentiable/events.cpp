@@ -168,3 +168,61 @@ void eventMisc(SDL_Event e, bool &running)
 	}
 	}
 }
+
+void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Camera &camera)
+{
+	//Key press handling
+	switch (e.key.keysym.sym)
+	{
+	case SDLK_BACKQUOTE:
+	{
+		inEditMode = !inEditMode;
+		break;
+	}
+	case SDLK_w:
+	{
+		camera.update(Vector2(camera.getPosition().x, camera.getPosition().y - 10));
+		break;
+	}
+	case SDLK_s:
+	{
+		camera.update(Vector2(camera.getPosition().x, camera.getPosition().y + 10));
+		break;
+	}
+	case SDLK_a:
+	{
+		camera.update(Vector2(camera.getPosition().x - 10, camera.getPosition().y));
+		break;
+	}
+	case SDLK_d:
+	{
+		camera.update(Vector2(camera.getPosition().x + 10, camera.getPosition().y));
+		break;
+	}
+	}
+
+	//Mouse handling
+	switch (e.button.button)
+	{
+	case SDL_BUTTON_LEFT:
+	{
+		break;
+	}
+	case SDL_BUTTON_RIGHT:
+	{
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		x += camera.getPosition().x;
+		y += camera.getPosition().y;
+		for (unsigned int i = 0; i < aabbs.size(); i++)
+		{
+			if (aabbs[i].overlaps(Vector2(x, y)))
+			{
+				aabbs.erase(aabbs.begin() + i);
+			}
+		}
+		break;
+	}
+	}
+
+}

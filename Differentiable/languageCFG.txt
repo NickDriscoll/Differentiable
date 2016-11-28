@@ -5,13 +5,13 @@ This cfg is a little sloppy, but anything between angle brackets is a literal in
 
 
 
-level        ----> { AABB | MovingObject | Player | Door | Comment }
+level        ----> <level> { AABB | MovingObject | Player | Door | Comment } </level>
 
 AABB         ----> <AABB> pair pair color </AABB>
 
 MovingObject ----> <MovingObject> pair path bool </MovingObject>
 
-Player       ----> <Player> pair texturepath bool </Player>
+Player       ----> <Player> pair path bool </Player>
 
 Door         ----> <Door> pair pair path </Door>
 

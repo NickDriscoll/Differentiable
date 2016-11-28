@@ -39,6 +39,11 @@ void AABB::setSize(Vector2 newSize)
 	size = newSize;
 }
 
+bool AABB::overlaps(Vector2 other)
+{
+	return (other.x >= origin.x) && (other.x <= origin.x + size.x) && (other.y >= origin.y) && (other.y <= origin.y + size.y);
+}
+
 bool AABB::overlaps(AABB other)
 {
 	bool flag = true;

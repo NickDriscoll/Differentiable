@@ -148,6 +148,7 @@
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Parsing.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

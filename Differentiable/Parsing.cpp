@@ -191,15 +191,15 @@ void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
 	tokens.pop();
 
 	//Get r
-	color.r = std::stod(tokens.front());
+	color.r = (int)std::stod(tokens.front());
 	tokens.pop();
 
 	//Get g
-	color.g = std::stod(tokens.front());
+	color.g = (int)std::stod(tokens.front());
 	tokens.pop();
 
 	//Get b
-	color.b = std::stod(tokens.front());
+	color.b = (int)std::stod(tokens.front());
 	tokens.pop();
 
 

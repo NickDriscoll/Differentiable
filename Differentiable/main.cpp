@@ -55,7 +55,7 @@ int main(int argc, char* args[])
 	Player player;
 
 	//Load the level
-	loadLevel("levels/test.lvl", aabbs, movingObjects, player, renderer, separators);
+	loadLevel("levels\\test.lvl", aabbs, movingObjects, player, renderer, separators);
 
 	//Background image
 	//SDL_Texture* background = loadTexture("", renderer);
@@ -79,7 +79,7 @@ int main(int argc, char* args[])
 			}
 			else if (inEditMode)
 			{
-
+				eventInEditMode(e, inEditMode, aabbs, camera);
 			}
 			else
 			{
@@ -117,12 +117,15 @@ int main(int argc, char* args[])
 		
 		//Sometimes timeDelta is zero
 		//No, I don't know why.
-		if (timeDelta > EPSILON && !isConsoleUp)
+
+		//Update physics
+		if (timeDelta > EPSILON && !isConsoleUp && !inEditMode)
 		{
 			player.UpdatePhysics(aabbs, timeDelta);
+
+			//Update camera position
+			camera.update(player);
 		}
-		//Update camera position
-		camera.update(player);
 
 		//Draw all AABBs, MovingObjects, and the player
 		for (unsigned int i = 0; i < aabbs.size(); i++)
