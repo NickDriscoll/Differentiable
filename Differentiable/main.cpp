@@ -64,9 +64,6 @@ int main(int argc, char* args[])
 	Uint32 currentFrameTime = 0;
 	Uint32 lastFrameTime = 0;
 
-	//Scaling var used for zooming
-	double scale = 1;
-
 	//Game loop
 	while (running)
 	{

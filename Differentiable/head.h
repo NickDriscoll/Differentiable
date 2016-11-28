@@ -21,6 +21,9 @@ const char separators[] = { ' ', '\n', '\0' };
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 24000;
 
+//Tile size
+const int TILE_WIDTH = 32;
+
 //Enumeration for Xbox 360 button indices
 enum Xbox360Button
 {
@@ -91,17 +94,19 @@ public:
 
 	//Settings
 	void setPosition(Vector2 Position);
+	
+	bool overlaps(Vector2 point);
+	void draw(SDL_Renderer* r, bool debug, Camera camera);
 };
 
 //Axis Aligned Bounding Box
-//Frequently used to represent static platforms.
+//Now used exclusively as hitboxes
 class AABB
 {
 protected:
 	Vector2 origin;
 	Vector2 size;
 	SDL_Color color;
-	SDL_Texture* texture;
 
 public:
 	AABB();
