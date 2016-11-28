@@ -84,10 +84,11 @@ class Tile
 {
 protected:
 	SDL_Texture* texture;
+	int textureIndex;
 	Vector2 position;
 
 public:
-	Tile(SDL_Texture* Texture, Vector2 Position);
+	Tile(int TextureIndex, Vector2 Position, SDL_Renderer* r);
 
 	//Getters
 	Vector2 getPosition();
@@ -95,6 +96,9 @@ public:
 	//Settings
 	void setPosition(Vector2 Position);
 	
+	//Returns AABB representation for historic reasons
+	AABB aabb();
+
 	bool overlaps(Vector2 point);
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
 };
@@ -194,7 +198,7 @@ public:
 	bool collidesFromTop(AABB box, AABB other);
 	bool collidesFromBottom(AABB box, AABB other);
 
-	void UpdatePhysics(std::vector<AABB> boxes, double timeDelta);
+	void UpdatePhysics(std::vector<Tile> tiles, double timeDelta);
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
 	bool overlaps(AABB other);
 };
@@ -228,7 +232,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 //Returns a pointer to an SDL_Texture.
 //path: The filepath to the image (.png)
 //r: the renderer
-SDL_Texture* loadTexture(char* path, SDL_Renderer* r);
+SDL_Texture* loadTexture(const char* path, SDL_Renderer* r);
 
 //Closes SDL components and frees memory
 //window: Current window
@@ -250,19 +254,19 @@ std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
 std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[]);
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[]);
 
 bool fileExists(char* path);
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
+void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
 
 #pragma endregion
 
 #pragma region RecursiveDescent
 
-void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
+void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
 
-void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs);
+void parseTile(std::queue<std::string> &tokens, std::vector<Tile> &tiles, SDL_Renderer* r);
 
 void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer *r);
 
@@ -272,7 +276,7 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 
 #pragma region EventHandlers
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player);
 
@@ -284,6 +288,6 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player);
 
 void eventMisc(SDL_Event e, bool &running);
 
-void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Camera &camera);
+void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r);
 
 #pragma endregion

@@ -60,7 +60,7 @@ void MovingObject::setPosition(Vector2 newPos)
 	position = newPos;
 }
 
-void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
+void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 {
 	//Store previous values in respective variables.
 	lastPosition = position;
@@ -83,34 +83,34 @@ void MovingObject::UpdatePhysics(std::vector<AABB> boxes, double timeDelta)
 	//Update bounding box's origin
 	boundingBox.setOrigin(position);
 
-	for (unsigned int boner = 0; boner < boxes.size(); boner++)
+	for (unsigned int boner = 0; boner < tiles.size(); boner++)
 	{
-		if (overlaps(boxes[boner]))
+		if (overlaps(tiles[boner].aabb()))
 		{
-			if (collidesFromTop(boundingBox, boxes[boner]) && !collidesFromTop(oldBoundingBox, boxes[boner]))
+			if (collidesFromTop(boundingBox, tiles[boner].aabb()) && !collidesFromTop(oldBoundingBox, tiles[boner].aabb()))
 			{
-				position.y = boxes[boner].getOrigin().y - textureHeight;
+				position.y = tiles[boner].aabb().getOrigin().y - textureHeight;
 				onGround = true;
 				//printf("colliding from top\n");
 			}
 
-			if (collidesFromLeft(boundingBox, boxes[boner]) && !collidesFromLeft(oldBoundingBox, boxes[boner]))
+			if (collidesFromLeft(boundingBox, tiles[boner].aabb()) && !collidesFromLeft(oldBoundingBox, tiles[boner].aabb()))
 			{
-				position.x = boxes[boner].getOrigin().x - textureWidth;
+				position.x = tiles[boner].aabb().getOrigin().x - textureWidth;
 				pushesRightWall = true;
 				//printf("colliding from left\n");
 			}
 
-			if (collidesFromRight(boundingBox, boxes[boner]) && !collidesFromRight(oldBoundingBox, boxes[boner]))
+			if (collidesFromRight(boundingBox, tiles[boner].aabb()) && !collidesFromRight(oldBoundingBox, tiles[boner].aabb()))
 			{
-				position.x = boxes[boner].getOrigin().x + boxes[boner].getSize().x;
+				position.x = tiles[boner].aabb().getOrigin().x + tiles[boner].aabb().getSize().x;
 				pushesLeftWall = true;
 				//printf("colliding from right\n");
 			}
 
-			if (collidesFromBottom(boundingBox, boxes[boner]) && !collidesFromBottom(oldBoundingBox, boxes[boner]))
+			if (collidesFromBottom(boundingBox, tiles[boner].aabb()) && !collidesFromBottom(oldBoundingBox, tiles[boner].aabb()))
 			{
-				position.y = boxes[boner].getOrigin().y + boxes[boner].getSize().y;
+				position.y = tiles[boner].aabb().getOrigin().y + tiles[boner].aabb().getSize().y;
 				atCeiling = true;
 				//printf("colliding from bottom\n");
 			}
@@ -153,7 +153,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 
 	if (ziplining)
 	{
-		SDL_RenderDrawLine(r, 0  , position.y - camera.getPosition().y, SCREEN_WIDTH, position.y - camera.getPosition().y);
+		SDL_RenderDrawLine(r, 0, position.y - camera.getPosition().y, SCREEN_WIDTH, position.y - camera.getPosition().y);
 	}
 
 	if (debug)

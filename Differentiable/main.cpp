@@ -44,9 +44,9 @@ int main(int argc, char* args[])
 	
 	//World camera
 	Camera camera = Camera();
-	
-	//Container that stores AABBs
-	std::vector<AABB> aabbs;
+
+	//Container that stores tiles
+	std::vector<Tile> tiles;
 
 	//Container that stores moving objects
 	std::vector<MovingObject> movingObjects;
@@ -55,7 +55,7 @@ int main(int argc, char* args[])
 	Player player;
 
 	//Load the level
-	loadLevel("levels\\test.lvl", aabbs, movingObjects, player, renderer, separators);
+	loadLevel("levels\\test.lvl", tiles, movingObjects, player, renderer, separators);
 
 	//Background image
 	//SDL_Texture* background = loadTexture("", renderer);
@@ -72,11 +72,11 @@ int main(int argc, char* args[])
 		{
 			if (isConsoleUp) 
 			{
-				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, aabbs, movingObjects, player, renderer);
+				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, tiles, movingObjects, player, renderer);
 			}
 			else if (inEditMode)
 			{
-				eventInEditMode(e, inEditMode, aabbs, camera);
+				eventInEditMode(e, inEditMode, tiles, camera, renderer);
 			}
 			else
 			{
@@ -118,16 +118,16 @@ int main(int argc, char* args[])
 		//Update physics
 		if (timeDelta > EPSILON && !isConsoleUp && !inEditMode)
 		{
-			player.UpdatePhysics(aabbs, timeDelta);
+			player.UpdatePhysics(tiles, timeDelta);
 
 			//Update camera position
 			camera.update(player);
 		}
 
 		//Draw all AABBs, MovingObjects, and the player
-		for (unsigned int i = 0; i < aabbs.size(); i++)
+		for (unsigned int i = 0; i < tiles.size(); i++)
 		{
-			aabbs[i].draw(renderer, debug, camera);
+			tiles[i].draw(renderer, debug, camera);
 		}
 		player.draw(renderer, debug, camera);
 		
@@ -138,6 +138,12 @@ int main(int argc, char* args[])
 			SDL_Rect rect = { 0, 0, (int)consoleString.length() * 20 + 40, 30 };
 			SDL_RenderCopy(renderer, text, NULL, &rect);
 			SDL_DestroyTexture(text);
+		}
+
+		//Edit related draw code here
+		if (inEditMode)
+		{
+
 		}
 
 		//Update screen

@@ -5,9 +5,9 @@ This cfg is a little sloppy, but anything between angle brackets is a literal in
 
 
 
-level        ----> <level> { AABB | MovingObject | Player | Door | Comment } </level>
+level        ----> <level> { Tile | MovingObject | Player | Door | Comment } </level>
 
-AABB         ----> <AABB> pair pair color </AABB>
+Tile         ----> <Tile> pair digit </Tile>
 
 MovingObject ----> <MovingObject> pair path bool </MovingObject>
 

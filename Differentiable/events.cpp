@@ -1,6 +1,6 @@
 #include "head.h"
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
 {
 	if (e.type == SDL_KEYDOWN)
 	{
@@ -20,7 +20,7 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 		{
 			//Parse
 			std::queue<std::string> tokens = tokenize(consoleString, separators);
-			parseCommand(tokens, aabbs, movingObjects, player, r, inEditMode, separators);
+			parseCommand(tokens, tiles, movingObjects, player, r, inEditMode, separators);
 			consoleString = "";
 			isConsoleUp = false;
 			break;
@@ -169,7 +169,7 @@ void eventMisc(SDL_Event e, bool &running)
 	}
 }
 
-void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Camera &camera)
+void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r)
 {
 	//Key press handling
 	switch (e.key.keysym.sym)
@@ -206,6 +206,12 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Ca
 	{
 	case SDL_BUTTON_LEFT:
 	{
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		x += camera.getPosition().x;
+		y += camera.getPosition().y;
+		printf("x: %d\ny: %d\n\n", x, y);
+		tiles.push_back(Tile(1, Vector2(x / 32, y / 32), r));
 		break;
 	}
 	case SDL_BUTTON_RIGHT:
@@ -214,11 +220,11 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<AABB> &aabbs, Ca
 		SDL_GetMouseState(&x, &y);
 		x += camera.getPosition().x;
 		y += camera.getPosition().y;
-		for (unsigned int i = 0; i < aabbs.size(); i++)
+		for (unsigned int i = 0; i < tiles.size(); i++)
 		{
-			if (aabbs[i].overlaps(Vector2(x, y)))
+			if (tiles[i].overlaps(Vector2(x, y)))
 			{
-				aabbs.erase(aabbs.begin() + i);
+				tiles.erase(tiles.begin() + i);
 			}
 		}
 		break;

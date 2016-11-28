@@ -1,9 +1,9 @@
 #include "head.h"
 
-void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[])
+void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[])
 {
 	//Clear the incoming vectors, this implicitly un-loads the current level.
-	aabbs.clear();
+	tiles.clear();
 	movingObjects.clear();
 
 	//Open file
@@ -13,7 +13,7 @@ void loadLevel(char* path, std::vector<AABB> &aabbs, std::vector<MovingObject> &
 	std::queue<std::string> tokens = tokenize(fs, separators);
 	fs.close();
 
-	parselevel(tokens, aabbs, movingObjects, player, r);
+	parselevel(tokens, tiles, movingObjects, player, r);
 }
 
 bool contains(char a, const char arr[])
@@ -94,7 +94,7 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 }
 
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[])
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[])
 {
 	//Handle empty string
 	if (tokens.size() != 0)
@@ -111,7 +111,7 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std
 
 			if (fileExists(path))
 			{
-				loadLevel(path, aabbs, movingObjects, player, r, separators);
+				loadLevel(path, tiles, movingObjects, player, r, separators);
 			}
 		}
 		else if (tokens.front().compare("edit") == 0)
@@ -137,16 +137,16 @@ bool fileExists(char* path)
 	return (bool)fs;
 }
 
-void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
+void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
 {
 	//Throw away <level>
 	tokens.pop();
 
 	while (tokens.front().compare("</level>") != 0)
 	{
-		if (tokens.front().compare("<AABB>") == 0)
+		if (tokens.front().compare("<Tile>") == 0)
 		{
-			parseAABB(tokens, aabbs);
+			parseTile(tokens, tiles, r);
 		}
 		else if (tokens.front().compare("<MovingObject>") == 0)
 		{
@@ -164,12 +164,10 @@ void parselevel(std::queue<std::string> &tokens, std::vector<AABB> &aabbs, std::
 	}
 }
 
-void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
+void parseTile(std::queue<std::string> &tokens, std::vector<Tile> &tiles, SDL_Renderer* r)
 {
 	Vector2 origin;
-	Vector2 size;
-	SDL_Color color;
-	color.a = 0xFF;
+	int textureIndex;
 
 	//Throw away <AABB>
 	tokens.pop();
@@ -182,37 +180,20 @@ void parseAABB(std::queue<std::string> &tokens, std::vector<AABB> &aabbs)
 	origin.y = std::stod(tokens.front());
 	tokens.pop();
 
-	//Get length
-	size.x = std::stod(tokens.front());
+	//Get texture index
+	textureIndex = std::stod(tokens.front());
 	tokens.pop();
 
-	//Get height
-	size.y = std::stod(tokens.front());
-	tokens.pop();
-
-	//Get r
-	color.r = (int)std::stod(tokens.front());
-	tokens.pop();
-
-	//Get g
-	color.g = (int)std::stod(tokens.front());
-	tokens.pop();
-
-	//Get b
-	color.b = (int)std::stod(tokens.front());
-	tokens.pop();
-
-
-	//Throw away </AABB>
-	if (tokens.front().compare("</AABB>") != 0)
+	//Throw away </Tile>
+	if (tokens.front().compare("</Tile>") != 0)
 	{
-		printf("Expected \"</AABB>\" but was \"%s\"\n\n", tokens.front().c_str());
+		printf("Expected \"</Tile>\" but was \"%s\"\n\n", tokens.front().c_str());
 		exit(0);
 	}
 	tokens.pop();
 
 	//Done
-	aabbs.push_back(AABB(origin, size, color));
+	tiles.push_back(Tile(textureIndex, origin, r));
 }
 
 void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject> &movingObjects, SDL_Renderer* r)

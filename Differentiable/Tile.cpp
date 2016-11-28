@@ -1,9 +1,10 @@
 #include "head.h"
 
-Tile::Tile(SDL_Texture* Texture, Vector2 Position)
+Tile::Tile(int TextureIndex, Vector2 Position, SDL_Renderer* r)
 {
-	texture = Texture;
-	position = Position;
+	texture = loadTexture("textures\\tile.png", r);
+	textureIndex = TextureIndex;
+	position = Position * 32;
 }
 
 Vector2 Tile::getPosition()
@@ -13,17 +14,29 @@ Vector2 Tile::getPosition()
 
 void Tile::setPosition(Vector2 Position)
 {
-	position = Position;
+	position = Position * 32;
+}
+
+AABB Tile::aabb()
+{
+	return AABB(position, Vector2(TILE_WIDTH, TILE_WIDTH));
 }
 
 bool Tile::overlaps(Vector2 point)
 {
-	Vector2 pixelPosition = position * 32;
-	return (point.x >= pixelPosition.x) && (point.x <= pixelPosition.x + 32) && (point.y >= pixelPosition.y) && (point.y <= pixelPosition.y + 32);
+	return (point.x >= position.x) && (point.x <= position.x + 32) && (point.y >= position.y) && (point.y <= position.y + 32);
 }
 
 void Tile::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
 	SDL_Rect objectRect = newRect(position - camera.getPosition(), Vector2(TILE_WIDTH, TILE_WIDTH));
-	SDL_RenderCopy(r, texture, NULL, &objectRect);
+	SDL_Rect srcRect = newRect(Vector2(textureIndex * 32, 0), Vector2(TILE_WIDTH, TILE_WIDTH));
+	SDL_RenderCopy(r, texture, &srcRect, &objectRect);
+
+	if (debug)
+	{
+		SDL_Rect rect = newRect(position - camera.getPosition(), Vector2(TILE_WIDTH, TILE_WIDTH));
+		SDL_SetRenderDrawColor(r, 0, 0xFF, 0, 0xFF);
+		SDL_RenderDrawRect(r, &rect);
+	}
 }

@@ -59,7 +59,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	return true;
 }
 
-SDL_Texture* loadTexture(char* path, SDL_Renderer* r)
+SDL_Texture* loadTexture(const char* path, SDL_Renderer* r)
 {
 	//Returned texture
 	SDL_Texture* texture = NULL;
