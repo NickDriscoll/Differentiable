@@ -171,33 +171,36 @@ void eventMisc(SDL_Event e, bool &running)
 void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r)
 {
 	//Key press handling
-	switch (e.key.keysym.sym)
+	if (e.type == SDL_KEYDOWN)
 	{
-	case SDLK_BACKQUOTE:
-	{
-		inEditMode = !inEditMode;
-		break;
-	}
-	case SDLK_w:
-	{
-		camera.update(Vector2(camera.getPosition().x, camera.getPosition().y - 10));
-		break;
-	}
-	case SDLK_s:
-	{
-		camera.update(Vector2(camera.getPosition().x, camera.getPosition().y + 10));
-		break;
-	}
-	case SDLK_a:
-	{
-		camera.update(Vector2(camera.getPosition().x - 10, camera.getPosition().y));
-		break;
-	}
-	case SDLK_d:
-	{
-		camera.update(Vector2(camera.getPosition().x + 10, camera.getPosition().y));
-		break;
-	}
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_BACKQUOTE:
+		{
+			inEditMode = !inEditMode;
+			break;
+		}
+		case SDLK_w:
+		{
+			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y - 10));
+			break;
+		}
+		case SDLK_s:
+		{
+			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y + 10));
+			break;
+		}
+		case SDLK_a:
+		{
+			camera.update(Vector2(camera.getPosition().x - 10, camera.getPosition().y));
+			break;
+		}
+		case SDLK_d:
+		{
+			camera.update(Vector2(camera.getPosition().x + 10, camera.getPosition().y));
+			break;
+		}
+		}
 	}
 
 
@@ -206,29 +209,51 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 	SDL_GetMouseState(&x, &y);
 	x += camera.getPosition().x;
 	y += camera.getPosition().y;
-	SDL_RenderDrawPoint(r, x, y);
-	printf("x: %d\ny: %d\n\n", x, y);
 
 	//Mouse handling
-	switch (e.button.button)
+	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-	case SDL_BUTTON_LEFT:
-	{
-		tiles.push_back(Tile(1, Vector2(x / 32, y / 32), r));
-		break;
-	}
-	case SDL_BUTTON_RIGHT:
-	{
-		for (int i = 0; i < tiles.size(); i++)
+		switch (e.button.button)
 		{
-			if (tiles[i].overlaps(Vector2(x, y)))
+		case SDL_BUTTON_LEFT:
+		{
+			//Messy conditionals for handling negative mouse position
+			if (x < 0)
 			{
-				tiles.erase(tiles.begin() + i);
-				break;
+				x /= 32;
+				x--;
 			}
-		}
-		break;
-	}
-	}
+			else
+			{
+				x /= 32;
+			}
 
+			//And for y
+			if (y < 0)
+			{
+				y /= 32;
+				y--;
+			}
+			else
+			{
+				y /= 32;
+			}
+
+			tiles.push_back(Tile(1, Vector2(x, y), r));
+			break;
+		}
+		case SDL_BUTTON_RIGHT:
+		{
+			for (int i = 0; i < tiles.size(); i++)
+			{
+				if (tiles[i].overlaps(Vector2(x, y)))
+				{
+					tiles.erase(tiles.begin() + i);
+					break;
+				}
+			}
+			break;
+		}
+		}
+	}
 }
