@@ -94,7 +94,7 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 }
 
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[])
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[])
 {
 	//Handle empty string
 	if (tokens.size() != 0)
@@ -117,6 +117,7 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 		else if (tokens.front().compare("edit") == 0)
 		{
 			inEditMode = !inEditMode;
+			editorString = "Currently selected tile is: ";
 		}
 		else
 		{

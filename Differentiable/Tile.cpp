@@ -5,6 +5,16 @@ Tile::Tile(int TextureIndex, Vector2 Position, SDL_Renderer* r)
 	texture = loadTexture("textures\\tile.png", r);
 	textureIndex = TextureIndex;
 	position = Position * 32;
+	/*
+	if (Position.x < 0)
+	{
+		position.x -= 1;
+	}
+	if (Position.y < 0)
+	{
+		position.y -= 1;
+	}
+	*/
 }
 
 Vector2 Tile::getPosition()

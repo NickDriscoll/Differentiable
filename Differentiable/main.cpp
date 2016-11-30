@@ -33,6 +33,9 @@ int main(int argc, char* args[])
 	//Flag to track if editing
 	bool inEditMode = false;
 
+	//Tile index currently in use
+	int currentlySelectedTileIndex = 0;
+
 	//String holding what is currently in the console window
 	std::string consoleString = "";
 
@@ -72,11 +75,11 @@ int main(int argc, char* args[])
 		{
 			if (isConsoleUp) 
 			{
-				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, tiles, movingObjects, player, renderer);
+				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, editorString, tiles, movingObjects, player, renderer);
 			}
 			else if (inEditMode)
 			{
-				eventInEditMode(e, inEditMode, tiles, camera, renderer);
+				eventInEditMode(e, inEditMode, currentlySelectedTileIndex, tiles, camera, renderer);
 			}
 			else
 			{
@@ -101,7 +104,6 @@ int main(int argc, char* args[])
 					eventMisc(e, running);
 				}
 			}
-
 		}
 
 		//Clear screen
@@ -143,7 +145,11 @@ int main(int argc, char* args[])
 		//Edit related draw code here
 		if (inEditMode)
 		{
-
+			//Draw text
+			SDL_Texture* text = textureText(renderer, font, editorString.c_str());
+			SDL_Rect rect = {0, 0, (int)editorString.length() * 20 + 40, 30};
+			SDL_RenderCopy(renderer, text, NULL, &rect);
+			SDL_DestroyTexture(text);			
 		}
 
 		//Update screen

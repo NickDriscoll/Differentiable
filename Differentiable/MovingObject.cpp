@@ -93,26 +93,29 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				onGround = true;
 				//printf("colliding from top\n");
 			}
-
-			if (collidesFromLeft(boundingBox, tiles[boner].aabb()) && !collidesFromLeft(oldBoundingBox, tiles[boner].aabb()))
+			else if (!onGround)
 			{
-				position.x = tiles[boner].aabb().getOrigin().x - textureWidth;
-				pushesRightWall = true;
-				//printf("colliding from left\n");
-			}
 
-			if (collidesFromRight(boundingBox, tiles[boner].aabb()) && !collidesFromRight(oldBoundingBox, tiles[boner].aabb()))
-			{
-				position.x = tiles[boner].aabb().getOrigin().x + tiles[boner].aabb().getSize().x;
-				pushesLeftWall = true;
-				//printf("colliding from right\n");
-			}
+				if (collidesFromLeft(boundingBox, tiles[boner].aabb()) && !collidesFromLeft(oldBoundingBox, tiles[boner].aabb()))
+				{
+					position.x = tiles[boner].aabb().getOrigin().x - textureWidth;
+					pushesRightWall = true;
+					//printf("colliding from left\n");
+				}
 
-			if (collidesFromBottom(boundingBox, tiles[boner].aabb()) && !collidesFromBottom(oldBoundingBox, tiles[boner].aabb()))
-			{
-				position.y = tiles[boner].aabb().getOrigin().y + tiles[boner].aabb().getSize().y;
-				atCeiling = true;
-				//printf("colliding from bottom\n");
+				if (collidesFromRight(boundingBox, tiles[boner].aabb()) && !collidesFromRight(oldBoundingBox, tiles[boner].aabb()))
+				{
+					position.x = tiles[boner].aabb().getOrigin().x + tiles[boner].aabb().getSize().x;
+					pushesLeftWall = true;
+					//printf("colliding from right\n");
+				}
+
+				if (collidesFromBottom(boundingBox, tiles[boner].aabb()) && !collidesFromBottom(oldBoundingBox, tiles[boner].aabb()))
+				{
+					position.y = tiles[boner].aabb().getOrigin().y + tiles[boner].aabb().getSize().y;
+					atCeiling = true;
+					//printf("colliding from bottom\n");
+				}
 			}
 		}
 	}

@@ -254,7 +254,7 @@ std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
 std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, const char separators[]);
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[]);
 
 bool fileExists(char* path);
 
@@ -276,7 +276,7 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 
 #pragma region EventHandlers
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player);
 
@@ -288,6 +288,6 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player);
 
 void eventMisc(SDL_Event e, bool &running);
 
-void eventInEditMode(SDL_Event e, bool &inEditMode, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r);
+void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r);
 
 #pragma endregion
