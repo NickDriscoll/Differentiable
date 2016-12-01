@@ -22,6 +22,11 @@ Vector2 Tile::getPosition()
 	return position;
 }
 
+int Tile::getTextureIndex()
+{
+	return textureIndex;
+}
+
 void Tile::setPosition(Vector2 Position)
 {
 	position = Position * 32;

@@ -1,4 +1,8 @@
-<level> <Tile> -2 5	0 </Tile>
+<level>
+	<Tile> 
+		-2 5
+		0
+    </Tile>
 
 	<Tile>
 		-1 5

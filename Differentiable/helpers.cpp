@@ -112,3 +112,11 @@ SDL_Rect newRect(Vector2 origin, Vector2 size)
 	SDL_Rect rect = { (int)round(origin.x) , (int)round(origin.y), size.x, size.y };
 	return rect;
 }
+
+char* stringToCharPointer(std::string string)
+{
+	//Stupid bullshit
+	char* cptr = new char[string.length()];
+	strcpy(cptr, string.c_str());
+	return cptr;
+}

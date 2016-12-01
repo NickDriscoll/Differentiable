@@ -42,6 +42,9 @@ int main(int argc, char* args[])
 	//String holding editor text
 	std::string editorString = "";
 
+	//Tile sheet
+	SDL_Texture *tileTexture = loadTexture("textures\\tile.png", renderer);
+
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -149,7 +152,12 @@ int main(int argc, char* args[])
 			SDL_Texture* text = textureText(renderer, font, editorString.c_str());
 			SDL_Rect rect = {0, 0, (int)editorString.length() * 20 + 40, 30};
 			SDL_RenderCopy(renderer, text, NULL, &rect);
-			SDL_DestroyTexture(text);			
+			SDL_DestroyTexture(text);
+
+			//Draw tile next to words
+			SDL_Rect tRects = { rect.w, 0, 32, 32 };
+			SDL_Rect sRects = { currentlySelectedTileIndex * 32, 0, 32, 32 };
+			SDL_RenderCopy(renderer, tileTexture, &sRects , &tRects);
 		}
 
 		//Update screen

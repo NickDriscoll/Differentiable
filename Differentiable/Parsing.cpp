@@ -16,6 +16,43 @@ void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 	parselevel(tokens, tiles, movingObjects, player, r);
 }
 
+void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+{
+	//Open file stream
+	std::fstream fs;
+	fs.open(path, std::ios::out);
+
+	//Write <level>
+	fs << "<level>" << std::endl;
+
+	//Write all tiles
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		fs << "<Tile>" << std::endl;
+		fs << tiles[i].getPosition().x / 32 << " " << tiles[i].getPosition().y / 32 << " " << tiles[i].getTextureIndex() << std::endl;
+		fs << "</Tile>" << std::endl;
+	}
+
+	/*Write all movingObjects
+	for (int i = 0; i < movingObjects.size(); i++)
+	{
+		fs << "<MovingObject> ";
+		fs << 
+	}
+	*/
+
+	//Write player data, so far it's all constant
+	fs << "<Player>" << std::endl;
+	fs << 0 << " " << 0 << " " << "textures\\\\overman.png" << " " << 1 << std::endl;
+	fs << "</Player>" << std::endl;
+
+	//Write </level>
+	fs << "</level>";
+
+	//Close file stream
+	fs.close();
+}
+
 bool contains(char a, const char arr[])
 {
 	for (int i = 0; arr[i] != '\0'; i++)
@@ -118,6 +155,23 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 		{
 			inEditMode = !inEditMode;
 			editorString = "Currently selected tile is: ";
+		}
+		else if (tokens.front().compare("save") == 0)
+		{
+			tokens.pop();
+
+			if (tokens.size() == 0)
+			{
+				printf("Expected filename.\n\n");
+				return;
+			}
+
+			char* path = stringToCharPointer("levels\\" + tokens.front());
+
+			saveLevel(path, tiles, movingObjects, player, r);
+
+			printf("Saved!\n\n");
+
 		}
 		else
 		{

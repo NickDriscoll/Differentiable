@@ -24,6 +24,9 @@ const int JOYSTICK_DEAD_ZONE = 24000;
 //Tile size
 const int TILE_WIDTH = 32;
 
+//Number of unique tiles
+const int TILE_MAX_INDEX = 2;
+
 //Enumeration for Xbox 360 button indices
 enum Xbox360Button
 {
@@ -92,6 +95,7 @@ public:
 
 	//Getters
 	Vector2 getPosition();
+	int getTextureIndex();
 
 	//Settings
 	void setPosition(Vector2 Position);
@@ -244,6 +248,8 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 //Helpful wrapper for SDL_Rect struct initialization
 SDL_Rect newRect(Vector2 origin, Vector2 size);
 
+char* stringToCharPointer(std::string string);
+
 #pragma region Parsing
 
 bool contains(char a, const char arr[]);
@@ -259,6 +265,8 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 bool fileExists(char* path);
 
 void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
+
+void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 #pragma endregion
 

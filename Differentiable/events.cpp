@@ -239,7 +239,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 				y /= 32;
 			}
 
-			tiles.push_back(Tile(1, Vector2(x, y), r));
+			tiles.push_back(Tile(currentlySelectedTileIndex, Vector2(x, y), r));
 			break;
 		}
 		case SDL_BUTTON_RIGHT:
@@ -254,6 +254,29 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 			}
 			break;
 		}
+		}
+	}
+
+	//Scroll wheel handling
+	if (e.type == SDL_MOUSEWHEEL)
+	{
+		if (e.wheel.y < 0)
+		{
+			currentlySelectedTileIndex++;
+		}
+		else
+		{
+			currentlySelectedTileIndex--;
+		}
+
+		//Adjust it to be back in bounds
+		if (currentlySelectedTileIndex < 0)
+		{
+			currentlySelectedTileIndex = 0;
+		}
+		else if (currentlySelectedTileIndex > TILE_MAX_INDEX)
+		{
+			currentlySelectedTileIndex = TILE_MAX_INDEX;
 		}
 	}
 }
