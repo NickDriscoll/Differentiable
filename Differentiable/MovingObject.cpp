@@ -60,6 +60,7 @@ void MovingObject::setPosition(Vector2 newPos)
 	position = newPos;
 }
 
+// TODO: Seriously fix this shit
 void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 {
 	//Store previous values in respective variables.
@@ -80,69 +81,32 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	//Update position
 	position = position + (velocity * timeDelta);
 
-	//Update bounding box's origin
+	//Update bounding box's position
 	boundingBox.setOrigin(position);
 
-	for (unsigned int boner = 0; boner < tiles.size(); boner++)
+	//Check collision
+	for (unsigned int i = 0; i < tiles.size() && !onGround; i++)
 	{
-		if (overlaps(tiles[boner].aabb()))
-		{
-			if (collidesFromTop(boundingBox, tiles[boner].aabb()) && !collidesFromTop(oldBoundingBox, tiles[boner].aabb()))
-			{
-				position.y = tiles[boner].aabb().getOrigin().y - textureHeight;
-				onGround = true;
-				//printf("colliding from top\n");
-			}
-			else if (!onGround)
-			{
-
-				if (collidesFromLeft(boundingBox, tiles[boner].aabb()) && !collidesFromLeft(oldBoundingBox, tiles[boner].aabb()))
-				{
-					position.x = tiles[boner].aabb().getOrigin().x - textureWidth;
-					pushesRightWall = true;
-					//printf("colliding from left\n");
-				}
-
-				if (collidesFromRight(boundingBox, tiles[boner].aabb()) && !collidesFromRight(oldBoundingBox, tiles[boner].aabb()))
-				{
-					position.x = tiles[boner].aabb().getOrigin().x + tiles[boner].aabb().getSize().x;
-					pushesLeftWall = true;
-					//printf("colliding from right\n");
-				}
-
-				if (collidesFromBottom(boundingBox, tiles[boner].aabb()) && !collidesFromBottom(oldBoundingBox, tiles[boner].aabb()))
-				{
-					position.y = tiles[boner].aabb().getOrigin().y + tiles[boner].aabb().getSize().y;
-					atCeiling = true;
-					//printf("colliding from bottom\n");
-				}
-			}
-		}
+		onGround = tiles[i].aabb().overlaps(boundingBox);
 	}
 
-	//Apply physics based on object state
-	if (onGround || atCeiling)
+	//Fall if the player isn't on the ground
+	if (!onGround)
 	{
-		velocity.y = 0;
+		if (velocity.y > TERMINAL_VELOCITY)
+		{
+			velocity.y = TERMINAL_VELOCITY;
+		}
+		else
+		{
+			velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
+		}
 	}
 	else
 	{
-		if (velocity.y < TERMINAL_VELOCITY)
-		{
-			velocity.y += ACCELERATION_DUE_TO_GRAVITY * timeDelta;
-		} 
-	}
-
-	if (pushesRightWall || pushesLeftWall)
-	{
-		velocity.x = 0;
-	}
-
-	//Special case when ziplining is on
-	if (ziplining)
-	{
 		velocity.y = 0;
 	}
+
 
 }
 
@@ -156,6 +120,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 
 	if (ziplining)
 	{
+		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
 		SDL_RenderDrawLine(r, 0, position.y - camera.getPosition().y, SCREEN_WIDTH, position.y - camera.getPosition().y);
 	}
 
@@ -170,25 +135,4 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 bool MovingObject::overlaps(AABB other)
 {
 	return boundingBox.overlaps(other);
-}
-
-//The following functions are ONLY called when a collision has already occurred.
-bool MovingObject::collidesFromLeft(AABB box, AABB other)
-{
-	return (box.getOrigin().x + box.getSize().x) > other.getOrigin().x;
-}
-
-bool MovingObject::collidesFromRight(AABB box, AABB other)
-{
-	return box.getOrigin().x < (other.getOrigin().x + other.getSize().x);
-}
-
-bool MovingObject::collidesFromTop(AABB box, AABB other)
-{
-	return (box.getOrigin().y + box.getSize().y) > other.getOrigin().y;
-}
-
-bool MovingObject::collidesFromBottom(AABB box, AABB other)
-{
-	return box.getOrigin().y < (other.getOrigin().y + other.getSize().y);
 }

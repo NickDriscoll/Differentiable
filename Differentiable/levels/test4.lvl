@@ -1,0 +1,182 @@
+<level>
+<Tile>
+-2 5 0
+</Tile>
+<Tile>
+-1 5 1
+</Tile>
+<Tile>
+0 5 1
+</Tile>
+<Tile>
+1 5 0
+</Tile>
+<Tile>
+2 5 0
+</Tile>
+<Tile>
+3 5 0
+</Tile>
+<Tile>
+4 5 0
+</Tile>
+<Tile>
+-1 5 0
+</Tile>
+<Tile>
+0 5 0
+</Tile>
+<Tile>
+5 5 0
+</Tile>
+<Tile>
+6 5 0
+</Tile>
+<Tile>
+7 5 0
+</Tile>
+<Tile>
+8 5 0
+</Tile>
+<Tile>
+10 5 0
+</Tile>
+<Tile>
+10 5 0
+</Tile>
+<Tile>
+9 5 0
+</Tile>
+<Tile>
+-3 5 0
+</Tile>
+<Tile>
+-4 5 0
+</Tile>
+<Tile>
+-6 5 0
+</Tile>
+<Tile>
+-5 5 0
+</Tile>
+<Tile>
+-6 6 0
+</Tile>
+<Tile>
+-6 7 0
+</Tile>
+<Tile>
+-6 7 0
+</Tile>
+<Tile>
+-6 9 0
+</Tile>
+<Tile>
+-6 8 0
+</Tile>
+<Tile>
+-6 10 0
+</Tile>
+<Tile>
+-6 11 0
+</Tile>
+<Tile>
+-5 12 0
+</Tile>
+<Tile>
+-6 13 0
+</Tile>
+<Tile>
+-3 12 0
+</Tile>
+<Tile>
+-1 12 0
+</Tile>
+<Tile>
+1 12 0
+</Tile>
+<Tile>
+3 12 0
+</Tile>
+<Tile>
+10 6 2
+</Tile>
+<Tile>
+10 7 2
+</Tile>
+<Tile>
+10 8 2
+</Tile>
+<Tile>
+10 9 2
+</Tile>
+<Tile>
+10 10 2
+</Tile>
+<Tile>
+10 11 2
+</Tile>
+<Tile>
+10 12 2
+</Tile>
+<Tile>
+10 13 2
+</Tile>
+<Tile>
+10 14 2
+</Tile>
+<Tile>
+17 14 2
+</Tile>
+<Tile>
+17 13 2
+</Tile>
+<Tile>
+17 11 2
+</Tile>
+<Tile>
+17 11 2
+</Tile>
+<Tile>
+17 12 2
+</Tile>
+<Tile>
+17 10 2
+</Tile>
+<Tile>
+17 9 2
+</Tile>
+<Tile>
+17 8 2
+</Tile>
+<Tile>
+17 7 2
+</Tile>
+<Tile>
+17 6 2
+</Tile>
+<Tile>
+17 5 0
+</Tile>
+<Tile>
+-7 12 0
+</Tile>
+<Tile>
+-9 12 0
+</Tile>
+<Tile>
+-11 12 0
+</Tile>
+<Tile>
+-13 12 0
+</Tile>
+<Tile>
+-15 12 0
+</Tile>
+<Tile>
+-17 12 0
+</Tile>
+<Player>
+0 0 textures\\overman.png 1
+</Player>
+</level>

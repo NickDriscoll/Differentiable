@@ -182,22 +182,22 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 		}
 		case SDLK_w:
 		{
-			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y - 10));
+			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y - TILE_WIDTH));
 			break;
 		}
 		case SDLK_s:
 		{
-			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y + 10));
+			camera.update(Vector2(camera.getPosition().x, camera.getPosition().y + TILE_WIDTH));
 			break;
 		}
 		case SDLK_a:
 		{
-			camera.update(Vector2(camera.getPosition().x - 10, camera.getPosition().y));
+			camera.update(Vector2(camera.getPosition().x - TILE_WIDTH, camera.getPosition().y));
 			break;
 		}
 		case SDLK_d:
 		{
-			camera.update(Vector2(camera.getPosition().x + 10, camera.getPosition().y));
+			camera.update(Vector2(camera.getPosition().x + TILE_WIDTH, camera.getPosition().y));
 			break;
 		}
 		}
