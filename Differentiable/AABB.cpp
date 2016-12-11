@@ -46,16 +46,73 @@ bool AABB::overlaps(Vector2 other)
 
 bool AABB::overlaps(AABB other)
 {
-	bool flag = true;
-	Vector2* thisCenter = new Vector2(origin.x + (size.x / 2), origin.y + (size.y / 2));
-	Vector2* otherCenter = new Vector2(other.getOrigin().x + (other.getSize().x / 2), other.getOrigin().y + (other.getSize().y / 2));
-	if ((abs(thisCenter->x - otherCenter->x) > (size.x / 2) + (other.getSize().x / 2)) || (abs(thisCenter->y - otherCenter->y) > (size.y / 2) + (other.getSize().y / 2)))
+	//The sides of the rectangles
+	int leftA, leftB;
+	int rightA, rightB;
+	int topA, topB;
+	int bottomA, bottomB;
+
+	//Calculate the sides of rect A
+	leftA = origin.x;
+	rightA = origin.x + size.x;
+	topA = origin.y;
+	bottomA = origin.y + size.y;
+
+	//Calculate the sides of rect B
+	leftB = other.origin.x;
+	rightB = other.origin.x + other.size.x;
+	topB = other.origin.y;
+	bottomB = other.origin.y + other.size.y;
+
+	//If any of the sides from A are outside of B
+	if (bottomA < topB)
 	{
-		flag = false;
+		return false;
 	}
-	delete thisCenter;
-	delete otherCenter;
-	return flag;
+
+	if (topA > bottomB)
+	{
+		return false;
+	}
+
+	if (rightA < leftB)
+	{
+		return false;
+	}
+
+	if (leftA > rightB)
+	{
+		return false;
+	}
+
+	//If none of the sides from A are outside B
+	return true;
+}
+
+bool* AABB::collisionSide(AABB other)
+{
+	bool* sides = new bool[NUMBER_OF_SIDES];
+
+	//Check collision side.
+	if (origin.y + size.y > other.origin.y)
+	{
+		sides[Bottom] = true;
+	}
+	else if (other.origin.y + other.size.y > origin.y)
+	{
+		sides[Top] = true;
+	}
+	else if (origin.x + size.x > other.origin.x)
+	{
+		sides[Right] = true;
+	}
+	else if (other.origin.x + other.size.x > origin.x)
+	{
+		sides[Left] = true;
+	}
+
+	return sides;
+	
 }
 
 void AABB::draw(SDL_Renderer* r, bool debug, Camera camera)

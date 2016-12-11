@@ -8,12 +8,16 @@
 #include <vector>
 #include <queue>
 
+//Comment this out to disable editing/debug features
+#define DEBUG_FEATURES
+
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int FONT_SIZE = 72;
 const double EPSILON = 0.0001;
-const double ACCELERATION_DUE_TO_GRAVITY = 500;
+const double ACCELERATION_DUE_TO_GRAVITY = 400;
 const double TERMINAL_VELOCITY = 800;
+const int NUMBER_OF_SIDES = 4;
 
 //Separators
 const char separators[] = { ' ', '\n', '\0' };
@@ -24,7 +28,7 @@ const int JOYSTICK_DEAD_ZONE = 24000;
 //Tile size
 const int TILE_WIDTH = 32;
 
-//Number of unique tiles
+//Number of tile indices
 const int TILE_MAX_INDEX = 2;
 
 //Enumeration for Xbox 360 button indices
@@ -40,6 +44,15 @@ enum Xbox360Button
 	XBOX_360_START = 7,
 	XBOX_360_LSTICK = 8,
 	XBOX_360_RSTICK = 9
+};
+
+//Collision enum
+enum CollisionSide
+{
+	Top,
+	Bottom,
+	Left,
+	Right
 };
 
 //Talking class prototypes?!?
@@ -131,6 +144,7 @@ public:
 
 	bool overlaps(Vector2 position);
 	bool overlaps(AABB other);
+	bool* collisionSide(AABB other);
 
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
 };
@@ -197,14 +211,8 @@ public:
 	void setFacing(bool facing);
 	void setPosition(Vector2 newPos);
 
-	bool collidesFromLeft(AABB box, AABB other);
-	bool collidesFromRight(AABB box, AABB other);
-	bool collidesFromTop(AABB box, AABB other);
-	bool collidesFromBottom(AABB box, AABB other);
-
 	void UpdatePhysics(std::vector<Tile> tiles, double timeDelta);
 	void draw(SDL_Renderer* r, bool debug, Camera camera);
-	bool overlaps(AABB other);
 };
 
 
