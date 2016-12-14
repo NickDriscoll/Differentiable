@@ -1,5 +1,15 @@
 #include "head.h"
 
+int cstrLength(const char* string)
+{
+	int i = 0;
+	while (string[i] != '\0')
+	{
+		i++;
+	}
+	return i;
+}
+
 bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)

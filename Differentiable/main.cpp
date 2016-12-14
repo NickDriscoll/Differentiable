@@ -45,6 +45,17 @@ int main(int argc, char* args[])
 	//Tile sheet
 	SDL_Texture *tileTexture = loadTexture("textures\\tile.png", renderer);
 
+	//Create main menu
+	char** menuOptions = new char*[3];
+	menuOptions[0] = "Begin";
+	menuOptions[1] = "Options";
+	menuOptions[2] = "Exit";
+	Menu mainMenu = Menu("Differentiable", menuOptions, 3);
+
+	//Create stack holding menus and push the main menu.
+	std::stack<Menu> menus;
+	menus.push(mainMenu);
+
 	//This is a variable to store the current event.
 	SDL_Event e;
 	
@@ -73,98 +84,114 @@ int main(int argc, char* args[])
 	//Game loop
 	while (running)
 	{
-		//Process event queue until it is empty
-		while (SDL_PollEvent(&e) != 0)
+		//Render and handle any menus on the stack.
+		if (menus.size() > 0)
 		{
-			if (isConsoleUp) 
+			while (SDL_PollEvent(&e) != 0)
 			{
-				eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, editorString, tiles, movingObjects, player, renderer);
+				eventMisc(e, running);
 			}
-			else if (inEditMode)
+
+			//Draw menu
+			menus.top().draw(renderer, font);
+			SDL_RenderPresent(renderer);
+		}
+		//If there are no menus on the stack, run this
+		else
+		{
+			//Process event queue until it is empty
+			while (SDL_PollEvent(&e) != 0)
 			{
-				eventInEditMode(e, inEditMode, currentlySelectedTileIndex, tiles, camera, renderer);
-			}
-			else
-			{
-				if (e.type == SDL_KEYDOWN)
+				if (isConsoleUp)
 				{
-					eventKeyDown(e, running, isConsoleUp, debug, consoleString, player);
+					eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, editorString, tiles, movingObjects, player, renderer);
 				}
-				else if (e.type == SDL_KEYUP)
+				else if (inEditMode)
 				{
-					eventKeyUp(e, player);
-				}
-				else if (e.type == SDL_JOYAXISMOTION)
-				{
-					eventJoystick(e, player);
-				}
-				else if (e.type == SDL_JOYBUTTONDOWN)
-				{
-					eventButton(e, running, debug, player);
+					eventInEditMode(e, inEditMode, currentlySelectedTileIndex, tiles, camera, renderer);
 				}
 				else
 				{
-					eventMisc(e, running);
+					if (e.type == SDL_KEYDOWN)
+					{
+						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player);
+					}
+					else if (e.type == SDL_KEYUP)
+					{
+						eventKeyUp(e, player);
+					}
+					else if (e.type == SDL_JOYAXISMOTION)
+					{
+						eventJoystick(e, player);
+					}
+					else if (e.type == SDL_JOYBUTTONDOWN)
+					{
+						eventButton(e, running, debug, player);
+					}
+					else
+					{
+						eventMisc(e, running);
+					}
 				}
 			}
+
+			//Clear screen
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
+			SDL_RenderClear(renderer);
+
+			//Update physics w/ timedelta
+			currentFrameTime = SDL_GetTicks();
+			double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
+
+			//Sometimes timeDelta is zero
+			//No, I don't know why.
+
+			//Update physics
+			if (timeDelta > EPSILON && !isConsoleUp && !inEditMode)
+			{
+				player.UpdatePhysics(tiles, timeDelta);
+
+				//Update camera position
+				camera.update(player);
+			}
+
+			//Draw all AABBs, MovingObjects, and the player
+			for (unsigned int i = 0; i < tiles.size(); i++)
+			{
+				tiles[i].draw(renderer, debug, camera);
+			}
+			player.draw(renderer, debug, camera);
+
+			//Console related draw code here
+			if (isConsoleUp)
+			{
+				SDL_Texture* text = textureText(renderer, font, ("> " + consoleString).c_str());
+				SDL_Rect rect = { 0, 0, (int)consoleString.length() * 20 + 40, 30 };
+				SDL_RenderCopy(renderer, text, NULL, &rect);
+				SDL_DestroyTexture(text);
+			}
+
+			//Edit related draw code here
+			if (inEditMode)
+			{
+				//Draw text
+				SDL_Texture* text = textureText(renderer, font, editorString.c_str());
+				SDL_Rect rect = { 0, 0, (int)editorString.length() * 20 + 40, 30 };
+				SDL_RenderCopy(renderer, text, NULL, &rect);
+				SDL_DestroyTexture(text);
+
+				//Draw tile next to words
+				SDL_Rect tRects = { rect.w, 0, 32, 32 };
+				SDL_Rect sRects = { currentlySelectedTileIndex * 32, 0, 32, 32 };
+				SDL_RenderCopy(renderer, tileTexture, &sRects, &tRects);
+			}
+
+			//Update screen
+			SDL_RenderPresent(renderer);
+
+			//Set lastFrameTime equal to now
+			lastFrameTime = currentFrameTime;
 		}
-
-		//Clear screen
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
-		SDL_RenderClear(renderer);
-
-		//Update physics w/ timedelta
-		currentFrameTime = SDL_GetTicks();
-		double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
-		
-		//Sometimes timeDelta is zero
-		//No, I don't know why.
-
-		//Update physics
-		if (timeDelta > EPSILON && !isConsoleUp && !inEditMode)
-		{
-			player.UpdatePhysics(tiles, timeDelta);
-
-			//Update camera position
-			camera.update(player);
-		}
-
-		//Draw all AABBs, MovingObjects, and the player
-		for (unsigned int i = 0; i < tiles.size(); i++)
-		{
-			tiles[i].draw(renderer, debug, camera);
-		}
-		player.draw(renderer, debug, camera);
-		
-		//Console related draw code here
-		if (isConsoleUp)
-		{
-			SDL_Texture* text = textureText(renderer, font, ("> " + consoleString).c_str());
-			SDL_Rect rect = { 0, 0, (int)consoleString.length() * 20 + 40, 30 };
-			SDL_RenderCopy(renderer, text, NULL, &rect);
-			SDL_DestroyTexture(text);
-		}
-
-		//Edit related draw code here
-		if (inEditMode)
-		{
-			//Draw text
-			SDL_Texture* text = textureText(renderer, font, editorString.c_str());
-			SDL_Rect rect = {0, 0, (int)editorString.length() * 20 + 40, 30};
-			SDL_RenderCopy(renderer, text, NULL, &rect);
-			SDL_DestroyTexture(text);
-
-			//Draw tile next to words
-			SDL_Rect tRects = { rect.w, 0, 32, 32 };
-			SDL_Rect sRects = { currentlySelectedTileIndex * 32, 0, 32, 32 };
-			SDL_RenderCopy(renderer, tileTexture, &sRects , &tRects);
-		}
-
-		//Update screen
-		SDL_RenderPresent(renderer);
-
-		//Set lastFrameTime equal to now
-		lastFrameTime = currentFrameTime;
 	}
 
 	close(window, controller);

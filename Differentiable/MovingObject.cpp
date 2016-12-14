@@ -115,13 +115,13 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				{
 					/* collision at the top */
 					//printf("Collision at top\n");
-					position.y = tiles[i].getPosition().y + TILE_WIDTH;
+					//position.y = tiles[i].getPosition().y + TILE_WIDTH;
 					atCeiling = true;
 				}
 				else
 				{
 					/* on the right */
-					position.x = tiles[i].getPosition().x - textureWidth;
+					//position.x = tiles[i].getPosition().x - textureWidth;
 					pushesRightWall = true;
 				}
 			else
@@ -129,16 +129,15 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				if (wy > -hx)
 				{
 					/* on the left */
-					position.x = tiles[i].getPosition().x + TILE_WIDTH;
+					//position.x = tiles[i].getPosition().x + TILE_WIDTH;
 					pushesLeftWall = true;
 				}
 				else
 				{
 					/* at the bottom */
 					//printf("Collision at bottom\n");
-					position.y = tiles[i].getPosition().y - textureHeight;
+					//position.y = tiles[i].getPosition().y - textureHeight;
 					onGround = true;
-
 				}
 			}
 

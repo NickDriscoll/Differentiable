@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <stack>
 
 //Comment this out to disable editing/debug features
 #define DEBUG_FEATURES
@@ -236,10 +237,30 @@ public:
 	void stop();
 };
 
+//Class that represents a menu
+class Menu
+{
+private:
+	const char* title;
+	char** options;
+	int currentOption;
+	int numberOfOptions;
+public:
+
+	//Constructor
+	Menu(const char* Title, char** Options, int NumberOfOptions);
+
+	//Misc functions
+	void moveDown();
+	void moveUp();
+	void draw(SDL_Renderer* r, TTF_Font* font);
+};
+
+//Gets length of cstr
+int cstrLength(const char* string);
 
 //Initializes SDL and any other components
 bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller);
-
 
 //Returns a pointer to an SDL_Texture.
 //path: The filepath to the image (.png)
@@ -248,14 +269,19 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* r);
 
 //Closes SDL components and frees memory
 //window: Current window
+//controller: Current controller if applicable.
 void close(SDL_Window* &window, SDL_Joystick* &controller);
 
 //Loads text as texture
+//r: Current renderer
+//font: font to use
+//message: String to turn into message.
 SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 
-//Helpful wrapper for SDL_Rect struct initialization
+//"Helpful" wrapper for SDL_Rect struct initialization
 SDL_Rect newRect(Vector2 origin, Vector2 size);
 
+//
 char* stringToCharPointer(std::string string);
 
 #pragma region Parsing

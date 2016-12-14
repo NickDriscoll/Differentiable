@@ -145,6 +145,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="events.cpp" />
     <ClCompile Include="helpers.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Parsing.cpp" />
     <ClCompile Include="Player.cpp" />
