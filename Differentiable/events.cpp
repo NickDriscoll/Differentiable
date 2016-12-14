@@ -280,3 +280,25 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 		}
 	}
 }
+
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus)
+{
+	switch (e.key.keysym.sym)
+	{
+	case SDLK_ESCAPE:
+	{
+		running = false;
+		break;
+	}
+	case SDLK_DOWN:
+	{
+		menus.top().moveDown();
+		break;
+	}
+	case SDLK_UP:
+	{
+		menus.top().moveUp();
+		break;
+	}
+	}
+}

@@ -89,12 +89,18 @@ int main(int argc, char* args[])
 		{
 			while (SDL_PollEvent(&e) != 0)
 			{
-				eventMisc(e, running);
+				if (e.type == SDL_KEYDOWN)
+				{
+					eventKeyDownMenu(e, running, menus);
+				}
+				else
+				{
+					eventMisc(e, running);
+				}
 			}
 
 			//Draw menu
 			menus.top().draw(renderer, font);
-			SDL_RenderPresent(renderer);
 		}
 		//If there are no menus on the stack, run this
 		else

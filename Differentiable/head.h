@@ -333,3 +333,9 @@ void eventMisc(SDL_Event e, bool &running);
 void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r);
 
 #pragma endregion
+
+#pragma region MenuEventHandlers
+
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus);
+
+#pragma endregion

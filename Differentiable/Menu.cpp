@@ -5,6 +5,7 @@ Menu::Menu(const char* Title, char** Options, int NumberOfOptions)
 	title = Title;
 	options = Options;
 	numberOfOptions = NumberOfOptions;
+	currentOption = 0;
 }
 
 void Menu::moveDown()
@@ -23,6 +24,8 @@ void Menu::moveUp()
 
 void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 {
+	SDL_RenderClear(r);
+
 	int titleLength = cstrLength(title);
 	SDL_Texture* titleTexture = textureText(r, font, title);
 	int titleDisplayWidth = titleLength * 40;
@@ -38,5 +41,18 @@ void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 		SDL_Rect optionRect = {SCREEN_WIDTH / 2 - optionDisplayWidth / 2,  (SCREEN_HEIGHT / 2) + (60 * i), optionDisplayWidth, 30 };
 		SDL_RenderCopy(r, optionTexture, NULL, &optionRect);
 		SDL_DestroyTexture(optionTexture);
+
+		if (currentOption == i)
+		{
+			SDL_Texture* leftArrow = textureText(r, font, ">");
+			SDL_Texture* rightArrow = textureText(r, font, "<");
+			SDL_Rect leftRect = { SCREEN_WIDTH / 2 - optionDisplayWidth / 2 - 50, (SCREEN_HEIGHT / 2) + (60 * i), 20, 30};
+			SDL_Rect rightRect = { SCREEN_WIDTH / 2 + optionDisplayWidth / 2 + 30, (SCREEN_HEIGHT / 2) + (60 * i), 20, 30 };
+			SDL_RenderCopy(r, leftArrow, NULL, &leftRect);
+			SDL_RenderCopy(r, rightArrow, NULL, &rightRect);
+			SDL_DestroyTexture(leftArrow);
+			SDL_DestroyTexture(rightArrow);
+		}
 	}
+	SDL_RenderPresent(r);
 }
