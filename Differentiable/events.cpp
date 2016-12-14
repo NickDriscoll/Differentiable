@@ -34,13 +34,13 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 	}
 }
 
-void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player)
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu)
 {
 	switch (e.key.keysym.sym)
 	{
 	case SDLK_ESCAPE:
 	{
-		running = false;
+		menus.push(mainMenu);
 		break;
 	}
 	case SDLK_SPACE:
@@ -281,7 +281,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 	}
 }
 
-void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus)
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
 {
 	switch (e.key.keysym.sym)
 	{
@@ -298,6 +298,22 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus)
 	case SDLK_UP:
 	{
 		menus.top().moveUp();
+		break;
+	}
+	case SDLK_RETURN:
+	{
+		std::string selectedOption = menus.top().selectCurrentOption();
+
+		if (selectedOption.compare("Play") == 0)
+		{
+			loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
+			menus.pop();
+		}
+		else if (selectedOption.compare("Exit") == 0)
+		{
+			running = false;
+		}
+
 		break;
 	}
 	}

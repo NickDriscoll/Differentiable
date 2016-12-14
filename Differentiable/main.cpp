@@ -47,11 +47,11 @@ int main(int argc, char* args[])
 
 	//Create main menu
 	char** menuOptions = new char*[3];
-	menuOptions[0] = "Begin";
+	menuOptions[0] = "Play";
 	menuOptions[1] = "Options";
 	menuOptions[2] = "Exit";
 	Menu mainMenu = Menu("Differentiable", menuOptions, 3);
-
+	
 	//Create stack holding menus and push the main menu.
 	std::stack<Menu> menus;
 	menus.push(mainMenu);
@@ -72,7 +72,7 @@ int main(int argc, char* args[])
 	Player player;
 
 	//Load the level
-	loadLevel("levels\\test.lvl", tiles, movingObjects, player, renderer, separators);
+	//loadLevel("levels\\test.lvl", tiles, movingObjects, player, renderer, separators);
 
 	//Background image
 	//SDL_Texture* background = loadTexture("", renderer);
@@ -91,7 +91,7 @@ int main(int argc, char* args[])
 			{
 				if (e.type == SDL_KEYDOWN)
 				{
-					eventKeyDownMenu(e, running, menus);
+					eventKeyDownMenu(e, running, menus, tiles, movingObjects, player, renderer);
 				}
 				else
 				{
@@ -99,8 +99,10 @@ int main(int argc, char* args[])
 				}
 			}
 
-			//Draw menu
-			menus.top().draw(renderer, font);
+			//Draw menu, if statement necessary because it is possible
+			//that by the end of this frame the menu stack is empty.
+			if (menus.size() > 0)
+				menus.top().draw(renderer, font);
 		}
 		//If there are no menus on the stack, run this
 		else
@@ -120,7 +122,7 @@ int main(int argc, char* args[])
 				{
 					if (e.type == SDL_KEYDOWN)
 					{
-						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player);
+						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, mainMenu);
 					}
 					else if (e.type == SDL_KEYUP)
 					{

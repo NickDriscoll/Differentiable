@@ -32,6 +32,16 @@ const int TILE_WIDTH = 32;
 //Number of tile indices
 const int TILE_MAX_INDEX = 2;
 
+//Talking class prototypes?!?
+class AABB;
+class Door;
+class Vector2;
+class MovingObject;
+class Player;
+class Camera;
+class Tile;
+class Menu;
+
 //Enumeration for Xbox 360 button indices
 enum Xbox360Button
 {
@@ -55,15 +65,6 @@ enum CollisionSide
 	Left,
 	Right
 };
-
-//Talking class prototypes?!?
-class AABB;
-class Door;
-class Vector2;
-class MovingObject;
-class Player;
-class Camera;
-class Tile;
 
 //A representation of a two-dimensional vector using doubles
 class Vector2
@@ -253,6 +254,7 @@ public:
 	//Misc functions
 	void moveDown();
 	void moveUp();
+	std::string selectCurrentOption();
 	void draw(SDL_Renderer* r, TTF_Font* font);
 };
 
@@ -281,7 +283,6 @@ SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message);
 //"Helpful" wrapper for SDL_Rect struct initialization
 SDL_Rect newRect(Vector2 origin, Vector2 size);
 
-//
 char* stringToCharPointer(std::string string);
 
 #pragma region Parsing
@@ -320,7 +321,7 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 
 void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
-void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player);
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu);
 
 void eventKeyUp(SDL_Event e, Player &player);
 
@@ -336,6 +337,6 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 
 #pragma region MenuEventHandlers
 
-void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus);
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 #pragma endregion

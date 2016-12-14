@@ -22,6 +22,11 @@ void Menu::moveUp()
 		currentOption = 0;
 }
 
+std::string Menu::selectCurrentOption()
+{
+	return options[currentOption];
+}
+
 void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 {
 	SDL_RenderClear(r);
