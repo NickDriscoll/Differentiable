@@ -29,6 +29,7 @@ std::string Menu::selectCurrentOption()
 
 void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 {
+	SDL_SetRenderDrawColor(r, 0, 0, 0, 0x7F);
 	SDL_RenderClear(r);
 
 	int titleLength = cstrLength(title);

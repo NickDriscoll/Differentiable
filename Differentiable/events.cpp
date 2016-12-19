@@ -34,13 +34,13 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 	}
 }
 
-void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu)
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &menu)
 {
 	switch (e.key.keysym.sym)
 	{
 	case SDLK_ESCAPE:
 	{
-		menus.push(mainMenu);
+		menus.push(menu);
 		break;
 	}
 	case SDLK_SPACE:
@@ -102,28 +102,25 @@ void eventKeyUp(SDL_Event e, Player &player)
 void eventJoystick(SDL_Event e, Player &player)
 {
 	//Motion on controller 0
-	if (e.jaxis.which == 0)
+	if (e.jaxis.which == 0 && e.jaxis.axis == 0)
 	{
-		//X axis motion
-		if (e.jaxis.axis == 0)
+		//Left
+		if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
 		{
-			//Left
-			if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
-			{
-				player.accelerateLeft();
-				player.setFacing(false);
-			}
-			//Right
-			else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
-			{
-				player.accelerateRight();
-				player.setFacing(true);
-			}
-			else
-			{
-				player.stop();
-			}
+			player.accelerateLeft();
+			player.setFacing(false);
 		}
+		//Right
+		else if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
+		{
+			player.accelerateRight();
+			player.setFacing(true);
+		}
+		else
+		{
+			player.stop();
+		}
+		
 	}
 }
 
@@ -287,7 +284,7 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	{
 	case SDLK_ESCAPE:
 	{
-		running = false;
+		menus.pop();
 		break;
 	}
 	case SDLK_DOWN:
@@ -313,8 +310,29 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 		{
 			running = false;
 		}
+		else if (selectedOption.compare("Resume") == 0)
+		{
+			menus.pop();
+		}
 
 		break;
 	}
 	}
+}
+
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyStickEventLastFrame)
+{
+	printf("Joystick event!\n");
+	if (e.jaxis.which == 0 && e.jaxis.axis == 1 && !joyStickEventLastFrame)
+	{
+		if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
+		{
+			menus.top().moveDown();
+		}
+		else if (e.jaxis.value < -JOYSTICK_DEAD_ZONE)
+		{
+			menus.top().moveUp();
+		}
+	}
+	joyStickEventLastFrame = true;
 }

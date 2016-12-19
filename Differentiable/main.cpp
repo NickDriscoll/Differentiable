@@ -33,6 +33,9 @@ int main(int argc, char* args[])
 	//Flag to track if editing
 	bool inEditMode = false;
 
+	//Flag to track if there was a joystick movement last frame
+	bool joyStickEventLastFrame = false;
+
 	//Tile index currently in use
 	int currentlySelectedTileIndex = 0;
 
@@ -51,6 +54,13 @@ int main(int argc, char* args[])
 	menuOptions[1] = "Options";
 	menuOptions[2] = "Exit";
 	Menu mainMenu = Menu("Differentiable", menuOptions, 3);
+
+	//Create pause menu
+	char** pauseOptions = new char*[3];
+	pauseOptions[0] = "Resume";
+	pauseOptions[1] = "Options";
+	pauseOptions[2] = "Exit";
+	Menu pauseMenu = Menu("Differentiable", pauseOptions, 3);
 	
 	//Create stack holding menus and push the main menu.
 	std::stack<Menu> menus;
@@ -84,6 +94,9 @@ int main(int argc, char* args[])
 	//Game loop
 	while (running)
 	{
+		//Frametiming
+		currentFrameTime = SDL_GetTicks();
+
 		//Render and handle any menus on the stack.
 		if (menus.size() > 0)
 		{
@@ -92,6 +105,10 @@ int main(int argc, char* args[])
 				if (e.type == SDL_KEYDOWN)
 				{
 					eventKeyDownMenu(e, running, menus, tiles, movingObjects, player, renderer);
+				}
+				else if (e.type == SDL_JOYAXISMOTION)
+				{
+					eventJoystickMenu(e, menus, joyStickEventLastFrame);
 				}
 				else
 				{
@@ -122,7 +139,7 @@ int main(int argc, char* args[])
 				{
 					if (e.type == SDL_KEYDOWN)
 					{
-						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, mainMenu);
+						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, pauseMenu);
 					}
 					else if (e.type == SDL_KEYUP)
 					{
@@ -148,7 +165,6 @@ int main(int argc, char* args[])
 			SDL_RenderClear(renderer);
 
 			//Update physics w/ timedelta
-			currentFrameTime = SDL_GetTicks();
 			double timeDelta = (double)((currentFrameTime - lastFrameTime) / 1000.0);
 
 			//Sometimes timeDelta is zero
@@ -163,7 +179,7 @@ int main(int argc, char* args[])
 				camera.update(player);
 			}
 
-			//Draw all AABBs, MovingObjects, and the player
+			//Draw all tiles and the player
 			for (unsigned int i = 0; i < tiles.size(); i++)
 			{
 				tiles[i].draw(renderer, debug, camera);
@@ -194,12 +210,15 @@ int main(int argc, char* args[])
 				SDL_RenderCopy(renderer, tileTexture, &sRects, &tRects);
 			}
 
+			//Debug print
+			//printf("X:%f Y:%f\n", player.getPosition().x, player.getPosition().y);
+
 			//Update screen
 			SDL_RenderPresent(renderer);
-
-			//Set lastFrameTime equal to now
-			lastFrameTime = currentFrameTime;
 		}
+
+		//Set lastFrameTime equal to now
+		lastFrameTime = currentFrameTime;
 	}
 
 	close(window, controller);

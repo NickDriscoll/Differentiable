@@ -136,7 +136,9 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				{
 					/* at the bottom */
 					//printf("Collision at bottom\n");
-					//position.y = tiles[i].getPosition().y - textureHeight;
+					position.y = tiles[i].getPosition().y - boundingBox.getSize().y;
+					if (position.y < -64)
+						position.y--;
 					onGround = true;
 				}
 			}

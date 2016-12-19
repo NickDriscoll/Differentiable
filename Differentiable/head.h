@@ -24,7 +24,7 @@ const int NUMBER_OF_SIDES = 4;
 const char separators[] = { ' ', '\n', '\0' };
 
 //Analog joystick dead zone
-const int JOYSTICK_DEAD_ZONE = 24000;
+const int JOYSTICK_DEAD_ZONE = 36000;
 
 //Tile size
 const int TILE_WIDTH = 32;
@@ -338,5 +338,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 #pragma region MenuEventHandlers
 
 void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyStickEventLastFrame);
 
 #pragma endregion
