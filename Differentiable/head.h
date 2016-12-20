@@ -21,10 +21,10 @@ const double TERMINAL_VELOCITY = 800;
 const int NUMBER_OF_SIDES = 4;
 
 //Separators
-const char separators[] = { ' ', '\n', '\0' };
+const char separators[] = " \n\0";
 
 //Analog joystick dead zone
-const int JOYSTICK_DEAD_ZONE = 36000;
+const int JOYSTICK_DEAD_ZONE = 24000;
 
 //Tile size
 const int TILE_WIDTH = 32;
@@ -327,7 +327,7 @@ void eventKeyUp(SDL_Event e, Player &player);
 
 void eventJoystick(SDL_Event e, Player &player);
 
-void eventButton(SDL_Event e, bool &running, bool &debug, Player &player);
+void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu);
 
 void eventMisc(SDL_Event e, bool &running);
 
@@ -339,6 +339,8 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 
 void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyStickEventLastFrame);
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyEventLastFrame);
+
+void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
 #pragma endregion

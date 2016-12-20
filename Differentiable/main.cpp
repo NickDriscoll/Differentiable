@@ -110,6 +110,10 @@ int main(int argc, char* args[])
 				{
 					eventJoystickMenu(e, menus, joyStickEventLastFrame);
 				}
+				else if (e.type == SDL_JOYBUTTONDOWN)
+				{
+					eventButtonMenu(e, running, menus, tiles, movingObjects, player, renderer);
+				}
 				else
 				{
 					eventMisc(e, running);
@@ -151,7 +155,7 @@ int main(int argc, char* args[])
 					}
 					else if (e.type == SDL_JOYBUTTONDOWN)
 					{
-						eventButton(e, running, debug, player);
+						eventButton(e, running, debug, player, menus, pauseMenu);
 					}
 					else
 					{

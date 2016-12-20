@@ -124,7 +124,7 @@ void eventJoystick(SDL_Event e, Player &player)
 	}
 }
 
-void eventButton(SDL_Event e, bool &running, bool &debug, Player &player)
+void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu)
 {
 	if (e.jbutton.button == XBOX_360_A)
 	{
@@ -136,7 +136,7 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player)
 
 	if (e.jbutton.button == XBOX_360_START)
 	{
-		running = false;
+		menus.push(menu);
 	}
 
 	if (e.jbutton.button == XBOX_360_RB)
@@ -320,10 +320,9 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	}
 }
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyStickEventLastFrame)
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyEventLastFrame)
 {
-	printf("Joystick event!\n");
-	if (e.jaxis.which == 0 && e.jaxis.axis == 1 && !joyStickEventLastFrame)
+	if (e.jaxis.which == 0 && e.jaxis.axis == 1)
 	{
 		if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
 		{
@@ -334,5 +333,31 @@ void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyStickEvent
 			menus.top().moveUp();
 		}
 	}
-	joyStickEventLastFrame = true;
+}
+
+void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+{
+	switch (e.jbutton.button)
+	{
+	case XBOX_360_A:
+	{
+		std::string selectedOption = menus.top().selectCurrentOption();
+
+		if (selectedOption.compare("Play") == 0)
+		{
+			loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
+			menus.pop();
+		}
+		else if (selectedOption.compare("Exit") == 0)
+		{
+			running = false;
+		}
+		else if (selectedOption.compare("Resume") == 0)
+		{
+			menus.pop();
+		}
+
+		break;
+	}
+	}
 }
