@@ -34,7 +34,7 @@ std::string Menu::selectCurrentOption()
 
 void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 {
-	SDL_SetRenderDrawColor(r, 0, 0, 0, 0x01);
+	SDL_SetRenderDrawColor(r, 0, 0, 0, 0xFF);
 	SDL_RenderClear(r);
 
 	//Draw menu title

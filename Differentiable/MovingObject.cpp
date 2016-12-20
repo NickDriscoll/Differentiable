@@ -210,7 +210,7 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 	if (ziplining)
 	{
 		SDL_SetRenderDrawColor(r, 0xFF, 0, 0, 0xFF);
-		SDL_RenderDrawLine(r, 0, position.y - camera.getPosition().y, SCREEN_WIDTH, position.y - camera.getPosition().y);
+		SDL_RenderDrawLine(r, 0, position.y + textureHeight / 2 - camera.getPosition().y, SCREEN_WIDTH, position.y + textureHeight / 2 - camera.getPosition().y);
 	}
 
 	if (debug)

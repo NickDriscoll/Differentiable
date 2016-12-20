@@ -26,7 +26,7 @@ const int JOYSTICK_DEAD_ZONE = 24000;
 const int TILE_WIDTH = 32;
 
 //Number of tile indices
-const int TILE_MAX_INDEX = 2;
+const int TILE_MAX_INDEX = 4;
 
 //Talking class prototypes?!?
 class AABB;
