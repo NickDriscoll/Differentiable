@@ -10,7 +10,7 @@ int cstrLength(const char* string)
 	return i;
 }
 
-bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller)
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
@@ -45,6 +45,22 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 		printf("TTF initialization error: %s\n", TTF_GetError());
 		return false;
 	}
+
+	//Initialize game menus
+
+	//Create main menu
+	char** menuOptions = new char*[3];
+	menuOptions[0] = "Play";
+	menuOptions[1] = "Options";
+	menuOptions[2] = "Exit";
+	menuArray[MainMenu] = Menu("Differentiable", menuOptions, 3);
+
+	//Create pause menu
+	char** pauseOptions = new char*[3];
+	pauseOptions[0] = "Resume";
+	pauseOptions[1] = "Options";
+	pauseOptions[2] = "Exit";
+	menuArray[PauseMenu] = Menu("Differentiable", pauseOptions, 3);
 	
 	//Get screen dimensions.
 	SDL_DisplayMode mode;

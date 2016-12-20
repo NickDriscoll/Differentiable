@@ -11,8 +11,11 @@ int main(int argc, char* args[])
 	//Controller var
 	SDL_Joystick* controller = NULL;
 
+	//An array to hold all of the game menus
+	Menu* menuArray = new Menu[MENUENUM_NR_ITEMS];
+
 	//Initialize SDL
-	if (!init(window, renderer, controller))
+	if (!init(window, renderer, controller, menuArray))
 	{
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
@@ -47,24 +50,10 @@ int main(int argc, char* args[])
 
 	//Tile sheet
 	SDL_Texture *tileTexture = loadTexture("textures\\tile.png", renderer);
-
-	//Create main menu
-	char** menuOptions = new char*[3];
-	menuOptions[0] = "Play";
-	menuOptions[1] = "Options";
-	menuOptions[2] = "Exit";
-	Menu mainMenu = Menu("Differentiable", menuOptions, 3);
-
-	//Create pause menu
-	char** pauseOptions = new char*[3];
-	pauseOptions[0] = "Resume";
-	pauseOptions[1] = "Options";
-	pauseOptions[2] = "Exit";
-	Menu pauseMenu = Menu("Differentiable", pauseOptions, 3);
 	
 	//Create stack holding menus and push the main menu.
 	std::stack<Menu> menus;
-	menus.push(mainMenu);
+	menus.push(menuArray[MainMenu]);
 
 	//This is a variable to store the current event.
 	SDL_Event e;
@@ -143,7 +132,7 @@ int main(int argc, char* args[])
 				{
 					if (e.type == SDL_KEYDOWN)
 					{
-						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, pauseMenu);
+						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, menuArray[PauseMenu]);
 					}
 					else if (e.type == SDL_KEYUP)
 					{
@@ -155,7 +144,7 @@ int main(int argc, char* args[])
 					}
 					else if (e.type == SDL_JOYBUTTONDOWN)
 					{
-						eventButton(e, running, debug, player, menus, pauseMenu);
+						eventButton(e, running, debug, player, menus, menuArray[PauseMenu]);
 					}
 					else
 					{

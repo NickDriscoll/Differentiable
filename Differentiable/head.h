@@ -9,16 +9,12 @@
 #include <queue>
 #include <stack>
 
-//Comment this out to disable editing/debug features
-#define DEBUG_FEATURES
-
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int FONT_SIZE = 72;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 400;
 const double TERMINAL_VELOCITY = 800;
-const int NUMBER_OF_SIDES = 4;
 
 //Separators
 const char separators[] = " \n\0";
@@ -63,7 +59,16 @@ enum CollisionSide
 	Top,
 	Bottom,
 	Left,
-	Right
+	Right,
+	COLLISIONSIDE_NR_ITEMS
+};
+
+//Menu enum
+enum MenuEnum
+{
+	MainMenu,
+	PauseMenu,
+	MENUENUM_NR_ITEMS
 };
 
 //A representation of a two-dimensional vector using doubles
@@ -249,6 +254,7 @@ private:
 public:
 
 	//Constructor
+	Menu();
 	Menu(const char* Title, char** Options, int NumberOfOptions);
 
 	//Misc functions
@@ -262,7 +268,7 @@ public:
 int cstrLength(const char* string);
 
 //Initializes SDL and any other components
-bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller);
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray);
 
 //Returns a pointer to an SDL_Texture.
 //path: The filepath to the image (.png)

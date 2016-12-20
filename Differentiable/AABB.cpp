@@ -91,7 +91,7 @@ bool AABB::overlaps(AABB other)
 
 bool* AABB::collisionSide(AABB other)
 {
-	bool* sides = new bool[NUMBER_OF_SIDES];
+	bool* sides = new bool[COLLISIONSIDE_NR_ITEMS];
 
 	//Check collision side.
 	if (origin.y + size.y > other.origin.y)

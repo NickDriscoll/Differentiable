@@ -1,5 +1,10 @@
 #include "head.h"
 
+Menu::Menu()
+{
+
+}
+
 Menu::Menu(const char* Title, char** Options, int NumberOfOptions)
 {
 	title = Title;
@@ -29,9 +34,10 @@ std::string Menu::selectCurrentOption()
 
 void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 {
-	SDL_SetRenderDrawColor(r, 0, 0, 0, 0x7F);
+	SDL_SetRenderDrawColor(r, 0, 0, 0, 0x01);
 	SDL_RenderClear(r);
 
+	//Draw menu title
 	int titleLength = cstrLength(title);
 	SDL_Texture* titleTexture = textureText(r, font, title);
 	int titleDisplayWidth = titleLength * 40;
@@ -39,6 +45,7 @@ void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 	SDL_RenderCopy(r, titleTexture, NULL, &titleRect);
 	SDL_DestroyTexture(titleTexture);
 
+	//Draw menu options
 	for (int i = 0; i < numberOfOptions; i++)
 	{
 		int optionLength = cstrLength(options[i]);
@@ -48,6 +55,7 @@ void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 		SDL_RenderCopy(r, optionTexture, NULL, &optionRect);
 		SDL_DestroyTexture(optionTexture);
 
+		//Draw arrows
 		if (currentOption == i)
 		{
 			SDL_Texture* leftArrow = textureText(r, font, ">");

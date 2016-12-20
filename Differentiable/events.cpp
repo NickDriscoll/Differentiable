@@ -65,7 +65,7 @@ void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, st
 		break;
 	}
 
-#ifdef DEBUG_FEATURES
+#ifdef _DEBUG
 	case SDLK_BACKQUOTE:
 	{
 		isConsoleUp = !isConsoleUp;
@@ -144,7 +144,7 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::s
 		player.zipline();
 	}
 
-#ifdef DEBUG_FEATURES
+#ifdef _DEBUG
 	if (e.jbutton.button == XBOX_360_SELECT)
 	{
 		debug = !debug;

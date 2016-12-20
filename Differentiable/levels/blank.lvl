@@ -1,0 +1,20 @@
+<level>
+<Tile>
+0 5 2
+</Tile>
+<Tile>
+2 5 2
+</Tile>
+<Tile>
+1 5 2
+</Tile>
+<Tile>
+-1 5 2
+</Tile>
+<Tile>
+-2 5 2
+</Tile>
+<Player>
+0 0 textures\\overman.png 1
+</Player>
+</level>
