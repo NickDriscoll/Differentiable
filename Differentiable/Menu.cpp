@@ -13,6 +13,16 @@ Menu::Menu(const char* Title, char** Options, int NumberOfOptions)
 	currentOption = 0;
 }
 
+const char* Menu::getTitle()
+{
+	return title;
+}
+
+char** Menu::getOptions()
+{
+	return options;
+}
+
 void Menu::moveDown()
 {
 	currentOption++;

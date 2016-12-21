@@ -257,6 +257,10 @@ public:
 	Menu();
 	Menu(const char* Title, char** Options, int NumberOfOptions);
 
+	//Getters
+	const char* getTitle();
+	char** getOptions();
+
 	//Misc functions
 	void moveDown();
 	void moveUp();
@@ -303,6 +307,8 @@ std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
 void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[]);
 
+void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, bool &running);
+
 bool fileExists(char* path);
 
 void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
@@ -345,7 +351,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 
 void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyEventLastFrame);
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool joyEventLastFrame);
 
 void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 

@@ -49,18 +49,21 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	//Initialize game menus
 
 	//Create main menu
-	char** menuOptions = new char*[3];
-	menuOptions[0] = "Play";
-	menuOptions[1] = "Options";
-	menuOptions[2] = "Exit";
-	menuArray[MainMenu] = Menu("Differentiable", menuOptions, 3);
+	int numberOfMainOptions = 4;
+	char** menuOptions = new char*[numberOfMainOptions];
+	menuOptions[0] = "New Game";
+	menuOptions[1] = "Load";
+	menuOptions[2] = "Options";
+	menuOptions[3] = "Exit";
+	menuArray[MainMenu] = Menu("Differentiable", menuOptions, numberOfMainOptions);
 
 	//Create pause menu
-	char** pauseOptions = new char*[3];
+	int numberOfPauseOptions = 3;
+	char** pauseOptions = new char*[numberOfPauseOptions];
 	pauseOptions[0] = "Resume";
 	pauseOptions[1] = "Options";
 	pauseOptions[2] = "Exit";
-	menuArray[PauseMenu] = Menu("Differentiable", pauseOptions, 3);
+	menuArray[PauseMenu] = Menu("Differentiable", pauseOptions, numberOfPauseOptions);
 	
 	//Get screen dimensions.
 	SDL_DisplayMode mode;
@@ -121,7 +124,7 @@ void close(SDL_Window* &window, SDL_Joystick* &controller)
 	SDL_Quit();
 }
 
-SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char * message)
+SDL_Texture* textureText(SDL_Renderer* r, TTF_Font* font, const char* message)
 {
 	if (font == NULL)
 	{

@@ -37,7 +37,8 @@ int main(int argc, char* args[])
 	bool inEditMode = false;
 
 	//Flag to track if there was a joystick movement last frame
-	bool joyStickEventLastFrame = false;
+	bool joyEventLastFrame = false;
+	bool joyEventThisFrame = false;
 
 	//Tile index currently in use
 	int currentlySelectedTileIndex = 0;
@@ -97,7 +98,7 @@ int main(int argc, char* args[])
 				}
 				else if (e.type == SDL_JOYAXISMOTION)
 				{
-					eventJoystickMenu(e, menus, joyStickEventLastFrame);
+					eventJoystickMenu(e, menus, joyEventLastFrame);
 				}
 				else if (e.type == SDL_JOYBUTTONDOWN)
 				{

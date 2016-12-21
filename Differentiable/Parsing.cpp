@@ -130,7 +130,6 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 
 }
 
-
 void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[])
 {
 	//Handle empty string
@@ -182,6 +181,25 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 		}
 
 		tokens.pop();
+	}
+}
+
+void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, bool &running)
+{
+	std::string selectedOption = menus.top().selectCurrentOption();
+
+	if (selectedOption.compare("New Game") == 0)
+	{
+		loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
+		menus.pop();
+	}
+	else if (selectedOption.compare("Exit") == 0)
+	{
+		running = false;
+	}
+	else if (selectedOption.compare("Resume") == 0)
+	{
+		menus.pop();
 	}
 }
 

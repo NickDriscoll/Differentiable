@@ -214,30 +214,40 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 		{
 		case SDL_BUTTON_LEFT:
 		{
-			//Messy conditionals for handling negative mouse position
-			if (x < 0)
+			bool overlappingSomething = false;
+			for (int i = 0; i < tiles.size() && !overlappingSomething; i++)
 			{
-				x /= 32;
-				x--;
-			}
-			else
-			{
-				x /= 32;
+				overlappingSomething = tiles[i].overlaps(Vector2(x, y));
 			}
 
-			//And for y
-			if (y < 0)
+			if (!overlappingSomething)
 			{
-				y /= 32;
-				y--;
-			}
-			else
-			{
-				y /= 32;
-			}
 
-			tiles.push_back(Tile(currentlySelectedTileIndex, Vector2(x, y), r));
-			break;
+				//Messy conditionals for handling negative mouse position
+				if (x < 0)
+				{
+					x /= 32;
+					x--;
+				}
+				else
+				{
+					x /= 32;
+				}
+
+				//And for y
+				if (y < 0)
+				{
+					y /= 32;
+					y--;
+				}
+				else
+				{
+					y /= 32;
+				}
+
+				tiles.push_back(Tile(currentlySelectedTileIndex, Vector2(x, y), r));
+				break;
+			}
 		}
 		case SDL_BUTTON_RIGHT:
 		{
@@ -284,7 +294,8 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	{
 	case SDLK_ESCAPE:
 	{
-		menus.pop();
+		if (menus.top().getOptions()[0] != "New Game")
+			menus.pop();
 		break;
 	}
 	case SDLK_DOWN:
@@ -299,30 +310,15 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	}
 	case SDLK_RETURN:
 	{
-		std::string selectedOption = menus.top().selectCurrentOption();
-
-		if (selectedOption.compare("Play") == 0)
-		{
-			loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
-			menus.pop();
-		}
-		else if (selectedOption.compare("Exit") == 0)
-		{
-			running = false;
-		}
-		else if (selectedOption.compare("Resume") == 0)
-		{
-			menus.pop();
-		}
-
+		parseMenuSelection(menus, tiles, movingObjects, player, r, running);
 		break;
 	}
 	}
 }
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &joyEventLastFrame)
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool joyEventLastFrame)
 {
-	if (e.jaxis.which == 0 && e.jaxis.axis == 1)
+	if (e.jaxis.which == 0 && e.jaxis.axis == 1 && !joyEventLastFrame)
 	{
 		if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
 		{
@@ -343,7 +339,7 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 	{
 		std::string selectedOption = menus.top().selectCurrentOption();
 
-		if (selectedOption.compare("Play") == 0)
+		if (selectedOption.compare("New Game") == 0)
 		{
 			loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
 			menus.pop();
@@ -357,6 +353,14 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 			menus.pop();
 		}
 
+		break;
+	}
+	case XBOX_360_START:
+	{
+		if (menus.top().getOptions()[0] != "New Game")
+			menus.pop();
+		else
+			parseMenuSelection(menus, tiles, movingObjects, player, r, running);
 		break;
 	}
 	}
