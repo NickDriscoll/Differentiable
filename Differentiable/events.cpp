@@ -1,6 +1,6 @@
 #include "head.h"
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r)
 {
 	if (e.type == SDL_KEYDOWN)
 	{
@@ -20,7 +20,7 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 		{
 			//Parse
 			std::queue<std::string> tokens = tokenize(consoleString, separators);
-			parseCommand(tokens, tiles, movingObjects, player, r, inEditMode, editorString, separators);
+			parseCommand(tokens, tiles, movingObjects, player, currentDoor, r, inEditMode, editorString, separators);
 			consoleString = "";
 			isConsoleUp = false;
 			break;
@@ -297,7 +297,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 	}
 }
 
-void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r)
 {
 	switch (e.key.keysym.sym)
 	{
@@ -319,7 +319,7 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	}
 	case SDLK_RETURN:
 	{
-		parseMenuSelection(menus, tiles, movingObjects, player, r, running);
+		parseMenuSelection(menus, tiles, movingObjects, player, currentDoor, r, running);
 		break;
 	}
 	}
@@ -340,7 +340,7 @@ void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &isOutsideDead
 	}
 }
 
-void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r)
 {
 	switch (e.jbutton.button)
 	{
@@ -350,7 +350,7 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 
 		if (selectedOption.compare("New Game") == 0)
 		{
-			loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
+			loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r, separators);
 			menus.pop();
 		}
 		else if (selectedOption.compare("Exit") == 0)
@@ -369,7 +369,7 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 		if (menus.top().getOptions()[0] != "New Game")
 			menus.pop();
 		else
-			parseMenuSelection(menus, tiles, movingObjects, player, r, running);
+			parseMenuSelection(menus, tiles, movingObjects, player, currentDoor, r, running);
 		break;
 	}
 	}

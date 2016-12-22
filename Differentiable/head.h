@@ -170,7 +170,11 @@ public:
 	Door();
 	Door(const Vector2 &Origin, const char* ConnectedRoom, SDL_Renderer* r);
 
-	void draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera);
+	//Getters
+	Vector2 getOrigin();
+	const char* getConnectedRoom();
+
+	void draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera, bool debug);
 };
 
 
@@ -313,21 +317,21 @@ std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
 std::queue<std::string> tokenize(std::string &in, const char separators[]);
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[]);
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[]);
 
-void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, bool &running);
+void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, bool &running);
 
 bool fileExists(char* path);
 
-void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[]);
+void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, const char separators[]);
 
-void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
 #pragma endregion
 
 #pragma region RecursiveDescent
 
-void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r);
+void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer *r);
 
 void parseTile(std::queue<std::string> &tokens, std::vector<Tile> &tiles, SDL_Renderer* r);
 
@@ -335,11 +339,13 @@ void parseMovingObject(std::queue<std::string> &tokens, std::vector<MovingObject
 
 void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *r);
 
+void parseDoor(std::queue<std::string> &tokens, Door &currentDoor, SDL_Renderer* r);
+
 #pragma endregion
 
 #pragma region EventHandlers
 
-void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
 void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu);
 
@@ -357,10 +363,10 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 
 #pragma region MenuEventHandlers
 
-void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
 void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &isOutsideDeadzone, bool &wasOutsideDeadzone);
 
-void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
 #pragma endregion

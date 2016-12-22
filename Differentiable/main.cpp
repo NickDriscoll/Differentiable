@@ -100,7 +100,7 @@ int main(int argc, char* args[])
 			{
 				if (e.type == SDL_KEYDOWN)
 				{
-					eventKeyDownMenu(e, running, menus, tiles, movingObjects, player, renderer);
+					eventKeyDownMenu(e, running, menus, tiles, movingObjects, player, currentDoor, renderer);
 				}
 				else if (e.type == SDL_JOYAXISMOTION)
 				{
@@ -108,7 +108,7 @@ int main(int argc, char* args[])
 				}
 				else if (e.type == SDL_JOYBUTTONDOWN)
 				{
-					eventButtonMenu(e, running, menus, tiles, movingObjects, player, renderer);
+					eventButtonMenu(e, running, menus, tiles, movingObjects, player, currentDoor, renderer);
 				}
 				else
 				{
@@ -131,7 +131,7 @@ int main(int argc, char* args[])
 			{
 				if (isConsoleUp)
 				{
-					eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, editorString, tiles, movingObjects, player, renderer);
+					eventIsConsoleUp(e, isConsoleUp, inEditMode, consoleString, editorString, tiles, movingObjects, player, currentDoor, renderer);
 				}
 				else if (inEditMode)
 				{
@@ -186,7 +186,7 @@ int main(int argc, char* args[])
 			{
 				tiles[i].draw(renderer, debug, camera);
 			}
-			currentDoor.draw(renderer, doorTexture, camera);
+			currentDoor.draw(renderer, doorTexture, camera, debug);
 			player.draw(renderer, debug, camera);
 
 			//Console related draw code here

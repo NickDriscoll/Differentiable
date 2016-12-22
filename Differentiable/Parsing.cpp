@@ -1,6 +1,6 @@
 #include "head.h"
 
-void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, const char separators[])
+void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, const char separators[])
 {
 	//Clear the incoming vectors, this implicitly un-loads the current level.
 	tiles.clear();
@@ -13,10 +13,10 @@ void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 	std::queue<std::string> tokens = tokenize(fs, separators);
 	fs.close();
 
-	parselevel(tokens, tiles, movingObjects, player, r);
+	parselevel(tokens, tiles, movingObjects, player, currentDoor, r);
 }
 
-void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
+void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r)
 {
 	//Open file stream
 	std::fstream fs;
@@ -45,6 +45,11 @@ void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 	fs << "<Player>" << std::endl;
 	fs << 0 << " " << 0 << " " << "textures\\\\overman.png" << " " << 1 << std::endl;
 	fs << "</Player>" << std::endl;
+
+	//Write the door
+	fs << "<Door> " << std::endl;
+	fs << currentDoor.getOrigin().x << " " << currentDoor.getOrigin().y << " " << currentDoor.getConnectedRoom() << std::endl;
+	fs << "</Door>" << std::endl;
 
 	//Write </level>
 	fs << "</level>";
@@ -130,7 +135,7 @@ std::queue<std::string> tokenize(std::string &in, const char separators[])
 
 }
 
-void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[])
+void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[])
 {
 	//Handle empty string
 	if (tokens.size() != 0)
@@ -147,7 +152,7 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 
 			if (fileExists(path))
 			{
-				loadLevel(path, tiles, movingObjects, player, r, separators);
+				loadLevel(path, tiles, movingObjects, player, currentDoor, r, separators);
 			}
 		}
 		else if (tokens.front().compare("edit") == 0)
@@ -167,7 +172,7 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 
 			char* path = stringToCharPointer("levels\\" + tokens.front());
 
-			saveLevel(path, tiles, movingObjects, player, r);
+			saveLevel(path, tiles, movingObjects, player, currentDoor, r);
 
 			printf("Saved!\n\n");
 
@@ -184,13 +189,13 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 	}
 }
 
-void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r, bool &running)
+void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, bool &running)
 {
 	std::string selectedOption = menus.top().selectCurrentOption();
 
 	if (selectedOption.compare("New Game") == 0)
 	{
-		loadLevel("levels\\test.lvl", tiles, movingObjects, player, r, separators);
+		loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r, separators);
 		menus.pop();
 	}
 	else if (selectedOption.compare("Exit") == 0)
@@ -210,7 +215,7 @@ bool fileExists(char* path)
 	return (bool)fs;
 }
 
-void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer *r)
+void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer *r)
 {
 	//Throw away <level>
 	tokens.pop();
@@ -228,6 +233,10 @@ void parselevel(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::
 		else if (tokens.front().compare("<Player>") == 0)
 		{
 			parsePlayer(tokens, player, r);
+		}
+		else if (tokens.front().compare("<Door>") == 0)
+		{
+			parseDoor(tokens, currentDoor, r);
 		}
 		else
 		{
@@ -367,4 +376,33 @@ void parsePlayer(std::queue<std::string> &tokens, Player &player, SDL_Renderer *
 
 	//Done
 	player = Player(pathToTextureChar, position, r, facingRight);
+}
+
+void parseDoor(std::queue<std::string> &tokens, Door &currentDoor, SDL_Renderer* r)
+{
+	//Toss <Door>
+	tokens.pop();
+
+	//Get xpos
+	int xpos = stoi(tokens.front());
+	tokens.pop();
+
+	//Get ypos
+	int ypos = stoi(tokens.front());
+	tokens.pop();
+
+	//Get connected room
+	const char* connectedRoom = tokens.front().c_str();
+	tokens.pop();
+
+	//Throw away </Door>
+	if (tokens.front().compare("</Door>") != 0)
+	{
+		printf("Expected \"</Door>\" but was \"%s\"\n\n", tokens.front().c_str());
+		exit(0);
+	}
+	tokens.pop();
+
+	//Update currentDoor
+	currentDoor = Door(Vector2(xpos, ypos), connectedRoom, r);
 }

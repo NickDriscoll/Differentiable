@@ -539,4 +539,7 @@
 <Player>
 0 0 textures\\overman.png 1
 </Player>
+<Door> 
+1216 -224 levels\\test2.lvl
+</Door>
 </level>
