@@ -316,9 +316,9 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	}
 }
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool joyEventLastFrame)
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &isOutsideDeadzone, bool &wasOutsideDeadzone)
 {
-	if (e.jaxis.which == 0 && e.jaxis.axis == 1 && !joyEventLastFrame)
+	if (e.jaxis.which == 0 && e.jaxis.axis == 1 && !wasOutsideDeadzone)
 	{
 		if (e.jaxis.value > JOYSTICK_DEAD_ZONE)
 		{

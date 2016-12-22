@@ -37,8 +37,8 @@ int main(int argc, char* args[])
 	bool inEditMode = false;
 
 	//Flag to track if there was a joystick movement last frame
-	bool joyEventLastFrame = false;
-	bool joyEventThisFrame = false;
+	bool wasOutsideDeadzone = false;
+	bool isOutsideDeadzone = false;
 
 	//Tile index currently in use
 	int currentlySelectedTileIndex = 0;
@@ -86,10 +86,13 @@ int main(int argc, char* args[])
 	{
 		//Frametiming
 		currentFrameTime = SDL_GetTicks();
+		printf("%d\n", SDL_JoystickGetAxis(controller, 1));
 
 		//Render and handle any menus on the stack.
 		if (menus.size() > 0)
-		{
+		{			
+			isOutsideDeadzone = (SDL_JoystickGetAxis(controller, 1) > JOYSTICK_DEAD_ZONE || SDL_JoystickGetAxis(controller, 1) < -JOYSTICK_DEAD_ZONE);
+
 			while (SDL_PollEvent(&e) != 0)
 			{
 				if (e.type == SDL_KEYDOWN)
@@ -98,7 +101,7 @@ int main(int argc, char* args[])
 				}
 				else if (e.type == SDL_JOYAXISMOTION)
 				{
-					eventJoystickMenu(e, menus, joyEventLastFrame);
+					eventJoystickMenu(e, menus, isOutsideDeadzone, wasOutsideDeadzone);
 				}
 				else if (e.type == SDL_JOYBUTTONDOWN)
 				{
@@ -109,6 +112,8 @@ int main(int argc, char* args[])
 					eventMisc(e, running);
 				}
 			}
+
+			wasOutsideDeadzone = isOutsideDeadzone;
 
 			//Draw menu, if statement necessary because it is possible
 			//that by the end of this frame the menu stack is empty.

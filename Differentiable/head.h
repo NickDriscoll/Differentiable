@@ -351,7 +351,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 
 void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
-void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool joyEventLastFrame);
+void eventJoystickMenu(SDL_Event e, std::stack<Menu> &menus, bool &isOutsideDeadzone, bool &wasOutsideDeadzone);
 
 void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 
