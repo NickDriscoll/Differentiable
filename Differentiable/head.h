@@ -157,13 +157,20 @@ public:
 };
 
 
-class Door : public AABB
+class Door
 {
 protected:
-	char* path;
+	const char* connectedRoom;
+	Vector2 origin;
+	AABB boundingBox;
+	static const int width = 64;
+	static const int height = 96;
 
 public:
-	Door(const Vector2 &Origin, char* Path);
+	Door();
+	Door(const Vector2 &Origin, const char* ConnectedRoom, SDL_Renderer* r);
+
+	void draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera);
 };
 
 
@@ -241,6 +248,7 @@ public:
 	void accelerateLeft();
 	void accelerateRight();
 	void stop();
+	void enterDoor();
 };
 
 //Class that represents a menu
@@ -343,7 +351,7 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::s
 
 void eventMisc(SDL_Event e, bool &running);
 
-void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r);
+void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, Door &currentDoor, SDL_Renderer* r);
 
 #pragma endregion
 

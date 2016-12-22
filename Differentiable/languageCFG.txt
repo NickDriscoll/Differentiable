@@ -13,7 +13,7 @@ MovingObject ----> <MovingObject> pair path bool </MovingObject>
 
 Player       ----> <Player> pair path bool </Player>
 
-Door         ----> <Door> pair pair path </Door>
+Door         ----> <Door> pair path </Door>
 
 Comment      ----> ! [any string, this is ignored by the tokenizer] !
 

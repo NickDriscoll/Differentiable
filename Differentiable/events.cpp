@@ -134,6 +134,11 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::s
 		}
 	}
 
+	if (e.jbutton.button == XBOX_360_B)
+	{
+		player.enterDoor();
+	}
+
 	if (e.jbutton.button == XBOX_360_START)
 	{
 		menus.push(menu);
@@ -165,8 +170,14 @@ void eventMisc(SDL_Event e, bool &running)
 	}
 }
 
-void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, SDL_Renderer* r)
+void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIndex, std::vector<Tile> &tiles, Camera &camera, Door &currentDoor, SDL_Renderer* r)
 {
+	//Get mouse position
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	x += camera.getPosition().x;
+	y += camera.getPosition().y;
+
 	//Key press handling
 	if (e.type == SDL_KEYDOWN)
 	{
@@ -197,15 +208,13 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 			camera.update(Vector2(camera.getPosition().x + TILE_WIDTH, camera.getPosition().y));
 			break;
 		}
+		case SDLK_f:
+		{
+			currentDoor = Door(Vector2(x / 32 * 32, y / 32 * 32), "CONNECTED ROOM GOES HERE", r);
+			break;
+		}
 		}
 	}
-
-
-	//Draw mouse dot
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	x += camera.getPosition().x;
-	y += camera.getPosition().y;
 
 	//Mouse handling
 	if (e.type == SDL_MOUSEBUTTONDOWN)

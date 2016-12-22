@@ -48,4 +48,7 @@ void Player::zipline()
 	ziplining = !ziplining;
 }
 
-//TODO fix controls
+void Player::enterDoor()
+{
+
+}

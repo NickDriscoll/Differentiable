@@ -149,10 +149,6 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	//Fall if the player isn't on the ground
 	if (!onGround)
 	{
-		if (wasOnGround)
-		{
-			printf("No longer on ground.\n");
-		}
 
 		if (velocity.y > TERMINAL_VELOCITY)
 		{
@@ -165,30 +161,18 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	}
 	else
 	{
-		if (!wasOnGround)
-		{
-			printf("On ground.\n");
-		}
 		velocity.y = 0;
 	}
 
 	//Stop player if they've bumped their head.
 	if (atCeiling)
 	{
-		if (!wasAtCeiling)
-		{
-			printf("Bump!\n");
-		}
 		velocity.y *= -1;
 	}
 
 	//Stop player if they're pushing against a wall
 	if (pushesLeftWall || pushesRightWall)
 	{
-		if (!pushedLeftWall && !pushedRightWall)
-		{
-			printf("Pushing wall.\n");
-		}
 		velocity.x = 0;
 	}
 

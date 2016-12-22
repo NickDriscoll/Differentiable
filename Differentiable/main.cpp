@@ -68,6 +68,10 @@ int main(int argc, char* args[])
 	//Container that stores moving objects
 	std::vector<MovingObject> movingObjects;
 
+	//Door variable
+	SDL_Texture* doorTexture = loadTexture("textures\\door.png", renderer);
+	Door currentDoor = Door();
+
 	//Player var
 	Player player;
 
@@ -86,7 +90,6 @@ int main(int argc, char* args[])
 	{
 		//Frametiming
 		currentFrameTime = SDL_GetTicks();
-		printf("%d\n", SDL_JoystickGetAxis(controller, 1));
 
 		//Render and handle any menus on the stack.
 		if (menus.size() > 0)
@@ -132,7 +135,7 @@ int main(int argc, char* args[])
 				}
 				else if (inEditMode)
 				{
-					eventInEditMode(e, inEditMode, currentlySelectedTileIndex, tiles, camera, renderer);
+					eventInEditMode(e, inEditMode, currentlySelectedTileIndex, tiles, camera, currentDoor, renderer);
 				}
 				else
 				{
@@ -183,6 +186,7 @@ int main(int argc, char* args[])
 			{
 				tiles[i].draw(renderer, debug, camera);
 			}
+			currentDoor.draw(renderer, doorTexture, camera);
 			player.draw(renderer, debug, camera);
 
 			//Console related draw code here
