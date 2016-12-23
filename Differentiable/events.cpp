@@ -124,7 +124,7 @@ void eventJoystick(SDL_Event e, Player &player)
 	}
 }
 
-void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu)
+void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu, Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, SDL_Renderer* r)
 {
 	if (e.jbutton.button == XBOX_360_A)
 	{
@@ -136,7 +136,7 @@ void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::s
 
 	if (e.jbutton.button == XBOX_360_B)
 	{
-		player.enterDoor();
+		player.enterDoor(currentDoor, tiles, movingObjects, player, r);
 	}
 
 	if (e.jbutton.button == XBOX_360_START)
@@ -350,7 +350,7 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 
 		if (selectedOption.compare("New Game") == 0)
 		{
-			loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r, separators);
+			loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r);
 			menus.pop();
 		}
 		else if (selectedOption.compare("Exit") == 0)

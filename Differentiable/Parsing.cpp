@@ -1,6 +1,6 @@
 #include "head.h"
 
-void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, const char separators[])
+void loadLevel(const char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r)
 {
 	//Clear the incoming vectors, this implicitly un-loads the current level.
 	tiles.clear();
@@ -152,7 +152,7 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 
 			if (fileExists(path))
 			{
-				loadLevel(path, tiles, movingObjects, player, currentDoor, r, separators);
+				loadLevel(path, tiles, movingObjects, player, currentDoor, r);
 			}
 		}
 		else if (tokens.front().compare("edit") == 0)
@@ -195,7 +195,7 @@ void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::
 
 	if (selectedOption.compare("New Game") == 0)
 	{
-		loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r, separators);
+		loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r);
 		menus.pop();
 	}
 	else if (selectedOption.compare("Exit") == 0)
@@ -392,7 +392,8 @@ void parseDoor(std::queue<std::string> &tokens, Door &currentDoor, SDL_Renderer*
 	tokens.pop();
 
 	//Get connected room
-	const char* connectedRoom = tokens.front().c_str();
+	char* connectedRoom = new char[tokens.front().length()];
+	strcpy(connectedRoom, tokens.front().c_str());
 	tokens.pop();
 
 	//Throw away </Door>

@@ -173,6 +173,7 @@ public:
 	//Getters
 	Vector2 getOrigin();
 	const char* getConnectedRoom();
+	AABB getBoundingBox();
 
 	void draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera, bool debug);
 };
@@ -252,7 +253,7 @@ public:
 	void accelerateLeft();
 	void accelerateRight();
 	void stop();
-	void enterDoor();
+	void enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
 };
 
 //Class that represents a menu
@@ -323,7 +324,7 @@ void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::
 
 bool fileExists(char* path);
 
-void loadLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r, const char separators[]);
+void loadLevel(const char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
 void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
@@ -353,7 +354,7 @@ void eventKeyUp(SDL_Event e, Player &player);
 
 void eventJoystick(SDL_Event e, Player &player);
 
-void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu);
+void eventButton(SDL_Event e, bool &running, bool &debug, Player &player, std::stack<Menu> &menus, Menu &menu, Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, SDL_Renderer* r);
 
 void eventMisc(SDL_Event e, bool &running);
 

@@ -48,7 +48,11 @@ void Player::zipline()
 	ziplining = !ziplining;
 }
 
-void Player::enterDoor()
+void Player::enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r)
 {
-
+	if (boundingBox.overlaps(currentDoor.getBoundingBox()))
+	{
+		printf("Now entering %s!\n", currentDoor.getConnectedRoom());
+		loadLevel(currentDoor.getConnectedRoom(), tiles, movingObjects, player, currentDoor, r);
+	}
 }

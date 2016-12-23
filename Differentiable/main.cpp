@@ -75,12 +75,6 @@ int main(int argc, char* args[])
 	//Player var
 	Player player;
 
-	//Load the level
-	//loadLevel("levels\\test.lvl", tiles, movingObjects, player, renderer, separators);
-
-	//Background image
-	//SDL_Texture* background = loadTexture("", renderer);
-
 	//Frametime vars
 	Uint32 currentFrameTime = 0;
 	Uint32 lastFrameTime = 0;
@@ -153,7 +147,7 @@ int main(int argc, char* args[])
 					}
 					else if (e.type == SDL_JOYBUTTONDOWN)
 					{
-						eventButton(e, running, debug, player, menus, menuArray[PauseMenu]);
+						eventButton(e, running, debug, player, menus, menuArray[PauseMenu], currentDoor, tiles, movingObjects, renderer);
 					}
 					else
 					{

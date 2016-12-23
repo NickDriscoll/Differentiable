@@ -99,24 +99,6 @@
 3 12 0
 </Tile>
 <Tile>
-11 14 1
-</Tile>
-<Tile>
-13 14 1
-</Tile>
-<Tile>
-14 14 1
-</Tile>
-<Tile>
-12 14 1
-</Tile>
-<Tile>
-16 14 1
-</Tile>
-<Tile>
-15 14 1
-</Tile>
-<Tile>
 10 6 2
 </Tile>
 <Tile>
@@ -194,7 +176,28 @@
 <Tile>
 -17 12 0
 </Tile>
+<Tile>
+16 14 3
+</Tile>
+<Tile>
+15 14 3
+</Tile>
+<Tile>
+14 14 3
+</Tile>
+<Tile>
+13 14 3
+</Tile>
+<Tile>
+12 14 3
+</Tile>
+<Tile>
+11 14 3
+</Tile>
 <Player>
 0 0 textures\\overman.png 1
 </Player>
+<Door> 
+-192 64 levels\\test3.lvl
+</Door>
 </level>

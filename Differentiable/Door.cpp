@@ -23,6 +23,11 @@ const char* Door::getConnectedRoom()
 	return connectedRoom;
 }
 
+AABB Door::getBoundingBox()
+{
+	return boundingBox;
+}
+
 void Door::draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera, bool debug)
 {
 	SDL_Rect rect = { origin.x - camera.getPosition().x, origin.y - camera.getPosition().y, Door::width, Door::height };
