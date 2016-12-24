@@ -12,6 +12,8 @@ MovingObject::MovingObject(char* pathToTexture, Vector2 Position, SDL_Renderer* 
 	position = Position;
 	facingRight = FacingRight;
 	boundingBox = AABB(position, Vector2(textureWidth, textureHeight));
+	rotation = 0;
+	rotationalVelocity = 0;
 }
 
 SDL_Texture* MovingObject::getTexture()
@@ -66,6 +68,8 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	//Store previous values in respective variables.
 	lastPosition = position;
 	lastVelocity = velocity;
+	lastRotation = rotation;
+	lastRotationalVelocity = rotationalVelocity;
 	pushedRightWall = pushesRightWall;
 	pushedLeftWall = pushesLeftWall;
 	wasOnGround = onGround;
@@ -80,6 +84,9 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 
 	//Update position
 	position = position + (velocity * timeDelta);
+
+	//Update rotation
+	rotation = rotation + (rotationalVelocity * timeDelta);
 
 	//Update bounding box's position
 	boundingBox.setOrigin(position);
@@ -102,8 +109,8 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 			*/
 
 			//Get Minkowski sum
-			float w = 0.5 * (boundingBox.getSize().x + tiles[i].aabb().getSize().x);
-			float h = 0.5 * (boundingBox.getSize().y + tiles[i].aabb().getSize().y);
+			float w = 0.5 * (textureWidth + tiles[i].aabb().getSize().x);
+			float h = 0.5 * (textureHeight + tiles[i].aabb().getSize().y);
 			float dx = boundingBox.getOrigin().x - tiles[i].aabb().getOrigin().x;
 			float dy = boundingBox.getOrigin().y - tiles[i].aabb().getOrigin().y;
 
@@ -121,7 +128,7 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				else
 				{
 					/* on the right */
-					//position.x = tiles[i].getPosition().x - textureWidth;
+					position.x = tiles[i].getPosition().x - textureWidth;
 					pushesRightWall = true;
 				}
 			else
@@ -129,15 +136,14 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 				if (wy > -hx)
 				{
 					/* on the left */
-					//position.x = tiles[i].getPosition().x + TILE_WIDTH;
+					position.x = tiles[i].getPosition().x + TILE_WIDTH;
 					pushesLeftWall = true;
 				}
 				else
 				{
 					/* at the bottom */
-					//printf("Collision at bottom\n");
-					position.y = tiles[i].getPosition().y - boundingBox.getSize().y;
-					if (position.y < -64)
+					position.y = tiles[i].getPosition().y - textureHeight;
+					if (position.y < -textureHeight)
 						position.y--;
 					onGround = true;
 				}
@@ -149,7 +155,7 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	//Fall if the player isn't on the ground
 	if (!onGround)
 	{
-
+		rotationalVelocity = 180;
 		if (velocity.y > TERMINAL_VELOCITY)
 		{
 			velocity.y = TERMINAL_VELOCITY;
@@ -161,6 +167,8 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	}
 	else
 	{
+		rotationalVelocity = 0;
+		rotation = 0;
 		velocity.y = 0;
 	}
 
@@ -187,9 +195,9 @@ void MovingObject::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
 	SDL_Rect objectRect = newRect(position - camera.getPosition(), Vector2(getTextureWidth(), getTextureHeight()));
 	if (facingRight)
-		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(r, texture, NULL, &objectRect, rotation, NULL, SDL_FLIP_NONE);
 	else
-		SDL_RenderCopyEx(r, texture, NULL, &objectRect, 0, NULL, SDL_FLIP_HORIZONTAL);
+		SDL_RenderCopyEx(r, texture, NULL, &objectRect, -rotation, NULL, SDL_FLIP_HORIZONTAL);
 
 	if (ziplining)
 	{

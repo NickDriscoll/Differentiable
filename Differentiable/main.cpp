@@ -202,9 +202,16 @@ int main(int argc, char* args[])
 				SDL_DestroyTexture(text);
 
 				//Draw tile next to words
-				SDL_Rect tRects = { rect.w, 0, 32, 32 };
-				SDL_Rect sRects = { currentlySelectedTileIndex * 32, 0, 32, 32 };
+				SDL_Rect tRects = { rect.w, 0, TILE_WIDTH, TILE_WIDTH };
+				SDL_Rect sRects = { currentlySelectedTileIndex * TILE_WIDTH, 0, 32, 32 };
 				SDL_RenderCopy(renderer, tileTexture, &sRects, &tRects);
+			}
+
+			if (debug)
+			{
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_Rect rect = { -camera.getPosition().x, -camera.getPosition().y, TILE_WIDTH, TILE_WIDTH };
+				SDL_RenderFillRect(renderer, &rect);
 			}
 
 			//Debug print

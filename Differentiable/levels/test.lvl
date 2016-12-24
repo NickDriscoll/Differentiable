@@ -1,545 +1,257 @@
 <level>
-<Tile>
-11 1 3
-</Tile>
-<Tile>
-15 1 3
-</Tile>
-<Tile>
-12 1 3
-</Tile>
-<Tile>
-13 1 3
-</Tile>
-<Tile>
-14 1 3
-</Tile>
-<Tile>
--5 -29 2
-</Tile>
-<Tile>
--5 -28 2
-</Tile>
-<Tile>
--5 -27 2
-</Tile>
-<Tile>
--5 -26 2
-</Tile>
-<Tile>
--5 -25 2
-</Tile>
-<Tile>
--5 -24 2
-</Tile>
-<Tile>
--5 -23 2
-</Tile>
-<Tile>
--5 -22 2
-</Tile>
-<Tile>
--5 -21 2
-</Tile>
-<Tile>
--5 -20 2
-</Tile>
-<Tile>
--5 -19 2
-</Tile>
-<Tile>
--5 -18 2
-</Tile>
-<Tile>
--5 -17 2
-</Tile>
-<Tile>
--5 -16 2
-</Tile>
-<Tile>
--5 -15 2
-</Tile>
-<Tile>
--5 -14 2
-</Tile>
-<Tile>
--5 -13 2
-</Tile>
-<Tile>
--5 -12 2
-</Tile>
-<Tile>
--5 -11 2
-</Tile>
-<Tile>
--5 -10 2
-</Tile>
-<Tile>
--5 -9 2
-</Tile>
-<Tile>
--5 -8 2
-</Tile>
-<Tile>
--5 -7 2
-</Tile>
-<Tile>
--5 -6 2
-</Tile>
-<Tile>
--5 -5 2
-</Tile>
-<Tile>
--5 -4 2
-</Tile>
-<Tile>
--5 -3 2
-</Tile>
-<Tile>
--5 -2 2
-</Tile>
-<Tile>
--5 -1 2
-</Tile>
-<Tile>
--5 0 2
-</Tile>
-<Tile>
--5 1 2
-</Tile>
-<Tile>
--5 2 2
-</Tile>
-<Tile>
--5 3 2
-</Tile>
-<Tile>
--5 4 2
-</Tile>
-<Tile>
--5 5 2
-</Tile>
-<Tile>
-6 5 2
-</Tile>
-<Tile>
--4 5 2
-</Tile>
-<Tile>
--3 5 2
-</Tile>
-<Tile>
--2 5 2
-</Tile>
-<Tile>
--1 5 2
-</Tile>
-<Tile>
-0 5 2
-</Tile>
-<Tile>
-1 5 2
-</Tile>
-<Tile>
-2 5 2
-</Tile>
-<Tile>
-3 5 2
-</Tile>
-<Tile>
-4 5 2
-</Tile>
-<Tile>
-5 5 2
-</Tile>
-<Tile>
-6 6 2
-</Tile>
-<Tile>
-6 7 2
-</Tile>
-<Tile>
-6 9 2
-</Tile>
-<Tile>
-6 8 2
-</Tile>
-<Tile>
-6 10 2
-</Tile>
-<Tile>
-6 11 2
-</Tile>
-<Tile>
-6 12 2
-</Tile>
-<Tile>
-6 13 2
-</Tile>
-<Tile>
-6 20 2
-</Tile>
-<Tile>
-6 14 2
-</Tile>
-<Tile>
-6 15 2
-</Tile>
-<Tile>
-6 16 2
-</Tile>
-<Tile>
-6 17 2
-</Tile>
-<Tile>
-6 18 2
-</Tile>
-<Tile>
-6 19 2
-</Tile>
-<Tile>
-20 20 2
-</Tile>
-<Tile>
-20 19 2
-</Tile>
-<Tile>
-20 18 2
-</Tile>
-<Tile>
-20 17 2
-</Tile>
-<Tile>
-20 16 2
-</Tile>
-<Tile>
-20 5 2
-</Tile>
-<Tile>
-20 6 2
-</Tile>
-<Tile>
-20 7 2
-</Tile>
-<Tile>
-20 8 2
-</Tile>
-<Tile>
-20 9 2
-</Tile>
-<Tile>
-20 10 2
-</Tile>
-<Tile>
-20 11 2
-</Tile>
-<Tile>
-20 12 2
-</Tile>
-<Tile>
-20 13 2
-</Tile>
-<Tile>
-20 14 2
-</Tile>
-<Tile>
-20 15 2
-</Tile>
-<Tile>
-21 -3 3
-</Tile>
-<Tile>
-22 -3 3
-</Tile>
-<Tile>
-26 -3 3
-</Tile>
-<Tile>
-25 -3 3
-</Tile>
-<Tile>
-24 -3 3
-</Tile>
-<Tile>
-23 -3 3
-</Tile>
-<Tile>
-21 5 2
-</Tile>
-<Tile>
-22 5 2
-</Tile>
-<Tile>
-23 5 2
-</Tile>
-<Tile>
-24 5 2
-</Tile>
-<Tile>
-25 5 2
-</Tile>
-<Tile>
-26 5 2
-</Tile>
-<Tile>
-27 5 2
-</Tile>
-<Tile>
-28 5 2
-</Tile>
-<Tile>
-29 5 2
-</Tile>
-<Tile>
-30 5 2
-</Tile>
-<Tile>
-31 5 2
-</Tile>
-<Tile>
-33 5 2
-</Tile>
-<Tile>
-32 5 2
-</Tile>
-<Tile>
-34 5 2
-</Tile>
-<Tile>
-35 5 2
-</Tile>
-<Tile>
-39 5 2
-</Tile>
-<Tile>
-38 5 2
-</Tile>
-<Tile>
-37 5 2
-</Tile>
-<Tile>
-36 5 2
-</Tile>
-<Tile>
-28 4 4
-</Tile>
-<Tile>
-29 3 4
-</Tile>
-<Tile>
-30 2 4
-</Tile>
-<Tile>
-31 1 4
-</Tile>
-<Tile>
-32 0 4
-</Tile>
-<Tile>
-33 -1 4
-</Tile>
-<Tile>
-34 -2 4
-</Tile>
-<Tile>
-35 -3 4
-</Tile>
-<Tile>
-36 -4 4
-</Tile>
-<Tile>
-29 4 4
-</Tile>
-<Tile>
-31 4 4
-</Tile>
-<Tile>
-38 -4 4
-</Tile>
-<Tile>
-37 -4 4
-</Tile>
-<Tile>
-39 4 4
-</Tile>
-<Tile>
-38 4 4
-</Tile>
-<Tile>
-37 4 4
-</Tile>
-<Tile>
-36 4 4
-</Tile>
-<Tile>
-34 4 4
-</Tile>
-<Tile>
-33 4 4
-</Tile>
-<Tile>
-32 4 4
-</Tile>
-<Tile>
-32 3 4
-</Tile>
-<Tile>
-31 3 4
-</Tile>
-<Tile>
-30 3 4
-</Tile>
-<Tile>
-30 4 4
-</Tile>
-<Tile>
-35 4 4
-</Tile>
-<Tile>
-33 3 4
-</Tile>
-<Tile>
-31 2 4
-</Tile>
-<Tile>
-32 2 4
-</Tile>
-<Tile>
-33 2 4
-</Tile>
-<Tile>
-32 1 4
-</Tile>
-<Tile>
-33 0 4
-</Tile>
-<Tile>
-34 -1 4
-</Tile>
-<Tile>
-34 0 4
-</Tile>
-<Tile>
-33 1 4
-</Tile>
-<Tile>
-34 1 4
-</Tile>
-<Tile>
-34 2 4
-</Tile>
-<Tile>
-34 3 4
-</Tile>
-<Tile>
-35 -2 4
-</Tile>
-<Tile>
-35 0 4
-</Tile>
-<Tile>
-35 -1 4
-</Tile>
-<Tile>
-35 1 4
-</Tile>
-<Tile>
-35 2 4
-</Tile>
-<Tile>
-35 3 4
-</Tile>
-<Tile>
-36 3 4
-</Tile>
-<Tile>
-37 3 4
-</Tile>
-<Tile>
-36 2 4
-</Tile>
-<Tile>
-36 1 4
-</Tile>
-<Tile>
-36 0 4
-</Tile>
-<Tile>
-36 -1 4
-</Tile>
-<Tile>
-36 -2 4
-</Tile>
-<Tile>
-36 -3 4
-</Tile>
-<Tile>
-37 -3 4
-</Tile>
-<Tile>
-37 -2 4
-</Tile>
-<Tile>
-37 -1 4
-</Tile>
-<Tile>
-37 0 4
-</Tile>
-<Tile>
-37 1 4
-</Tile>
-<Tile>
-37 2 4
-</Tile>
-<Tile>
-38 3 4
-</Tile>
-<Tile>
-38 2 4
-</Tile>
-<Tile>
-38 1 4
-</Tile>
-<Tile>
-38 0 4
-</Tile>
-<Tile>
-38 -1 4
-</Tile>
-<Tile>
-38 -2 4
-</Tile>
-<Tile>
-38 -3 4
-</Tile>
-<Tile>
-39 -1 4
-</Tile>
-<Tile>
-39 -2 4
-</Tile>
-<Tile>
-39 3 4
-</Tile>
-<Tile>
-39 0 4
-</Tile>
-<Tile>
-39 2 4
-</Tile>
-<Tile>
-39 1 4
-</Tile>
-<Tile>
-39 -4 4
-</Tile>
-<Tile>
-39 -3 4
-</Tile>
 <Player>
-0 0 textures\\overman.png 1
+0 0 textures\\blue.png 1
 </Player>
 <Door> 
-1216 -224 levels\\test2.lvl
+1216 192 levels\\test2.lvl
 </Door>
+<Tile>
+-5 2 0
+</Tile>
+<Tile>
+-5 1 0
+</Tile>
+<Tile>
+-5 -29 0
+</Tile>
+<Tile>
+-5 -25 0
+</Tile>
+<Tile>
+-5 -26 0
+</Tile>
+<Tile>
+-5 -27 0
+</Tile>
+<Tile>
+-5 -28 0
+</Tile>
+<Tile>
+-5 -24 0
+</Tile>
+<Tile>
+-5 -23 0
+</Tile>
+<Tile>
+-5 -21 0
+</Tile>
+<Tile>
+-5 -20 0
+</Tile>
+<Tile>
+-5 -18 0
+</Tile>
+<Tile>
+-5 -17 0
+</Tile>
+<Tile>
+-5 -19 0
+</Tile>
+<Tile>
+-5 -22 0
+</Tile>
+<Tile>
+-5 0 0
+</Tile>
+<Tile>
+-5 -1 0
+</Tile>
+<Tile>
+-5 -2 0
+</Tile>
+<Tile>
+-5 -3 0
+</Tile>
+<Tile>
+-5 -5 0
+</Tile>
+<Tile>
+-5 -6 0
+</Tile>
+<Tile>
+-5 -7 0
+</Tile>
+<Tile>
+-5 -8 0
+</Tile>
+<Tile>
+-5 -9 0
+</Tile>
+<Tile>
+-5 -10 0
+</Tile>
+<Tile>
+-5 -11 0
+</Tile>
+<Tile>
+-5 -12 0
+</Tile>
+<Tile>
+-5 -13 0
+</Tile>
+<Tile>
+-5 -14 0
+</Tile>
+<Tile>
+-5 -15 0
+</Tile>
+<Tile>
+-5 -16 0
+</Tile>
+<Tile>
+-5 -4 0
+</Tile>
+<Tile>
+-4 2 0
+</Tile>
+<Tile>
+-3 2 0
+</Tile>
+<Tile>
+-2 2 0
+</Tile>
+<Tile>
+-1 2 0
+</Tile>
+<Tile>
+0 2 0
+</Tile>
+<Tile>
+2 2 0
+</Tile>
+<Tile>
+3 2 0
+</Tile>
+<Tile>
+5 2 0
+</Tile>
+<Tile>
+4 2 0
+</Tile>
+<Tile>
+1 2 0
+</Tile>
+<Tile>
+6 2 0
+</Tile>
+<Tile>
+6 3 0
+</Tile>
+<Tile>
+6 4 0
+</Tile>
+<Tile>
+6 6 0
+</Tile>
+<Tile>
+6 8 0
+</Tile>
+<Tile>
+6 10 0
+</Tile>
+<Tile>
+6 14 0
+</Tile>
+<Tile>
+6 12 0
+</Tile>
+<Tile>
+6 13 0
+</Tile>
+<Tile>
+6 11 0
+</Tile>
+<Tile>
+6 9 0
+</Tile>
+<Tile>
+6 7 0
+</Tile>
+<Tile>
+6 5 0
+</Tile>
+<Tile>
+6 19 0
+</Tile>
+<Tile>
+6 20 0
+</Tile>
+<Tile>
+6 18 0
+</Tile>
+<Tile>
+6 17 0
+</Tile>
+<Tile>
+6 16 0
+</Tile>
+<Tile>
+6 15 0
+</Tile>
+<Tile>
+39 9 0
+</Tile>
+<Tile>
+38 9 0
+</Tile>
+<Tile>
+37 9 0
+</Tile>
+<Tile>
+36 9 0
+</Tile>
+<Tile>
+35 9 0
+</Tile>
+<Tile>
+34 9 0
+</Tile>
+<Tile>
+33 9 0
+</Tile>
+<Tile>
+32 9 0
+</Tile>
+<Tile>
+17 -3 1
+</Tile>
+<Tile>
+17 -4 1
+</Tile>
+<Tile>
+17 -5 1
+</Tile>
+<Tile>
+16 -3 1
+</Tile>
+<Tile>
+15 -3 1
+</Tile>
+<Tile>
+17 -6 1
+</Tile>
+<Tile>
+17 -7 1
+</Tile>
+<Tile>
+14 -3 1
+</Tile>
+<Tile>
+13 -3 1
+</Tile>
+<Tile>
+16 -4 1
+</Tile>
+<Tile>
+15 -5 1
+</Tile>
+<Tile>
+14 -6 1
+</Tile>
+<Tile>
+13 -7 1
+</Tile>
+<Tile>
+12 -8 1
+</Tile>
 </level>

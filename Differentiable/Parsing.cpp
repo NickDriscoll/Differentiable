@@ -25,11 +25,21 @@ void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 	//Write <level>
 	fs << "<level>" << std::endl;
 
+	//Write player data, so far it's all constant
+	fs << "<Player>" << std::endl;
+	fs << 0 << " " << 0 << " " << "textures\\\\blue.png" << " " << 1 << std::endl;
+	fs << "</Player>" << std::endl;
+
+	//Write the door
+	fs << "<Door> " << std::endl;
+	fs << currentDoor.getOrigin().x << " " << currentDoor.getOrigin().y << " " << currentDoor.getConnectedRoom() << std::endl;
+	fs << "</Door>" << std::endl;
+
 	//Write all tiles
 	for (int i = 0; i < tiles.size(); i++)
 	{
 		fs << "<Tile>" << std::endl;
-		fs << tiles[i].getPosition().x / 32 << " " << tiles[i].getPosition().y / 32 << " " << tiles[i].getTextureIndex() << std::endl;
+		fs << tiles[i].getPosition().x / TILE_WIDTH << " " << tiles[i].getPosition().y / TILE_WIDTH << " " << tiles[i].getTextureIndex() << std::endl;
 		fs << "</Tile>" << std::endl;
 	}
 
@@ -40,16 +50,6 @@ void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 		fs << 
 	}
 	*/
-
-	//Write player data, so far it's all constant
-	fs << "<Player>" << std::endl;
-	fs << 0 << " " << 0 << " " << "textures\\\\overman.png" << " " << 1 << std::endl;
-	fs << "</Player>" << std::endl;
-
-	//Write the door
-	fs << "<Door> " << std::endl;
-	fs << currentDoor.getOrigin().x << " " << currentDoor.getOrigin().y << " " << currentDoor.getConnectedRoom() << std::endl;
-	fs << "</Door>" << std::endl;
 
 	//Write </level>
 	fs << "</level>";

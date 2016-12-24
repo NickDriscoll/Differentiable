@@ -210,7 +210,7 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 		}
 		case SDLK_f:
 		{
-			currentDoor = Door(Vector2(x / 32 * 32, y / 32 * 32), "CONNECTED ROOM GOES HERE", r);
+			currentDoor = Door(Vector2(x / 32 * 32, y / 32 * 32), "path here", r);
 			break;
 		}
 		}
@@ -235,23 +235,23 @@ void eventInEditMode(SDL_Event e, bool &inEditMode, int &currentlySelectedTileIn
 				//Messy conditionals for handling negative mouse position
 				if (x < 0)
 				{
-					x /= 32;
+					x /= TILE_WIDTH;
 					x--;
 				}
 				else
 				{
-					x /= 32;
+					x /= TILE_WIDTH;
 				}
 
 				//And for y
 				if (y < 0)
 				{
-					y /= 32;
+					y /= TILE_WIDTH;
 					y--;
 				}
 				else
 				{
-					y /= 32;
+					y /= TILE_WIDTH;
 				}
 
 				tiles.push_back(Tile(currentlySelectedTileIndex, Vector2(x, y), r));

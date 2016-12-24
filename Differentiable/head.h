@@ -26,7 +26,7 @@ const int JOYSTICK_DEAD_ZONE = 24000;
 const int TILE_WIDTH = 32;
 
 //Number of tile indices
-const int TILE_MAX_INDEX = 4;
+const int TILE_MAX_INDEX = 2;
 
 //Talking class prototypes?!?
 class AABB;
@@ -192,6 +192,12 @@ protected:
 	
 	Vector2 velocity = Vector2(0, 0);
 	Vector2 lastVelocity = velocity;
+
+	double rotation;
+	double lastRotation;
+
+	double rotationalVelocity;
+	double lastRotationalVelocity;
 	
 	AABB boundingBox;
 	AABB oldBoundingBox;

@@ -4,7 +4,7 @@ Tile::Tile(int TextureIndex, Vector2 Position, SDL_Renderer* r)
 {
 	texture = loadTexture("textures\\tile.png", r);
 	textureIndex = TextureIndex;
-	position = Position * 32;
+	position = Position * TILE_WIDTH;
 	/*
 	if (Position.x < 0)
 	{
@@ -29,7 +29,7 @@ int Tile::getTextureIndex()
 
 void Tile::setPosition(Vector2 Position)
 {
-	position = Position * 32;
+	position = Position * TILE_WIDTH;
 }
 
 AABB Tile::aabb()
@@ -39,13 +39,13 @@ AABB Tile::aabb()
 
 bool Tile::overlaps(Vector2 point)
 {
-	return (point.x >= position.x) && (point.x <= position.x + 32) && (point.y >= position.y) && (point.y <= position.y + 32);
+	return (point.x >= position.x) && (point.x <= position.x + TILE_WIDTH) && (point.y >= position.y) && (point.y <= position.y + TILE_WIDTH);
 }
 
 void Tile::draw(SDL_Renderer* r, bool debug, Camera camera)
 {
 	SDL_Rect objectRect = newRect(position - camera.getPosition(), Vector2(TILE_WIDTH, TILE_WIDTH));
-	SDL_Rect srcRect = newRect(Vector2(textureIndex * 32, 0), Vector2(TILE_WIDTH, TILE_WIDTH));
+	SDL_Rect srcRect = newRect(Vector2(textureIndex * TILE_WIDTH, 0), Vector2(TILE_WIDTH, TILE_WIDTH));
 	SDL_RenderCopy(r, texture, &srcRect, &objectRect);
 
 	if (debug)
