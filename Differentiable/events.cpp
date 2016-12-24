@@ -19,7 +19,7 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 		case SDLK_RETURN:
 		{
 			//Parse
-			std::queue<std::string> tokens = tokenize(consoleString, separators);
+			std::queue<std::string> tokens = tokenize(consoleString);
 			parseCommand(tokens, tiles, movingObjects, player, currentDoor, r, inEditMode, editorString, separators);
 			consoleString = "";
 			isConsoleUp = false;

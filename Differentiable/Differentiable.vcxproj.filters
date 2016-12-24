@@ -56,6 +56,18 @@
     <Image Include="overman.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="textures\door.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\pink.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\tile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\blue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="head.h">

@@ -87,6 +87,8 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 
 	//Update rotation
 	rotation = rotation + (rotationalVelocity * timeDelta);
+	while (rotation >= 360)
+		rotation -= 360;
 
 	//Update bounding box's position
 	boundingBox.setOrigin(position);
@@ -152,10 +154,11 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 		}
 	}
 
-	//Fall if the player isn't on the ground
+	//Fall if the object isn't on the ground
 	if (!onGround)
 	{
 		rotationalVelocity = 180;
+		printf("Rotation is %f\n", rotation);
 		if (velocity.y > TERMINAL_VELOCITY)
 		{
 			velocity.y = TERMINAL_VELOCITY;
@@ -172,13 +175,13 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 		velocity.y = 0;
 	}
 
-	//Stop player if they've bumped their head.
+	//Stop object if it's colliding from the top.
 	if (atCeiling)
 	{
 		velocity.y *= -1;
 	}
 
-	//Stop player if they're pushing against a wall
+	//Stop object if it's pushing against a wall
 	if (pushesLeftWall || pushesRightWall)
 	{
 		velocity.x = 0;

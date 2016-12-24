@@ -1,13 +1,10 @@
 <level>
 <Player>
-0 0 textures\\blue.png 1
+0 0 textures\\primitive.png 1
 </Player>
 <Door> 
 1216 192 levels\\test2.lvl
 </Door>
-<Tile>
--5 2 0
-</Tile>
 <Tile>
 -5 1 0
 </Tile>
@@ -100,36 +97,6 @@
 </Tile>
 <Tile>
 -5 -4 0
-</Tile>
-<Tile>
--4 2 0
-</Tile>
-<Tile>
--3 2 0
-</Tile>
-<Tile>
--2 2 0
-</Tile>
-<Tile>
--1 2 0
-</Tile>
-<Tile>
-0 2 0
-</Tile>
-<Tile>
-2 2 0
-</Tile>
-<Tile>
-3 2 0
-</Tile>
-<Tile>
-5 2 0
-</Tile>
-<Tile>
-4 2 0
-</Tile>
-<Tile>
-1 2 0
 </Tile>
 <Tile>
 6 2 0
@@ -253,5 +220,38 @@
 </Tile>
 <Tile>
 12 -8 1
+</Tile>
+<Tile>
+-4 1 0
+</Tile>
+<Tile>
+-3 1 0
+</Tile>
+<Tile>
+-2 1 0
+</Tile>
+<Tile>
+-1 1 0
+</Tile>
+<Tile>
+0 1 0
+</Tile>
+<Tile>
+1 1 0
+</Tile>
+<Tile>
+2 1 0
+</Tile>
+<Tile>
+3 1 0
+</Tile>
+<Tile>
+5 1 0
+</Tile>
+<Tile>
+4 1 0
+</Tile>
+<Tile>
+6 1 0
 </Tile>
 </level>

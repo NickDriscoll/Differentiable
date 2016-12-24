@@ -155,6 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="overman.png" />
+    <Image Include="textures\blue.png" />
+    <Image Include="textures\door.png" />
+    <Image Include="textures\pink.png" />
+    <Image Include="textures\tile.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="head.h" />

@@ -27,7 +27,7 @@ void saveLevel(char* path, std::vector<Tile> &tiles, std::vector<MovingObject> &
 
 	//Write player data, so far it's all constant
 	fs << "<Player>" << std::endl;
-	fs << 0 << " " << 0 << " " << "textures\\\\blue.png" << " " << 1 << std::endl;
+	fs << 0 << " " << 0 << " " << "textures\\\\overman.png" << " " << 1 << std::endl;
 	fs << "</Player>" << std::endl;
 
 	//Write the door
@@ -87,7 +87,7 @@ std::string getNextWord(std::string string, int &position, const char separators
 	}
 
 	position = end;
-	return string.substr(beginning, end);
+	return string.substr(beginning, end - beginning);
 
 }
 
@@ -121,7 +121,7 @@ std::queue<std::string> tokenize(std::fstream &in, const char separators[])
 	return tokens;
 }
 
-std::queue<std::string> tokenize(std::string &in, const char separators[])
+std::queue<std::string> tokenize(std::string &in)
 {
 	std::queue<std::string> tokens;
 	int currentPosition = 0;
@@ -171,6 +171,14 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 			}
 
 			char* path = stringToCharPointer("levels\\" + tokens.front());
+			tokens.pop();
+
+			if (tokens.size() > 0)
+			{
+				char* roomStr = stringToCharPointer("levels\\\\" + tokens.front());
+				currentDoor.setConnectedRoom(roomStr);
+				tokens.pop();
+			}
 
 			saveLevel(path, tiles, movingObjects, player, currentDoor, r);
 
@@ -184,8 +192,6 @@ void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std
 				printf("Unrecognized command: \"%s\"\n\n", tokens.front().c_str());
 			}
 		}
-
-		tokens.pop();
 	}
 }
 

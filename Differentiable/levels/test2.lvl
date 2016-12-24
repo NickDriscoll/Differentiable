@@ -1,9 +1,9 @@
 <level>
 <Player>
-0 0 textures\\overman.png 1
+0 0 textures\\primitive.png 1
 </Player>
 <Door> 
--192 -32 levels\\test.lvl
+288 -32 levels\\test3.lvl
 </Door>
 <Tile>
 -6 5 0

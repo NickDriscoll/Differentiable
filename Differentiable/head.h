@@ -175,6 +175,9 @@ public:
 	const char* getConnectedRoom();
 	AABB getBoundingBox();
 
+	//Setters
+	void setConnectedRoom(char* ConnectedRoom);
+
 	void draw(SDL_Renderer* r, SDL_Texture* texture, Camera camera, bool debug);
 };
 
@@ -322,7 +325,7 @@ std::string getNextWord(std::string string, int &position, const char separators
 
 std::queue<std::string> tokenize(std::fstream &in, const char separators[]);
 
-std::queue<std::string> tokenize(std::string &in, const char separators[]);
+std::queue<std::string> tokenize(std::string &in);
 
 void parseCommand(std::queue<std::string> &tokens, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer *r, bool &inEditMode, std::string &editorString, const char separators[]);
 
