@@ -183,6 +183,13 @@ int main(int argc, char* args[])
 			currentDoor.draw(renderer, doorTexture, camera, debug);
 			player.draw(renderer, debug, camera);
 
+			//Check if the player is dead.
+			if (player.getIsDead())
+			{
+				//Draw game over text
+
+			}
+
 			//Console related draw code here
 			if (isConsoleUp)
 			{

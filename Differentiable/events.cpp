@@ -350,8 +350,7 @@ void eventButtonMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::v
 
 		if (selectedOption.compare("New Game") == 0)
 		{
-			loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r);
-			menus.pop();
+			parseMenuSelection(menus, tiles, movingObjects, player, currentDoor, r, running);
 		}
 		else if (selectedOption.compare("Exit") == 0)
 		{

@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	isDead = false;
 }
 
 Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
@@ -11,6 +12,7 @@ Player::Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight)
 	position = Position;
 	facingRight = FacingRight;
 	boundingBox = AABB(Vector2(), Vector2(textureWidth, textureHeight));
+	isDead = false;
 }
 
 bool Player::canJump()
@@ -21,6 +23,11 @@ bool Player::canJump()
 bool Player::isZiplining()
 {
 	return ziplining;
+}
+
+bool Player::getIsDead()
+{
+	return isDead;
 }
 
 void Player::jump()
@@ -55,4 +62,12 @@ void Player::enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<
 		printf("Now entering %s!\n", currentDoor.getConnectedRoom());
 		loadLevel(currentDoor.getConnectedRoom(), tiles, movingObjects, player, currentDoor, r);
 	}
+}
+
+void Player::die()
+{
+	isDead = true;
+
+	//TODO: Add death animation.
+
 }

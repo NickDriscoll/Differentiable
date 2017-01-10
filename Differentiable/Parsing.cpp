@@ -201,7 +201,7 @@ void parseMenuSelection(std::stack<Menu> &menus, std::vector<Tile> &tiles, std::
 
 	if (selectedOption.compare("New Game") == 0)
 	{
-		loadLevel("levels\\test.lvl", tiles, movingObjects, player, currentDoor, r);
+		loadLevel("levels\\level1.lvl", tiles, movingObjects, player, currentDoor, r);
 		menus.pop();
 	}
 	else if (selectedOption.compare("Exit") == 0)

@@ -3,238 +3,220 @@
 0 0 textures\\overman.png 1
 </Player>
 <Door> 
-1216 192 levels\\test2.lvl
+768 160 levels\\level2.lvl
 </Door>
 <Tile>
--5 1 0
+-6 0 0
 </Tile>
 <Tile>
--5 -29 0
+-6 -1 0
 </Tile>
 <Tile>
--5 -25 0
+-6 -2 0
 </Tile>
 <Tile>
--5 -26 0
+-6 -3 0
 </Tile>
 <Tile>
--5 -27 0
+-6 -4 0
 </Tile>
 <Tile>
--5 -28 0
+-6 -5 0
 </Tile>
 <Tile>
--5 -24 0
+-6 -6 0
 </Tile>
 <Tile>
--5 -23 0
+-6 -7 0
 </Tile>
 <Tile>
--5 -21 0
+-6 -9 0
 </Tile>
 <Tile>
--5 -20 0
+-6 -14 0
 </Tile>
 <Tile>
--5 -18 0
+-6 -13 0
 </Tile>
 <Tile>
--5 -17 0
+-6 -12 0
 </Tile>
 <Tile>
--5 -19 0
+-6 -10 0
 </Tile>
 <Tile>
--5 -22 0
+-6 -11 0
 </Tile>
 <Tile>
--5 0 0
+-6 -8 0
 </Tile>
 <Tile>
--5 -1 0
+-6 -15 0
 </Tile>
 <Tile>
--5 -2 0
+-6 -16 0
 </Tile>
 <Tile>
--5 -3 0
+-6 -17 0
 </Tile>
 <Tile>
--5 -5 0
+16 8 0
 </Tile>
 <Tile>
--5 -6 0
+17 8 0
 </Tile>
 <Tile>
--5 -7 0
+18 8 0
 </Tile>
 <Tile>
--5 -8 0
+20 8 0
 </Tile>
 <Tile>
--5 -9 0
+21 8 0
 </Tile>
 <Tile>
--5 -10 0
+19 8 0
 </Tile>
 <Tile>
--5 -11 0
+22 8 0
 </Tile>
 <Tile>
--5 -12 0
+23 8 0
 </Tile>
 <Tile>
--5 -13 0
+25 8 0
 </Tile>
 <Tile>
--5 -14 0
+24 8 0
 </Tile>
 <Tile>
--5 -15 0
+26 8 0
 </Tile>
 <Tile>
--5 -16 0
+26 7 0
 </Tile>
 <Tile>
--5 -4 0
+26 6 0
 </Tile>
 <Tile>
-6 2 0
+26 5 0
 </Tile>
 <Tile>
-6 3 0
+26 4 0
 </Tile>
 <Tile>
-6 4 0
+26 3 0
 </Tile>
 <Tile>
-6 6 0
+26 2 0
 </Tile>
 <Tile>
-6 8 0
+26 1 0
 </Tile>
 <Tile>
-6 10 0
+26 0 0
 </Tile>
 <Tile>
-6 14 0
+26 -1 0
 </Tile>
 <Tile>
-6 12 0
+26 -2 0
 </Tile>
 <Tile>
-6 13 0
+26 -3 0
 </Tile>
 <Tile>
-6 11 0
+26 -4 0
 </Tile>
 <Tile>
-6 9 0
+26 -5 0
 </Tile>
 <Tile>
-6 7 0
+26 -6 0
 </Tile>
 <Tile>
-6 5 0
+26 -7 0
 </Tile>
 <Tile>
-6 19 0
+26 -8 0
 </Tile>
 <Tile>
-6 20 0
+26 -9 0
 </Tile>
 <Tile>
-6 18 0
+26 -10 0
 </Tile>
 <Tile>
-6 17 0
+26 -11 0
 </Tile>
 <Tile>
-6 16 0
+26 -12 0
 </Tile>
 <Tile>
-6 15 0
+26 -13 0
 </Tile>
 <Tile>
-39 9 0
+26 -14 0
 </Tile>
 <Tile>
-38 9 0
+26 -15 0
 </Tile>
 <Tile>
-37 9 0
+26 -16 0
 </Tile>
 <Tile>
-36 9 0
+26 -17 0
 </Tile>
 <Tile>
-35 9 0
+26 -18 0
 </Tile>
 <Tile>
-34 9 0
+26 -19 0
 </Tile>
 <Tile>
-33 9 0
+26 -20 0
 </Tile>
 <Tile>
-32 9 0
+26 -21 0
 </Tile>
 <Tile>
-17 -3 1
+26 -22 0
 </Tile>
 <Tile>
-17 -4 1
+-6 -18 0
 </Tile>
 <Tile>
-17 -5 1
+-6 -19 0
 </Tile>
 <Tile>
-16 -3 1
+-6 -20 0
 </Tile>
 <Tile>
-15 -3 1
+-6 -21 0
 </Tile>
 <Tile>
-17 -6 1
-</Tile>
-<Tile>
-17 -7 1
-</Tile>
-<Tile>
-14 -3 1
-</Tile>
-<Tile>
-13 -3 1
-</Tile>
-<Tile>
-16 -4 1
-</Tile>
-<Tile>
-15 -5 1
-</Tile>
-<Tile>
-14 -6 1
-</Tile>
-<Tile>
-13 -7 1
-</Tile>
-<Tile>
-12 -8 1
-</Tile>
-<Tile>
--4 1 0
+-6 -22 0
 </Tile>
 <Tile>
 -3 1 0
 </Tile>
 <Tile>
+-4 1 0
+</Tile>
+<Tile>
 -2 1 0
 </Tile>
 <Tile>
--1 1 0
+-5 1 0
+</Tile>
+<Tile>
+-6 1 0
 </Tile>
 <Tile>
 0 1 0
+</Tile>
+<Tile>
+-1 1 0
 </Tile>
 <Tile>
 1 1 0
@@ -246,12 +228,24 @@
 3 1 0
 </Tile>
 <Tile>
-5 1 0
-</Tile>
-<Tile>
 4 1 0
 </Tile>
 <Tile>
+5 1 0
+</Tile>
+<Tile>
 6 1 0
+</Tile>
+<Tile>
+7 1 0
+</Tile>
+<Tile>
+8 1 0
+</Tile>
+<Tile>
+9 1 0
+</Tile>
+<Tile>
+10 1 0
 </Tile>
 </level>

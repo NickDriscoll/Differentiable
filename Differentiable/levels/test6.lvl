@@ -3,21 +3,30 @@
 0 0 textures\\overman.png 1
 </Player>
 <Door> 
-768 160 levels\\blank.lvl
+-64 64 levels\\test.lvl
 </Door>
 <Tile>
--1 1 2
+0 5 2
 </Tile>
 <Tile>
--2 1 2
+2 5 2
 </Tile>
 <Tile>
-1 1 2
+1 5 2
 </Tile>
 <Tile>
-0 1 2
+-1 5 2
 </Tile>
 <Tile>
-2 1 2
+-2 5 2
+</Tile>
+<Tile>
+12 5 1
+</Tile>
+<Tile>
+5 5 1
+</Tile>
+<Tile>
+6 5 1
 </Tile>
 </level>

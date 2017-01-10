@@ -28,6 +28,8 @@ const int TILE_WIDTH = 32;
 //Number of tile indices
 const int TILE_MAX_INDEX = 2;
 
+SDL_Texture* AButtonTexture;
+
 //Talking class prototypes?!?
 class AABB;
 class Door;
@@ -247,6 +249,9 @@ public:
 
 class Player : public MovingObject
 {
+private:
+	bool isDead;
+
 public:
 	Player();
 	Player(char* path, Vector2 Position, SDL_Renderer* r, bool FacingRight);
@@ -254,6 +259,7 @@ public:
 	//Getters
 	bool canJump();
 	bool isZiplining();
+	bool getIsDead();
 
 	//Makes the player jump
 	void jump();
@@ -263,6 +269,7 @@ public:
 	void accelerateRight();
 	void stop();
 	void enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
+	void die();
 };
 
 //Class that represents a menu

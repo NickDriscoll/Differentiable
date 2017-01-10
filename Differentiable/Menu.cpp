@@ -27,14 +27,14 @@ void Menu::moveDown()
 {
 	currentOption++;
 	if (currentOption >= numberOfOptions)
-		currentOption = numberOfOptions - 1;
+		currentOption = 0;
 }
 
 void Menu::moveUp()
 {
 	currentOption--;
 	if (currentOption < 0)
-		currentOption = 0;
+		currentOption = numberOfOptions - 1;
 }
 
 std::string Menu::selectCurrentOption()

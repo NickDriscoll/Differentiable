@@ -85,6 +85,9 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 		return false;
 	}
 
+	//Initialize global textures
+	AButtonTexture = loadTexture("textures\\AButton.png", renderer);
+
 	return true;
 }
 
