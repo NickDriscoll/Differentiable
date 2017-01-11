@@ -14,8 +14,10 @@ int main(int argc, char* args[])
 	//An array to hold all of the game menus
 	Menu* menuArray = new Menu[MENUENUM_NR_ITEMS];
 
+	SDL_Texture* AButtonTexture;
+
 	//Initialize SDL
-	if (!init(window, renderer, controller, menuArray))
+	if (!init(window, renderer, controller, menuArray, AButtonTexture))
 	{
 		printf("Initialization error: %s\n", SDL_GetError());
 		return -1;
@@ -182,19 +184,24 @@ int main(int argc, char* args[])
 			}
 			currentDoor.draw(renderer, doorTexture, camera, debug);
 			player.draw(renderer, debug, camera);
+			player.updateAliveness();
 
 			//Check if the player is dead.
 			if (player.getIsDead())
 			{
+				printf("In conditional\n");
 				//Draw game over text
-
+				SDL_Texture* text = textureText(renderer, font, "You Died!");
+				SDL_Rect rect = { SCREEN_WIDTH / 2 - ((int)editorString.length() * CHARACTER_WIDTH) / 2, SCREEN_HEIGHT / 2 - CHARACTER_HEIGHT / 2, editorString.length() * CHARACTER_WIDTH, CHARACTER_HEIGHT};
+				SDL_RenderCopy(renderer, text, NULL, &rect);
+				SDL_DestroyTexture(text);
 			}
 
 			//Console related draw code here
 			if (isConsoleUp)
 			{
 				SDL_Texture* text = textureText(renderer, font, ("> " + consoleString).c_str());
-				SDL_Rect rect = { 0, 0, (int)consoleString.length() * 20 + 40, 30 };
+				SDL_Rect rect = { 0, 0, (int)consoleString.length() * CHARACTER_WIDTH + 40, CHARACTER_HEIGHT };
 				SDL_RenderCopy(renderer, text, NULL, &rect);
 				SDL_DestroyTexture(text);
 			}
@@ -204,7 +211,7 @@ int main(int argc, char* args[])
 			{
 				//Draw text
 				SDL_Texture* text = textureText(renderer, font, editorString.c_str());
-				SDL_Rect rect = { 0, 0, (int)editorString.length() * 20 + 40, 30 };
+				SDL_Rect rect = { 0, 0, (int)editorString.length() * CHARACTER_WIDTH + 40, CHARACTER_HEIGHT };
 				SDL_RenderCopy(renderer, text, NULL, &rect);
 				SDL_DestroyTexture(text);
 
@@ -220,9 +227,6 @@ int main(int argc, char* args[])
 				SDL_Rect rect = { -camera.getPosition().x, -camera.getPosition().y, TILE_WIDTH, TILE_WIDTH };
 				SDL_RenderFillRect(renderer, &rect);
 			}
-
-			//Debug print
-			//printf("X:%f Y:%f\n", player.getPosition().x, player.getPosition().y);
 
 			//Update screen
 			SDL_RenderPresent(renderer);

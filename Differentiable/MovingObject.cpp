@@ -158,7 +158,6 @@ void MovingObject::UpdatePhysics(std::vector<Tile> tiles, double timeDelta)
 	if (!onGround)
 	{
 		rotationalVelocity = 180;
-		printf("Rotation is %f\n", rotation);
 		if (velocity.y > TERMINAL_VELOCITY)
 		{
 			velocity.y = TERMINAL_VELOCITY;

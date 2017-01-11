@@ -50,8 +50,8 @@ void Menu::draw(SDL_Renderer* r, TTF_Font* font)
 	//Draw menu title
 	int titleLength = cstrLength(title);
 	SDL_Texture* titleTexture = textureText(r, font, title);
-	int titleDisplayWidth = titleLength * 40;
-	SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleDisplayWidth / 2, 30, titleDisplayWidth, 60};
+	int titleDisplayWidth = titleLength * CHARACTER_WIDTH;
+	SDL_Rect titleRect = { SCREEN_WIDTH / 2 - titleDisplayWidth / 2, CHARACTER_HEIGHT, titleDisplayWidth, 60};
 	SDL_RenderCopy(r, titleTexture, NULL, &titleRect);
 	SDL_DestroyTexture(titleTexture);
 

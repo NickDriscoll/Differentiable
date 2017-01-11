@@ -10,7 +10,7 @@ int cstrLength(const char* string)
 	return i;
 }
 
-bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray)
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray, SDL_Texture* &AButton)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
@@ -86,7 +86,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	}
 
 	//Initialize global textures
-	AButtonTexture = loadTexture("textures\\AButton.png", renderer);
+	AButton = loadTexture("textures\\AButton.png", renderer);
 
 	return true;
 }

@@ -15,6 +15,10 @@ const int FONT_SIZE = 72;
 const double EPSILON = 0.0001;
 const double ACCELERATION_DUE_TO_GRAVITY = 400;
 const double TERMINAL_VELOCITY = 800;
+const double DEATH_BARRIER = 400;
+
+const int CHARACTER_WIDTH = 40;
+const int CHARACTER_HEIGHT = 30;
 
 //Separators
 const char separators[] = " \n\0";
@@ -27,8 +31,6 @@ const int TILE_WIDTH = 32;
 
 //Number of tile indices
 const int TILE_MAX_INDEX = 2;
-
-SDL_Texture* AButtonTexture;
 
 //Talking class prototypes?!?
 class AABB;
@@ -269,7 +271,7 @@ public:
 	void accelerateRight();
 	void stop();
 	void enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, SDL_Renderer* r);
-	void die();
+	void updateAliveness();
 };
 
 //Class that represents a menu
@@ -301,7 +303,7 @@ public:
 int cstrLength(const char* string);
 
 //Initializes SDL and any other components
-bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray);
+bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controller, Menu* &menuArray, SDL_Texture* &AButton);
 
 //Returns a pointer to an SDL_Texture.
 //path: The filepath to the image (.png)

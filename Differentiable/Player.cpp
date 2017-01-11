@@ -64,9 +64,9 @@ void Player::enterDoor(Door &currentDoor, std::vector<Tile> &tiles, std::vector<
 	}
 }
 
-void Player::die()
+void Player::updateAliveness()
 {
-	isDead = true;
+	isDead = position.y > DEATH_BARRIER;
 
 	//TODO: Add death animation.
 
