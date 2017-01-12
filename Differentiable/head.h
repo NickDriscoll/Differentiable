@@ -17,7 +17,7 @@ const double ACCELERATION_DUE_TO_GRAVITY = 400;
 const double TERMINAL_VELOCITY = 800;
 const double DEATH_BARRIER = 400;
 
-const int CHARACTER_WIDTH = 40;
+const int CHARACTER_WIDTH = 30;
 const int CHARACTER_HEIGHT = 30;
 
 //Separators
@@ -366,7 +366,7 @@ void parseDoor(std::queue<std::string> &tokens, Door &currentDoor, SDL_Renderer*
 
 void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::string &consoleString, std::string &editorString, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, Player &player, Door &currentDoor, SDL_Renderer* r);
 
-void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu);
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &mainMenu, Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, SDL_Renderer* r);
 
 void eventKeyUp(SDL_Event e, Player &player);
 

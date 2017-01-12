@@ -49,20 +49,17 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer, SDL_Joystick* &controlle
 	//Initialize game menus
 
 	//Create main menu
-	int numberOfMainOptions = 4;
+	int numberOfMainOptions = 2;
 	char** menuOptions = new char*[numberOfMainOptions];
-	menuOptions[0] = "New Game";
-	menuOptions[1] = "Load";
-	menuOptions[2] = "Options";
-	menuOptions[3] = "Exit";
+	menuOptions[0] = "Play";
+	menuOptions[1] = "Exit";
 	menuArray[MainMenu] = Menu("Differentiable", menuOptions, numberOfMainOptions);
 
 	//Create pause menu
-	int numberOfPauseOptions = 3;
+	int numberOfPauseOptions = 2;
 	char** pauseOptions = new char*[numberOfPauseOptions];
 	pauseOptions[0] = "Resume";
-	pauseOptions[1] = "Options";
-	pauseOptions[2] = "Exit";
+	pauseOptions[1] = "Exit";
 	menuArray[PauseMenu] = Menu("Differentiable", pauseOptions, numberOfPauseOptions);
 	
 	//Get screen dimensions.

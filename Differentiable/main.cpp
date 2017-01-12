@@ -137,7 +137,7 @@ int main(int argc, char* args[])
 				{
 					if (e.type == SDL_KEYDOWN)
 					{
-						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, menuArray[PauseMenu]);
+						eventKeyDown(e, running, isConsoleUp, debug, consoleString, player, menus, menuArray[PauseMenu], currentDoor, tiles, movingObjects, renderer);
 					}
 					else if (e.type == SDL_KEYUP)
 					{
@@ -192,7 +192,8 @@ int main(int argc, char* args[])
 				printf("In conditional\n");
 				//Draw game over text
 				SDL_Texture* text = textureText(renderer, font, "You Died!");
-				SDL_Rect rect = { SCREEN_WIDTH / 2 - ((int)editorString.length() * CHARACTER_WIDTH) / 2, SCREEN_HEIGHT / 2 - CHARACTER_HEIGHT / 2, editorString.length() * CHARACTER_WIDTH, CHARACTER_HEIGHT};
+				int textWidth = cstrLength("You Died!");
+				SDL_Rect rect = { (SCREEN_WIDTH / 2) - (textWidth * 30 / 2), (SCREEN_HEIGHT / 8) - CHARACTER_HEIGHT / 2, textWidth * 30, CHARACTER_HEIGHT * 2 };
 				SDL_RenderCopy(renderer, text, NULL, &rect);
 				SDL_DestroyTexture(text);
 			}

@@ -34,7 +34,7 @@ void eventIsConsoleUp(SDL_Event e, bool &isConsoleUp, bool &inEditMode, std::str
 	}
 }
 
-void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &menu)
+void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, std::string &consoleString, Player &player, std::stack<Menu> &menus, Menu &menu, Door &currentDoor, std::vector<Tile> &tiles, std::vector<MovingObject> &movingObjects, SDL_Renderer* r)
 {
 	switch (e.key.keysym.sym)
 	{
@@ -57,11 +57,20 @@ void eventKeyDown(SDL_Event e, bool &running, bool &isConsoleUp, bool &debug, st
 		player.setFacing(false);
 		break;
 	}
-
 	case SDLK_RIGHT:
 	{
 		player.accelerateRight();
 		player.setFacing(true);
+		break;
+	}
+	case SDLK_LSHIFT:
+	{
+		player.zipline();
+		break;
+	}
+	case SDLK_w:
+	{
+		player.enterDoor(currentDoor, tiles, movingObjects, player, r);
 		break;
 	}
 
@@ -303,7 +312,7 @@ void eventKeyDownMenu(SDL_Event e, bool &running, std::stack<Menu> &menus, std::
 	{
 	case SDLK_ESCAPE:
 	{
-		if (menus.top().getOptions()[0] != "New Game")
+		if (menus.top().getOptions()[0] != "Play")
 			menus.pop();
 		break;
 	}
