@@ -192,10 +192,15 @@ int main(int argc, char* args[])
 				printf("In conditional\n");
 				//Draw game over text
 				SDL_Texture* text = textureText(renderer, font, "You Died!");
+				SDL_Texture* buttonText = textureText(renderer, font, "Press A to continue.");
 				int textWidth = cstrLength("You Died!");
+				int bTextWidth = cstrLength("Press A to continue.");
 				SDL_Rect rect = { (SCREEN_WIDTH / 2) - (textWidth * 30 / 2), (SCREEN_HEIGHT / 8) - CHARACTER_HEIGHT / 2, textWidth * 30, CHARACTER_HEIGHT * 2 };
+				SDL_Rect bRect = { (SCREEN_WIDTH / 2) - (bTextWidth * 30 / 2), (SCREEN_HEIGHT / 4) - CHARACTER_HEIGHT / 2, bTextWidth * 30, CHARACTER_HEIGHT * 2 };
 				SDL_RenderCopy(renderer, text, NULL, &rect);
+				SDL_RenderCopy(renderer, buttonText, NULL, &bRect);
 				SDL_DestroyTexture(text);
+				SDL_DestroyTexture(buttonText);
 			}
 
 			//Console related draw code here
